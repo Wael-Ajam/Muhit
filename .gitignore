@@ -17,6 +17,7 @@
 
 # production
 /build
+muhit-api/dist/
 
 # misc
 .DS_Store

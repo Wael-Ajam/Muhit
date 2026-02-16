@@ -14,6 +14,9 @@ API_DIR="$APP_DIR/muhit-api"
 
 echo -e "${YELLOW}🔄 تحديث موقع محيط...${NC}"
 
+# إيقاف PM2 أولاً لتجنب قفل الملفات
+pm2 stop all 2>/dev/null || true
+
 # Frontend
 cd "$APP_DIR"
 npm install --production=false
