@@ -21,7 +21,7 @@ npm run build
 
 # Backend
 cd "$API_DIR"
-npm install
+npm install --production=false
 npx prisma generate
 npx prisma migrate deploy
 npm run build

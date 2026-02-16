@@ -55,7 +55,7 @@ echo -e "${GREEN}✅ تم بناء الفرونت إند${NC}"
 # ============================================
 echo -e "\n${YELLOW}[4/7] تثبيت باكجات NestJS API...${NC}"
 cd "$API_DIR"
-npm install
+npm install --production=false
 echo -e "${GREEN}✅ تم تثبيت باكجات الباكند${NC}"
 
 # ============================================
