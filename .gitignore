@@ -64,6 +64,6 @@ public/images/reveal/
 # Backend (muhit-api)
 # ========================================
 muhit-api/node_modules/
-muhit-api/dist/
+# muhit-api/dist/ — included in repo (pre-built)
 muhit-api/dev.db
 muhit-api/.env*

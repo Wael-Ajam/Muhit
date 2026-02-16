@@ -18,7 +18,7 @@ module.exports = {
     {
       name: 'muhit-api',
       cwd: '/var/www/vhosts/muhitsolution.com/httpdocs/muhit-api',
-      script: 'dist/main.js',
+      script: 'dist/src/main.js',
       env: {
         NODE_ENV: 'production',
         JWT_SECRET: 'muhit-jwt-secret-change-me-2026',
