@@ -22,27 +22,27 @@ export declare class ProjectsService {
         }[];
     } & {
         id: number;
-        createdAt: Date;
-        updatedAt: Date;
-        websiteUrl: string | null;
         slug: string;
         category: string;
         coverImage: string;
         coverVideo: string | null;
         isVideo: boolean;
+        websiteUrl: string | null;
         sortOrder: number;
+        isPublished: boolean;
+        isFeatured: boolean;
         titleAr: string;
         titleEn: string;
         descAr: string;
         descEn: string;
         longDescAr: string;
         longDescEn: string;
-        isPublished: boolean;
-        isFeatured: boolean;
         storyP2Ar: string;
         storyP2En: string;
         storyP3Ar: string;
         storyP3En: string;
+        createdAt: Date;
+        updatedAt: Date;
     })[]>;
     findOne(id: number): Promise<{
         tags: {
@@ -58,27 +58,27 @@ export declare class ProjectsService {
         }[];
     } & {
         id: number;
-        createdAt: Date;
-        updatedAt: Date;
-        websiteUrl: string | null;
         slug: string;
         category: string;
         coverImage: string;
         coverVideo: string | null;
         isVideo: boolean;
+        websiteUrl: string | null;
         sortOrder: number;
+        isPublished: boolean;
+        isFeatured: boolean;
         titleAr: string;
         titleEn: string;
         descAr: string;
         descEn: string;
         longDescAr: string;
         longDescEn: string;
-        isPublished: boolean;
-        isFeatured: boolean;
         storyP2Ar: string;
         storyP2En: string;
         storyP3Ar: string;
         storyP3En: string;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     findBySlug(slug: string): Promise<{
         tags: {
@@ -94,27 +94,27 @@ export declare class ProjectsService {
         }[];
     } & {
         id: number;
-        createdAt: Date;
-        updatedAt: Date;
-        websiteUrl: string | null;
         slug: string;
         category: string;
         coverImage: string;
         coverVideo: string | null;
         isVideo: boolean;
+        websiteUrl: string | null;
         sortOrder: number;
+        isPublished: boolean;
+        isFeatured: boolean;
         titleAr: string;
         titleEn: string;
         descAr: string;
         descEn: string;
         longDescAr: string;
         longDescEn: string;
-        isPublished: boolean;
-        isFeatured: boolean;
         storyP2Ar: string;
         storyP2En: string;
         storyP3Ar: string;
         storyP3En: string;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     create(dto: CreateProjectDto): Promise<{
         tags: {
@@ -130,27 +130,27 @@ export declare class ProjectsService {
         }[];
     } & {
         id: number;
-        createdAt: Date;
-        updatedAt: Date;
-        websiteUrl: string | null;
         slug: string;
         category: string;
         coverImage: string;
         coverVideo: string | null;
         isVideo: boolean;
+        websiteUrl: string | null;
         sortOrder: number;
+        isPublished: boolean;
+        isFeatured: boolean;
         titleAr: string;
         titleEn: string;
         descAr: string;
         descEn: string;
         longDescAr: string;
         longDescEn: string;
-        isPublished: boolean;
-        isFeatured: boolean;
         storyP2Ar: string;
         storyP2En: string;
         storyP3Ar: string;
         storyP3En: string;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     update(id: number, dto: UpdateProjectDto): Promise<{
         tags: {
@@ -166,27 +166,27 @@ export declare class ProjectsService {
         }[];
     } & {
         id: number;
-        createdAt: Date;
-        updatedAt: Date;
-        websiteUrl: string | null;
         slug: string;
         category: string;
         coverImage: string;
         coverVideo: string | null;
         isVideo: boolean;
+        websiteUrl: string | null;
         sortOrder: number;
+        isPublished: boolean;
+        isFeatured: boolean;
         titleAr: string;
         titleEn: string;
         descAr: string;
         descEn: string;
         longDescAr: string;
         longDescEn: string;
-        isPublished: boolean;
-        isFeatured: boolean;
         storyP2Ar: string;
         storyP2En: string;
         storyP3Ar: string;
         storyP3En: string;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     remove(id: number): Promise<{
         message: string;
@@ -195,15 +195,15 @@ export declare class ProjectsService {
         message: string;
     }>;
     addGalleryItem(projectId: number, dto: CreateGalleryItemDto): Promise<{
+        width: number;
+        height: number;
         id: number;
         sortOrder: number;
+        projectId: number;
         type: string;
         src: string;
         layout: string;
-        width: number;
-        height: number;
         aspectRatio: number;
-        projectId: number;
     }>;
     removeGalleryItem(projectId: number, itemId: number): Promise<{
         message: string;

@@ -23,7 +23,7 @@ npm run build
 cd "$API_DIR"
 npm install --production=false
 npx prisma generate
-npx prisma migrate deploy
+npx prisma db push
 npm run build
 
 # إعادة تشغيل

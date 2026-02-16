@@ -15,11 +15,9 @@ interface UploadedFile {
 
 @Injectable()
 export class MediaService {
-  // Base upload directory — next to muhit-api in the frontend's public folder
+  // Base upload directory — in the frontend's public folder (one level up from muhit-api)
   private readonly uploadBase = path.resolve(
-    __dirname,
-    '..',
-    '..',
+    process.cwd(),
     '..',
     'public',
     'uploads',

@@ -48,7 +48,7 @@ const sharp = require("sharp");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 let MediaService = class MediaService {
-    uploadBase = path.resolve(__dirname, '..', '..', '..', 'public', 'uploads');
+    uploadBase = path.resolve(process.cwd(), '..', 'public', 'uploads');
     constructor() {
         if (!fs.existsSync(this.uploadBase)) {
             fs.mkdirSync(this.uploadBase, { recursive: true });
