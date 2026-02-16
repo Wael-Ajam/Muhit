@@ -6,67 +6,28 @@ import { useState, useRef } from 'react';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { useDirection } from '@/hooks/useDirection';
+import { ApiProject, localize } from '@/lib/types';
 
-export default function PortfolioSection() {
+interface PortfolioSectionProps {
+  projects?: ApiProject[];
+  locale?: string;
+}
+
+export default function PortfolioSection({ projects: apiProjects = [], locale = 'ar' }: PortfolioSectionProps) {
   const t = useTranslations('Portfolio');
   const { isRTL } = useDirection();
 
-  const projects = [
-    {
-      id: 1,
-      title: t('project1Title'),
-      slug: "integrated-ad-campaign",
-      tags: ["Motion Design", "Design", "Visual Production"],
-      image: "",
-      video: "",
-      isVideo: true,
-    },
-    {
-      id: 2,
-      title: t('project2Title'),
-      slug: "full-brand-identity",
-      tags: ["Design", "Visual Identity", "Development"],
-      image: "",
-      video: "",
-      isVideo: true,
-    },
-    {
-      id: 3,
-      title: t('project3Title'),
-      slug: "motion-promo-video",
-      tags: ["Motion Design", "Design", "Marketing"],
-      image: "",
-      video: "",
-      isVideo: true,
-    },
-    {
-      id: 4,
-      title: t('project4Title'),
-      slug: "advanced-ecommerce-store",
-      tags: ["Development", "Design", "E-Commerce"],
-      image: "",
-      video: null,
-      isVideo: false,
-    },
-    {
-      id: 5,
-      title: t('project5Title'),
-      slug: "mobile-app",
-      tags: ["Development", "Design", "UI/UX"],
-      image: "",
-      video: null,
-      isVideo: false,
-    },
-    {
-      id: 6,
-      title: t('project6Title'),
-      slug: "social-media-campaign",
-      tags: ["Marketing", "Design", "Ad Campaigns"],
-      image: "",
-      video: "",
-      isVideo: true,
-    },
-  ];
+  // Map API projects to display format
+  const projects = apiProjects.map(p => ({
+    id: p.id,
+    title: localize(p, 'title', locale),
+    slug: p.slug,
+    tags: p.tags.map(tag => t(tag.tagKey)),
+    image: p.coverImage,
+    video: p.coverVideo,
+    isVideo: p.isVideo,
+    description: localize(p, 'desc', locale),
+  }));
 
   // Project Card Component with Video Support
   function ProjectCard({ 
@@ -127,7 +88,7 @@ export default function PortfolioSection() {
           )}
         </div>
 
-        {/* Video Layer - autoplay always, with image fallback behind it */}
+        {/* Video Layer */}
         {project.video && (
           <video
             ref={videoRef}
@@ -138,7 +99,6 @@ export default function PortfolioSection() {
             playsInline
             preload="none"
             onError={(e) => {
-              // Hide video on error, showing fallback image
               (e.target as HTMLVideoElement).style.display = 'none';
             }}
           />
@@ -160,7 +120,7 @@ export default function PortfolioSection() {
           </div>
         )}
 
-        {/* Glassmorphism Content Card with Ribbed Glass Effect */}
+        {/* Glassmorphism Content Card */}
         <div className={`absolute bottom-5 ${isRTL ? 'right-5 md:right-8' : 'left-5 md:left-8'} md:bottom-8 z-10 w-[75%] md:w-[65%] lg:w-[55%]`}>
           <motion.div 
             className={`relative p-5 md:p-6 rounded-2xl md:rounded-3xl transition-all duration-500 overflow-hidden ${isHovered ? 'scale-[1.02]' : 'scale-100'}`}
@@ -172,7 +132,7 @@ export default function PortfolioSection() {
               boxShadow: '0 8px 32px rgba(0, 0, 0, 0.25)',
             }}
           >
-            {/* Ribbed Glass Overlay - Vertical Lines */}
+            {/* Ribbed Glass Overlay */}
             <div 
               className="absolute inset-0 pointer-events-none opacity-40"
               style={{
@@ -188,7 +148,7 @@ export default function PortfolioSection() {
             
             {/* Content wrapper */}
             <div className="relative z-10">
-            {/* Tags inside card */}
+            {/* Tags */}
             <div className="flex flex-wrap gap-2 mb-3">
               {project.tags.slice(0, 2).map((tag, idx) => (
                 <span 
@@ -214,7 +174,7 @@ export default function PortfolioSection() {
             
             {/* Short Description */}
             <p className="text-white/60 text-xs md:text-sm leading-relaxed">
-              {t(`project${project.id}Desc`)}
+              {project.description}
             </p>
 
             {/* Arrow Button */}
@@ -257,7 +217,7 @@ export default function PortfolioSection() {
       </div>
 
       <div className="relative z-10">
-        {/* Section Header - Cinematic Style */}
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -293,7 +253,7 @@ export default function PortfolioSection() {
           </p>
         </motion.div>
 
-        {/* Projects Grid - Full Width, 2 Columns */}
+        {/* Projects Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4">
           {projects.map((project, index) => (
             <ProjectCard

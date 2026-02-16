@@ -6,8 +6,14 @@ import { ArrowUpLeft } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { useDirection } from '@/hooks/useDirection';
+import { ApiProject, localize } from '@/lib/types';
 
-export default function WorksGridSection() {
+interface WorksGridSectionProps {
+  projects?: ApiProject[];
+  locale?: string;
+}
+
+export default function WorksGridSection({ projects: apiProjects = [], locale = 'ar' }: WorksGridSectionProps) {
   const t = useTranslations('Portfolio');
   const { isRTL } = useDirection();
   const titleRef = useRef<HTMLDivElement>(null);
@@ -21,50 +27,15 @@ export default function WorksGridSection() {
   const titleY = useTransform(scrollYProgress, [0, 0.5], [60, 0]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.3], [0.3, 1]);
 
-  const projects = [
-    {
-      id: 1,
-      slug: "integrated-ad-campaign",
-      image: "",
-      titleKey: 'project1Title' as const,
-      tags: ['تصميم', 'تسويق'],
-    },
-    {
-      id: 2,
-      slug: "full-brand-identity",
-      image: "",
-      titleKey: 'project2Title' as const,
-      tags: ['هوية بصرية', 'تصميم'],
-    },
-    {
-      id: 3,
-      slug: "motion-promo-video",
-      image: "",
-      titleKey: 'project3Title' as const,
-      tags: ['موشن', 'تسويق'],
-    },
-    {
-      id: 4,
-      slug: "advanced-ecommerce-store",
-      image: "",
-      titleKey: 'project4Title' as const,
-      tags: ['تطوير', 'تصميم'],
-    },
-    {
-      id: 5,
-      slug: "mobile-app",
-      image: "",
-      titleKey: 'project5Title' as const,
-      tags: ['تطوير', 'UI/UX'],
-    },
-    {
-      id: 6,
-      slug: "social-media-campaign",
-      image: "",
-      titleKey: 'project6Title' as const,
-      tags: ['تسويق', 'تصميم'],
-    },
-  ];
+  // Map API projects to display format
+  const projects = apiProjects.map(p => ({
+    id: p.id,
+    slug: p.slug,
+    image: p.coverImage,
+    title: localize(p, 'title', locale),
+    description: localize(p, 'desc', locale),
+    tags: p.tags.map(tag => t(tag.tagKey)),
+  }));
 
   function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
     const [isHovered, setIsHovered] = useState(false);
@@ -154,13 +125,13 @@ export default function WorksGridSection() {
                 <h3 
                   className={`text-lg md:text-xl lg:text-2xl font-bold mb-2 transition-colors duration-300 ${isHovered ? 'text-orange-400' : 'text-white'}`}
                 >
-                  {t(project.titleKey)}
+                  {project.title}
                 </h3>
               </Link>
 
               {/* Short Description */}
               <p className="text-white/60 text-xs md:text-sm leading-relaxed">
-                {t(`project${project.id}Desc`)}
+                {project.description}
               </p>
               <div className="flex justify-end mt-3">
                 <Link 

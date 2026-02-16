@@ -5,19 +5,18 @@ import { ArrowLeft, ArrowRight, ExternalLink, Sparkles } from 'lucide-react';
 import { useEffect } from 'react';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
+import { ApiProject, localize } from '@/lib/types';
+
 import { useTranslations } from 'next-intl';
 import { useDirection } from '@/hooks/useDirection';
-import { getProjectBySlug, getAdjacentProjects } from '../projects';
 import Footer from '@/components/layout/Footer';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import '@/components/ui/ScrollReveal.css';
 import { trackButtonClick } from '@/app/hooks/useAnalytics';
 
-export default function ProjectDetailClient({ slug }: { slug: string }) {
+export default function ProjectDetailClient({ project: apiProject, locale }: { project: ApiProject; locale: string }) {
   const t = useTranslations('ProjectDetail');
   const { isRTL, direction } = useDirection();
-  const project = getProjectBySlug(slug)!;
-  const { prev, next } = getAdjacentProjects(slug);
 
   // Hide GradientBlobs
   useEffect(() => {
@@ -31,10 +30,16 @@ export default function ProjectDetailClient({ slug }: { slug: string }) {
     };
   }, []);
 
-  const title = t(project.titleKey);
-  const description = t(project.descKey);
-  const categoryLabel = t(`filter${project.category.charAt(0).toUpperCase() + project.category.slice(1)}`);
-  const tags = project.tagKeys.map(k => t(k));
+  const title = localize(apiProject, 'title', locale);
+  const description = localize(apiProject, 'desc', locale);
+  const categoryLabel = t(`filter${apiProject.category.charAt(0).toUpperCase() + apiProject.category.slice(1)}`);
+  const tags = apiProject.tags.map(tag => t(tag.tagKey));
+  const project = {
+    ...apiProject,
+    image: apiProject.coverImage,
+    video: apiProject.coverVideo,
+  };
+  const slug = apiProject.slug;
 
   // Helper to render media (image or video) with placeholder fallback
   const renderMedia = (src: string, type: string, alt: string, priority = false) => {
@@ -83,7 +88,7 @@ export default function ProjectDetailClient({ slug }: { slug: string }) {
     );
   };
 
-  const gallery = project.gallery;
+  const gallery = apiProject.gallery;
 
   return (
     <>
@@ -253,9 +258,9 @@ export default function ProjectDetailClient({ slug }: { slug: string }) {
 
           // Story paragraphs to interleave
           const storyTexts = [
-            project.longDescKey ? t(project.longDescKey) : '',
-            project.storyPara2Key ? t(project.storyPara2Key) : '',
-            project.storyPara3Key ? t(project.storyPara3Key) : '',
+            localize(apiProject, 'longDesc', locale),
+            localize(apiProject, 'storyP2', locale),
+            localize(apiProject, 'storyP3', locale),
           ].filter(Boolean);
 
           let storyIndex = 0;
@@ -388,7 +393,7 @@ export default function ProjectDetailClient({ slug }: { slug: string }) {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════ */}
-      {/* PROJECT NAVIGATION — Glassmorphic Circles                 */}
+      {/* PROJECT NAVIGATION — Back to Portfolio                    */}
       {/* ═══════════════════════════════════════════════════════════ */}
       <section
         data-nav-theme="dark"
@@ -396,118 +401,27 @@ export default function ProjectDetailClient({ slug }: { slug: string }) {
         style={{ background: '#0a0a1f' }}
       >
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
-          <div className="flex items-center justify-between gap-6 md:gap-12">
-
-            {/* Previous Project Circle */}
-            {prev && (
-              <Link href={`/portfolio/${prev.slug}`} className="group flex-1 max-w-[100px] md:max-w-[130px]">
-                <motion.div
-                  initial={{ opacity: 0, x: -60 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7 }}
-                  className="relative w-full aspect-square rounded-full overflow-hidden cursor-pointer"
-                  style={{
-                    border: '1px solid rgba(255, 255, 255, 0.12)',
-                    boxShadow: '0 8px 40px rgba(0, 0, 0, 0.3)',
-                  }}
-                >
-                  {/* Project Image */}
-                  <Image
-                    src={prev.image}
-                    alt={t(prev.titleKey)}
-                    fill
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                    sizes="180px"
-                  />
-
-                  {/* Glass Overlay */}
-                  <div
-                    className="absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 group-hover:opacity-0"
-                    style={{
-                      background: 'rgba(10, 10, 31, 0.55)',
-                      backdropFilter: 'blur(6px)',
-                      WebkitBackdropFilter: 'blur(6px)',
-                    }}
-                  >
-
-
-                    {/* Arrow */}
-                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center mb-2 transition-all duration-300 group-hover:scale-110 group-hover:bg-orange-500"
-                      style={{ background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.15)' }}
-                    >
-                      {isRTL ? (
-                        <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
-                      ) : (
-                        <ArrowLeft className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
-                      )}
-                    </div>
-
-                    {/* Label */}
-                    <span className="text-white/50 text-[8px] md:text-[10px] font-medium tracking-wider uppercase mb-0.5">
-                      {isRTL ? t('nextProject') : t('prevProject')}
-                    </span>
-
-                  </div>
-                </motion.div>
-              </Link>
-            )}
-
-            {/* Next Project Circle */}
-            {next && (
-              <Link href={`/portfolio/${next.slug}`} className="group flex-1 max-w-[100px] md:max-w-[130px] flex justify-end">
-                <motion.div
-                  initial={{ opacity: 0, x: 60 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7 }}
-                  className="relative w-full aspect-square rounded-full overflow-hidden cursor-pointer"
-                  style={{
-                    border: '1px solid rgba(255, 255, 255, 0.12)',
-                    boxShadow: '0 8px 40px rgba(0, 0, 0, 0.3)',
-                  }}
-                >
-                  {/* Project Image */}
-                  <Image
-                    src={next.image}
-                    alt={t(next.titleKey)}
-                    fill
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                    sizes="180px"
-                  />
-
-                  {/* Glass Overlay */}
-                  <div
-                    className="absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 group-hover:opacity-0"
-                    style={{
-                      background: 'rgba(10, 10, 31, 0.55)',
-                      backdropFilter: 'blur(6px)',
-                      WebkitBackdropFilter: 'blur(6px)',
-                    }}
-                  >
-
-
-                    {/* Arrow */}
-                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center mb-2 transition-all duration-300 group-hover:scale-110 group-hover:bg-orange-500"
-                      style={{ background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.15)' }}
-                    >
-                      {isRTL ? (
-                        <ArrowLeft className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
-                      ) : (
-                        <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
-                      )}
-                    </div>
-
-                    {/* Label */}
-                    <span className="text-white/50 text-[8px] md:text-[10px] font-medium tracking-wider uppercase mb-0.5">
-                      {isRTL ? t('prevProject') : t('nextProject')}
-                    </span>
-
-                  </div>
-                </motion.div>
-              </Link>
-            )}
-
+          <div className="flex items-center justify-center">
+            <Link href="/portfolio" className="group">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="flex items-center gap-3 px-8 py-4 rounded-full text-white/60 hover:text-white transition-all duration-300"
+                style={{
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                }}
+              >
+                {isRTL ? (
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                ) : (
+                  <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                )}
+                <span className="text-sm font-medium">{t('backToPortfolio')}</span>
+              </motion.div>
+            </Link>
           </div>
         </div>
       </section>

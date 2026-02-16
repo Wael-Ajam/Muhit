@@ -2,47 +2,51 @@
 description: كيفية رفع تعديلات الموقع على GitHub والسيرفر
 ---
 
-# سير العمل للتعديلات
+# سير العمل للنشر
 
-## الخطوات:
+## أول مرة (إعداد السيرفر)
 
-### 1. عمل التعديلات
-
-- عدل الملفات المطلوبة في المشروع
-
-### 2. بناء المشروع
+### 1. على السيرفر (SSH)
 
 ```bash
-npm run build
+cd /var/www/vhosts/muhitsolution.com/httpdocs
+git clone https://github.com/Wael-Ajam/Muhit.git .
+chmod +x setup.sh update.sh
+bash setup.sh
 ```
 
-هذا يولد الملفات الثابتة في مجلد `out/`
+### 2. إعداد nginx بـ Plesk
 
-### 3. رفع التعديلات فقط (بدون force)
+- Domains → muhitsolution.com → Apache & nginx Settings
+- انسخ محتوى `nginx-plesk.conf` بخانة **Additional nginx directives**
+
+---
+
+## كل تحديث بعدها
+
+### 1. على الكمبيوتر
+
+// turbo-all
 
 ```bash
-cd out
-git add .
+git add -A
 git commit -m "وصف التعديل"
-git push
+git push origin main
 ```
 
-**ملاحظة:** نستخدم `git push` العادي - بدون `-f` - لرفع التغييرات فقط
-
-### 4. المستخدم يعمل Pull على السيرفر
+### 2. على السيرفر (SSH)
 
 ```bash
 cd /var/www/vhosts/muhitsolution.com/httpdocs
 git pull origin main
+bash update.sh
 ```
 
 ---
 
-## ملاحظات مهمة:
+## ملاحظات
 
-- **لا نستخدم force push** إلا إذا في مشكلة كبيرة
-- الموقع على: https://muhitsolution.com/
-- النسخة العربية: /ar/
-- النسخة الإنجليزية: /en/
-- الهوست: Plesk
-- المجلد: httpdocs
+- الموقع: https://muhitsolution.com/
+- Frontend: port 3000 (Next.js SSR)
+- Backend API: port 3001 (NestJS)
+- مراقبة: `pm2 status` / `pm2 logs`

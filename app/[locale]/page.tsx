@@ -16,6 +16,7 @@ import HomepageContent from "@/components/HomepageContent";
 import Showreel from "@/components/sections/Showreel";
 import ValueStackSection from "@/components/sections/ValueStackSection";
 import BigStatement from "@/components/sections/BigStatement";
+import { fetchProjects } from "@/lib/api";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -25,6 +26,9 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
+  // Fetch projects from API for homepage sections
+  const projects = await fetchProjects();
+
   const packageContent = (
     <>
       {/* المرحلة 2: الاهتمام — Interest */}
@@ -32,7 +36,7 @@ export default async function HomePage({ params }: Props) {
       <LazySpecializationsSection />
       
       {/* المرحلة 3: الرغبة — Desire (Social Proof) */}
-      <PortfolioSection />
+      <PortfolioSection projects={projects} locale={locale} />
       
       {/* المرحلة 4: الجسر — Bridge to Action */}
       <LazyGetStartedSection />
@@ -49,7 +53,7 @@ export default async function HomePage({ params }: Props) {
       <ValueStackSection />
       <BigStatement />
       <LazySpecializationsSection minimal />
-      <LazyWorksGridSection />
+      <LazyWorksGridSection projects={projects} locale={locale} />
       <LazyBookMeeting />
       <LazyCustomFAQSection />
     </>

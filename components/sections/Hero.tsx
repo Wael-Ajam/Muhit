@@ -184,7 +184,7 @@ export default function Hero({ locale, profile }: HeroProps) {
           className="absolute z-10 bottom-8 right-6 md:bottom-12 md:right-auto md:left-12 lg:bottom-16 lg:left-20"
         >
           <motion.img
-            src="/LOGOTYPE + ICON MARK-07.svg"
+            src="/logos/hero-circle-icon.svg"
             alt=""
             className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24"
             animate={{ rotate: 360 }}

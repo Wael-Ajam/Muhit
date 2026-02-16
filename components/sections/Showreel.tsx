@@ -183,7 +183,7 @@ export default function Showreel() {
         className="flex justify-end md:justify-start mt-6 md:mt-8 px-2"
       >
         <motion.img
-          src="/LOGOTYPE + ICON MARK-07.svg"
+          src="/logos/hero-circle-icon.svg"
           alt=""
           className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24"
           animate={{ rotate: 360 }}

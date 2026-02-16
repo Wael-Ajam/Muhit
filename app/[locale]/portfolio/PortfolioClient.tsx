@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Play, ArrowUpLeft, ArrowUpRight, Filter, Sparkles } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { Link } from '@/i18n/navigation';
 
 import { useTranslations } from 'next-intl';
@@ -10,6 +10,7 @@ import { useDirection } from '@/hooks/useDirection';
 import Footer from '@/components/layout/Footer';
 import dynamic from 'next/dynamic';
 import { trackButtonClick } from '@/app/hooks/useAnalytics';
+import { ApiProject, localize } from '@/lib/types';
 
 const DarkVeil = dynamic(() => import('@/components/effects/DarkVeil'), { ssr: false });
 
@@ -224,7 +225,7 @@ function ProjectCard({
   );
 }
 
-export default function PortfolioClient() {
+export default function PortfolioClient({ projects: apiProjects, locale }: { projects: ApiProject[]; locale: string }) {
   const t = useTranslations('PortfolioPage');
   const { isRTL, direction } = useDirection();
   const [activeFilter, setActiveFilter] = useState('all');
@@ -239,7 +240,6 @@ export default function PortfolioClient() {
   const heroOpacity = useTransform(heroScrollProgress, [0, 0.8], [1, 0]);
 
   // Hide heavy global overlays (GradientBlobs + DynamicBottomBlur) on portfolio page
-  // They have massive blur() filters that cause GPU thrashing on every scroll frame
   useEffect(() => {
     const blobs = document.querySelector('.fixed.inset-0.z-0') as HTMLElement;
     const bottomBlur = document.querySelector('.gradual-blur-page')?.closest('div') as HTMLElement;
@@ -253,74 +253,18 @@ export default function PortfolioClient() {
     };
   }, []);
 
-  const projects = [
-    {
-      id: 1,
-      title: t('project1Title'),
-      slug: "integrated-ad-campaign",
-      category: 'motion',
-      tags: [t('tagMotion'), t('tagDesign'), t('tagMarketing')],
-      image: "/projects/saba-design/cover-square.jpg",
-      video: "/projects/saba-design/main-screens.mp4",
-      isVideo: true,
-      description: t('project1Desc'),
-    },
-    {
-      id: 2,
-      title: t('project2Title'),
-      slug: "full-brand-identity",
-      category: 'design',
-      tags: [t('tagDesign'), t('tagVisualIdentity'), t('tagDevelopment')],
-      image: "/images/projects/project-2.webp",
-      video: "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4",
-      isVideo: true,
-      description: t('project2Desc'),
-    },
-    {
-      id: 3,
-      title: t('project3Title'),
-      slug: "motion-promo-video",
-      category: 'motion',
-      tags: [t('tagMotion'), t('tagDesign'), t('tagMarketing')],
-      image: "/images/projects/project-3.webp",
-      video: "https://cdn.pixabay.com/video/2022/03/09/110306-686957178_large.mp4",
-      isVideo: true,
-      description: t('project3Desc'),
-    },
-    {
-      id: 4,
-      title: t('project4Title'),
-      slug: "advanced-ecommerce-store",
-      category: 'development',
-      tags: [t('tagDevelopment'), t('tagDesign'), t('tagEcommerce')],
-      image: "/images/projects/project-4.webp",
-      video: null,
-      isVideo: false,
-      description: t('project4Desc'),
-    },
-    {
-      id: 5,
-      title: t('project5Title'),
-      slug: "mobile-app",
-      category: 'development',
-      tags: [t('tagDevelopment'), t('tagDesign'), t('tagUIUX')],
-      image: "/images/projects/project-5.webp",
-      video: null,
-      isVideo: false,
-      description: t('project5Desc'),
-    },
-    {
-      id: 6,
-      title: t('project6Title'),
-      slug: "social-media-campaign",
-      category: 'marketing',
-      tags: [t('tagMarketing'), t('tagDesign'), t('tagAdCampaigns')],
-      image: "/images/projects/project-6.webp",
-      video: "https://cdn.pixabay.com/video/2019/10/27/28602-370137024_large.mp4",
-      isVideo: true,
-      description: t('project6Desc'),
-    },
-  ];
+  // Map API projects to display format
+  const projects = useMemo(() => apiProjects.map(p => ({
+    id: p.id,
+    title: localize(p, 'title', locale),
+    slug: p.slug,
+    category: p.category,
+    tags: p.tags.map(tag => t(tag.tagKey)),
+    image: p.coverImage,
+    video: p.coverVideo,
+    isVideo: p.isVideo,
+    description: localize(p, 'desc', locale),
+  })), [apiProjects, locale, t]);
 
   // Filter projects
   const filteredProjects = activeFilter === 'all' 
