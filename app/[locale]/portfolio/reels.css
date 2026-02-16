@@ -1,0 +1,636 @@
+/* ═══════════════════════════════════════════
+   Instagram Reels – Portfolio Page
+   ═══════════════════════════════════════════ */
+
+/* ── Page Wrapper (black background) ── */
+.reels-page {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── Phone-Width Container (9:16 like IG Reels) ── */
+.reels-container {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 9 / 16;
+  max-width: 100%;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  background: #000;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  scrollbar-width: none;
+}
+
+.reels-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Single Slide ── */
+.reel-slide {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: hidden;
+  background: #000;
+}
+
+/* ── Media (Image / Video) ── */
+.reel-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  background: #000;
+}
+
+.reel-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.3) 35%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+/* ── Bottom Info ── */
+.reel-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 60px;
+  padding: 20px 16px 28px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+[dir="rtl"] .reel-info {
+  left: 60px;
+  right: 0;
+}
+
+.reel-project-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.reel-project-desc {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.5;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.reel-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.reel-tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ── Side Action Bar ── */
+.reel-actions {
+  position: absolute;
+  bottom: 100px;
+  right: 8px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+[dir="rtl"] .reel-actions {
+  right: auto;
+  left: 8px;
+}
+
+.reel-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.2s ease;
+  text-decoration: none;
+}
+
+.reel-action-btn:active {
+  transform: scale(0.9);
+}
+
+.reel-action-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.25s ease;
+}
+
+.reel-action-btn:hover .reel-action-icon {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.08);
+}
+
+.reel-action-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Like Heart Animation ── */
+.reel-action-btn.liked .reel-action-icon {
+  color: #ff2d55;
+  background: rgba(255, 45, 85, 0.15);
+  border-color: rgba(255, 45, 85, 0.3);
+}
+
+.reel-action-btn.liked .reel-action-icon svg {
+  fill: #ff2d55;
+}
+
+@keyframes heartBounce {
+  0% { transform: scale(1); }
+  15% { transform: scale(1.35); }
+  30% { transform: scale(0.95); }
+  45% { transform: scale(1.15); }
+  60% { transform: scale(1); }
+}
+
+.reel-action-btn.liked .reel-action-icon {
+  animation: heartBounce 0.5s ease-out;
+}
+
+/* ── Double-tap Heart ── */
+@keyframes heartFloat {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  15% {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  30% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -80%) scale(1.4);
+    opacity: 0;
+  }
+}
+
+.reel-double-tap-heart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  pointer-events: none;
+  color: #ff2d55;
+  filter: drop-shadow(0 4px 20px rgba(255, 45, 85, 0.5));
+  animation: heartFloat 0.9s ease-out forwards;
+}
+
+/* ── Navigation Dots ── */
+.reel-nav-dots {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  /* Position dots just outside the phone column */
+  right: calc(50% + 230px);
+}
+
+[dir="rtl"] .reel-nav-dots {
+  right: auto;
+  left: calc(50% + 230px);
+}
+
+.reel-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.reel-dot.active {
+  background: #fff;
+  height: 18px;
+  border-radius: 3px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+/* ── Comment Modal (Instagram Style) ── */
+.reel-comment-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.reel-comment-sheet {
+  width: 420px;
+  max-height: 65vh;
+  background: #262626;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Drag handle */
+.reel-comment-handle {
+  width: 36px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+  margin: 8px auto 0;
+  flex-shrink: 0;
+}
+
+.reel-comment-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.reel-comment-header h3 {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #f5f5f5;
+}
+
+.reel-comment-count {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-inline-start: 6px;
+}
+
+/* Comment list */
+.reel-comment-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scrollbar-width: none;
+}
+
+.reel-comment-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Single comment item */
+.reel-comment-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.reel-comment-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.reel-comment-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.reel-comment-username {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #f5f5f5;
+  margin-bottom: 2px;
+}
+
+.reel-comment-text {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.reel-comment-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  align-items: center;
+}
+
+.reel-comment-meta span {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.reel-comment-meta-btn {
+  background: none;
+  border: none;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  padding: 0;
+}
+
+.reel-comment-meta-btn:hover {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Per-comment like button */
+.reel-comment-like-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.reel-comment-like-btn span {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.reel-comment-like-btn.liked span {
+  color: #ff2d55;
+}
+
+/* Input row */
+.reel-comment-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.reel-comment-my-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.reel-comment-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 8px 0;
+  color: #fff;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.reel-comment-input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.reel-comment-send {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 6px;
+  transition: color 0.2s;
+}
+
+.reel-comment-send.active {
+  color: #0095f6;
+}
+
+.reel-comment-send:hover {
+  color: #0095f6;
+}
+
+/* ── Video Sound Toggle ── */
+.reel-sound-btn {
+  position: absolute;
+  top: 16px;
+  right: 12px;
+  z-index: 5;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+[dir="rtl"] .reel-sound-btn {
+  right: auto;
+  left: 12px;
+}
+
+/* ── Progress Bar (Video) ── */
+.reel-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 5;
+}
+
+.reel-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #f97316, #ff6b2b);
+  border-radius: 0 2px 2px 0;
+  transition: width 0.3s linear;
+}
+
+/* ── Swipe Hint ── */
+@keyframes swipeHint {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(-10px); opacity: 1; }
+}
+
+.reel-swipe-hint {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: rgba(255, 255, 255, 0.5);
+  animation: swipeHint 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.reel-swipe-hint span {
+  font-size: 0.6rem;
+  font-weight: 500;
+}
+
+/* ── Side Panel (left side on desktop) ── */
+.reels-sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: calc(50% + 210px);
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 24px;
+  gap: 8px;
+  z-index: 2;
+}
+
+[dir="rtl"] .reels-sidebar {
+  right: auto;
+  left: calc(50% + 210px);
+}
+
+.reels-sidebar-logo {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+}
+
+.reels-sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.reels-sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.reels-sidebar-link.active {
+  color: #fff;
+  font-weight: 700;
+}
+
+/* ── Responsive: Mobile (full width) ── */
+@media (max-width: 768px) {
+  .reels-container {
+    width: 100%;
+    border: none;
+  }
+
+  .reels-sidebar {
+    display: none;
+  }
+
+  .reel-nav-dots {
+    right: 6px;
+    left: auto;
+  }
+
+  [dir="rtl"] .reel-nav-dots {
+    left: 6px;
+    right: auto;
+  }
+}

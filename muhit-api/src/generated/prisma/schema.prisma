@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============ AUTH ============
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  password  String
+  name      String
+  role      String    @default("admin")
+  avatar    String?
+  lastLogin DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  sessions  Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+}
+
+// ============ PROJECTS ============
+
+model Project {
+  id          Int     @id @default(autoincrement())
+  slug        String  @unique
+  category    String
+  coverImage  String
+  coverVideo  String?
+  isVideo     Boolean @default(false)
+  websiteUrl  String?
+  sortOrder   Int     @default(0)
+  isPublished Boolean @default(true)
+  isFeatured  Boolean @default(false)
+
+  // Bilingual content
+  titleAr    String
+  titleEn    String
+  descAr     String
+  descEn     String
+  longDescAr String @default("")
+  longDescEn String @default("")
+  storyP2Ar  String @default("")
+  storyP2En  String @default("")
+  storyP3Ar  String @default("")
+  storyP3En  String @default("")
+
+  // Relations
+  tags    ProjectTag[]
+  gallery GalleryItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProjectTag {
+  id        Int     @id @default(autoincrement())
+  projectId Int
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tagKey    String
+}
+
+model GalleryItem {
+  id        Int     @id @default(autoincrement())
+  projectId Int
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  type      String
+  src       String
+  layout    String  @default("full")
+  sortOrder Int     @default(0)
+}
