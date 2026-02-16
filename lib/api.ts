@@ -16,7 +16,7 @@ export async function fetchProjects(category?: string): Promise<ApiProject[]> {
 
   try {
     const res = await fetch(`${API_BASE}/projects?${params}`, {
-      next: { revalidate: 10 },
+      next: { revalidate: 1 },
     });
 
     if (!res.ok) return [];
@@ -33,7 +33,7 @@ export async function fetchProjects(category?: string): Promise<ApiProject[]> {
 export async function fetchProjectBySlug(slug: string): Promise<ApiProject | null> {
   try {
     const res = await fetch(`${API_BASE}/projects/slug/${slug}`, {
-      next: { revalidate: 10 },
+      next: { revalidate: 1 },
     });
 
     if (!res.ok) return null;
