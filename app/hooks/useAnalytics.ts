@@ -8,13 +8,16 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 function sendBeacon(endpoint: string, data: Record<string, string>) {
   try {
     const url = `${API_BASE}/analytics/${endpoint}`;
+    const body = JSON.stringify(data);
     if (navigator.sendBeacon) {
-      navigator.sendBeacon(url, JSON.stringify(data));
+      // sendBeacon requires Blob with correct content-type for NestJS to parse
+      const blob = new Blob([body], { type: 'application/json' });
+      navigator.sendBeacon(url, blob);
     } else {
       fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body,
         keepalive: true,
       }).catch(() => {});
     }
