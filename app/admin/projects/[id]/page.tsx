@@ -195,23 +195,23 @@ export default function ProjectEditorPage({ params }: { params: Promise<{ id: st
 
     try {
       if (isNew) {
-        await apiFetch('/projects', {
+        const created = await apiFetch<{ id: number }>('/projects', {
           method: 'POST',
           token,
           body: JSON.stringify(body),
         });
         toast.success('تم إنشاء المشروع بنجاح');
         addNotification('success', 'مشروع جديد', `تم إنشاء "${project.titleAr}"`);
+        router.push(`/admin/projects/${created.id}`);
       } else {
         await apiFetch(`/projects/${id}`, {
           method: 'PUT',
           token,
           body: JSON.stringify(body),
         });
-        toast.success('تم تحديث المشروع بنجاح');
+        toast.success('تم حفظ التغييرات ✅');
         addNotification('success', 'تحديث مشروع', `تم تحديث "${project.titleAr}"`);
       }
-      router.push('/admin/projects');
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'حدث خطأ');
       addNotification('error', 'خطأ في الحفظ', err instanceof Error ? err.message : 'حدث خطأ');
