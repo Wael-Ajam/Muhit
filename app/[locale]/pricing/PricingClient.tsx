@@ -196,7 +196,7 @@ export default function PricingClient() {
             transition={{ delay: 1, duration: 0.5 }}
             className="flex flex-col items-center gap-4"
           >
-            <Link href="#contact" onClick={() => trackButtonClick('pricing-hero-cta', '/pricing', 'احجز اجتماع - هيرو الباقات')}>
+            <Link href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer" onClick={() => trackButtonClick('pricing-hero-cta', '/pricing', 'احجز اجتماع - هيرو الباقات')}>
               <motion.div
                 className="inline-flex items-center gap-3 px-10 py-5 rounded-xl text-white font-bold text-lg overflow-hidden cursor-pointer"
                 style={{
@@ -443,7 +443,7 @@ export default function PricingClient() {
 
                     {/* CTA Button */}
                     <motion.a
-                      href="#contact"
+                      href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer"
                       onClick={() => trackButtonClick('pricing-plan-cta', '/pricing', 'ابدأ الآن - كرت الباقة')}
                       className="group relative inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 rounded-xl text-white font-bold text-base md:text-lg overflow-hidden transition-all duration-300 w-full justify-center"
                       style={{
@@ -784,7 +784,7 @@ export default function PricingClient() {
             className="text-center mt-12"
           >
             <p className="text-white/40 text-sm mb-4">{t('faqBottomQuestion')}</p>
-            <Link href="#contact" className="inline-flex items-center gap-2 text-orange-400 hover:text-orange-300 font-medium transition-colors" onClick={() => trackButtonClick('pricing-faq-contact', '/pricing', 'تواصل معنا - الأسئلة')}>
+            <Link href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-orange-400 hover:text-orange-300 font-medium transition-colors" onClick={() => trackButtonClick('pricing-faq-contact', '/pricing', 'تواصل معنا - الأسئلة')}>
               {t('faqContactUs')}
               {isRTL ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
             </Link>
@@ -823,7 +823,7 @@ export default function PricingClient() {
             <p className="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto mb-10">
               {t('ctaSubtitle')}
             </p>
-            <Link href="#contact" onClick={() => trackButtonClick('pricing-final-cta', '/pricing', 'تواصل معنا - CTA نهائي')}>
+            <Link href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer" onClick={() => trackButtonClick('pricing-final-cta', '/pricing', 'تواصل معنا - CTA نهائي')}>
               <motion.div
                 className="inline-flex items-center gap-4 group cursor-pointer"
                 whileHover={{ x: isRTL ? -10 : 10 }}

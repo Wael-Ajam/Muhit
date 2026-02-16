@@ -151,7 +151,7 @@ export default function Navbar() {
     { href: `/${locale}/portfolio`, label: t('portfolio') },
     { href: `/${locale}/pricing`, label: t('pricing') },
     { href: `/${locale}/about`, label: t('about') },
-    { href: `/${locale}/contact`, label: t('contact') },
+    { href: 'https://calendly.com/muhitsolution-info/30min', label: t('contact'), external: true },
   ];
 
   // Close menu on link click
@@ -256,16 +256,15 @@ export default function Navbar() {
           {/* Actions */}
           <div className="flex items-center gap-3 sm:gap-4">
             {/* Book Appointment Button - Desktop */}
-            <Link
-              href={`/${locale}/#contact`}
-              className="hidden md:flex items-center px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-300 hover:scale-105"
-              style={{
-                background: '#F97316',
-                boxShadow: '0 4px 15px rgba(243, 129, 32, 0.3)',
-              }}
+            <a
+              href="https://calendly.com/muhitsolution-info/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden lg:inline-flex items-center gap-2 bg-[#F27921] text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-[#e06810] active:scale-95 transition-all"
+              style={{ fontFamily: 'var(--font-ibm-plex-sans-arabic)', fontWeight: 500 }}
             >
               {t('bookAppointment')}
-            </Link>
+            </a>
 
             {/* Language Switcher - Desktop */}
             <div className="hidden md:block">
@@ -365,8 +364,10 @@ export default function Navbar() {
 
               {/* CTA Button */}
               <motion.div variants={linkVariants} className="mb-8">
-                <Link
-                  href={`/${locale}/#contact`}
+                <a
+                  href="https://calendly.com/muhitsolution-info/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={handleLinkClick}
                   className="flex items-center justify-center gap-2.5 w-full py-4 rounded-2xl text-[15px] font-semibold text-white transition-all duration-300 active:scale-[0.98]"
                   style={{
@@ -378,7 +379,7 @@ export default function Navbar() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                   {t('bookFreeAppointment')}
-                </Link>
+                </a>
               </motion.div>
 
               {/* Bottom Row: Social + Language */}

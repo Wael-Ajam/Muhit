@@ -610,7 +610,7 @@ export default function PortfolioClient({ projects: apiProjects, locale }: { pro
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.35 }}
           >
-            <Link href="#contact" onClick={() => trackButtonClick('portfolio-cta-contact', '/portfolio', 'تواصل معنا - الأعمال')}>
+            <Link href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer" onClick={() => trackButtonClick('portfolio-cta-contact', '/portfolio', 'تواصل معنا - الأعمال')}>
               <motion.div
                 className="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-[#1a1a2e] text-white font-semibold text-lg cursor-pointer group"
                 whileHover={{ scale: 1.05, boxShadow: '0 20px 50px rgba(26, 26, 46, 0.3)' }}

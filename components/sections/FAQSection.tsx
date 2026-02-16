@@ -192,7 +192,7 @@ export default function FAQSection() {
         >
           <p className="text-slate-500 mb-4">{t('bottomQuestion')}</p>
           <a 
-            href="#contact"
+            href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-medium transition-all duration-300 hover:opacity-90 hover:scale-105"
             style={{
               background: '#F97316',

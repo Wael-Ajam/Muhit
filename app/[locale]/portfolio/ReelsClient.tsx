@@ -330,7 +330,7 @@ export default function ReelsClient() {
         <Link href="/pricing" className="reels-sidebar-link">
           <CreditCard size={20} /> {isRTL ? 'الباقات' : 'Pricing'}
         </Link>
-        <Link href="/contact" className="reels-sidebar-link">
+        <Link href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer" className="reels-sidebar-link">
           <Mail size={20} /> {isRTL ? 'تواصل' : 'Contact'}
         </Link>
       </div>
@@ -462,7 +462,7 @@ export default function ReelsClient() {
 
             {/* Request Project */}
             <Link
-              href="/contact"
+              href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer"
               className="reel-action-btn"
               onClick={(e) => e.stopPropagation()}
             >

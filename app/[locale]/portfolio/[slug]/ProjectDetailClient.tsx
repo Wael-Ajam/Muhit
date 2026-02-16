@@ -463,7 +463,7 @@ export default function ProjectDetailClient({ project: apiProject, locale }: { p
               {t('ctaSubtitle')}
             </p>
 
-            <Link href="/contact" onClick={() => trackButtonClick('project-cta-contact', `/portfolio/${slug}`, 'تواصل معنا - تفاصيل المشروع')}>
+            <Link href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer" onClick={() => trackButtonClick('project-cta-contact', `/portfolio/${slug}`, 'تواصل معنا - تفاصيل المشروع')}>
               <motion.div
                 className="group inline-flex items-center gap-3 px-10 py-5 rounded-xl text-white font-bold text-lg overflow-hidden cursor-pointer"
                 style={{

@@ -182,7 +182,7 @@ export default function PricingSection() {
 
                   {/* CTA Button */}
                   <motion.a
-                    href="#contact"
+                    href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer"
                     className={`group relative inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 rounded-xl text-white font-bold text-base md:text-lg overflow-hidden transition-all duration-300 w-full justify-center`}
                     style={{
                       background: '#F97316',

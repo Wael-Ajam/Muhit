@@ -58,7 +58,7 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
     { label: t('nav.work'), href: `/${locale}/portfolio` },
     { label: t('nav.pricing'), href: `/${locale}/pricing` },
     { label: t('nav.about'), href: `/${locale}/about` },
-    { label: t('nav.contact'), href: `/${locale}/contact` },
+    { label: t('nav.contact'), href: 'https://calendly.com/muhitsolution-info/30min', external: true },
   ];
 
   const socialLinks = [
@@ -118,7 +118,7 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <Link href="#contact" onClick={() => trackButtonClick('footer-cta', undefined, 'تواصل معنا - الفوتر')}>
+                <a href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer" onClick={() => trackButtonClick('footer-cta', undefined, 'تواصل معنا - الفوتر')}>
                   <motion.div
                     className="inline-flex items-center gap-4 group cursor-pointer"
                     whileHover={{ x: isRTL ? -10 : 10 }}
@@ -134,7 +134,7 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
                       <ArrowUpRight className="w-6 h-6 md:w-7 md:h-7 text-white" />
                     </motion.div>
                   </motion.div>
-                </Link>
+                </a>
               </motion.div>
             </div>
           </div>

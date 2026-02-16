@@ -314,7 +314,7 @@ export default function AboutClient() {
               {t('ctaSubtitle')}
             </p>
 
-            <Link href="#contact" onClick={() => trackButtonClick('about-cta-contact', '/about', 'تواصل معنا - من نحن')}>
+            <Link href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer" onClick={() => trackButtonClick('about-cta-contact', '/about', 'تواصل معنا - من نحن')}>
               <motion.div
                 className="group inline-flex items-center gap-3 px-10 py-5 rounded-xl text-white font-bold text-lg overflow-hidden cursor-pointer"
                 style={{
