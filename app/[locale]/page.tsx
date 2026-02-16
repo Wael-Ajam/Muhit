@@ -16,7 +16,7 @@ import HomepageContent from "@/components/HomepageContent";
 import Showreel from "@/components/sections/Showreel";
 import ValueStackSection from "@/components/sections/ValueStackSection";
 import BigStatement from "@/components/sections/BigStatement";
-import { fetchProjects } from "@/lib/api";
+import { fetchProjects, fetchSettings } from "@/lib/api";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -26,13 +26,19 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
-  // Fetch projects from API for homepage sections
-  const projects = await fetchProjects();
+  // Fetch projects and settings from API
+  const [projects, settings] = await Promise.all([
+    fetchProjects(),
+    fetchSettings(),
+  ]);
+
+  const showreelDesktop = settings.showreelDesktop || '';
+  const showreelMobile = settings.showreelMobile || '';
 
   const packageContent = (
     <>
       {/* المرحلة 2: الاهتمام — Interest */}
-      <Features />
+      <Features showreelDesktop={showreelDesktop} showreelMobile={showreelMobile} />
       <LazySpecializationsSection />
       
       {/* المرحلة 3: الرغبة — Desire (Social Proof) */}
@@ -49,7 +55,7 @@ export default async function HomePage({ params }: Props) {
 
   const customContent = (
     <>
-      <Showreel />
+      <Showreel showreelDesktop={showreelDesktop} showreelMobile={showreelMobile} />
       <ValueStackSection />
       <BigStatement />
       <LazySpecializationsSection minimal />

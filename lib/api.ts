@@ -28,6 +28,23 @@ export async function fetchProjects(category?: string): Promise<ApiProject[]> {
 }
 
 /**
+ * Fetch all site settings (server-side, cached for 60s)
+ */
+export async function fetchSettings(): Promise<Record<string, string>> {
+  try {
+    const res = await fetch(`${API_BASE}/settings`, {
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) return {};
+    return res.json();
+  } catch {
+    console.error('[fetchSettings] API unreachable');
+    return {};
+  }
+}
+
+/**
  * Fetch a single project by slug (server-side, cached for 60s)
  */
 export async function fetchProjectBySlug(slug: string): Promise<ApiProject | null> {

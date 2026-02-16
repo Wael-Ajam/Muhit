@@ -91,7 +91,7 @@ function FeatureItem({
   );
 }
 
-export default function Features() {
+export default function Features({ showreelDesktop = '', showreelMobile = '' }: { showreelDesktop?: string; showreelMobile?: string }) {
   const t = useTranslations('Features');
   const { direction, isRTL } = useDirection();
   const containerRef = useRef<HTMLElement>(null);
@@ -216,56 +216,50 @@ export default function Features() {
             }}
           >
             {/* Desktop Video or Placeholder */}
-            {(() => {
-              const desktopSrc = ''; // Upload from admin settings
-              return desktopSrc ? (
-                <video
-                  ref={videoRef}
-                  className="hidden md:block w-full h-full object-cover"
-                  loop
-                  playsInline
-                  preload="metadata"
-                  onError={(e) => {
-                    (e.target as HTMLVideoElement).style.display = 'none';
-                  }}
-                >
-                  <source src={desktopSrc} type="video/mp4" />
-                </video>
-              ) : (
-                <div className="hidden md:flex w-full h-full items-center justify-center" style={{ background: 'linear-gradient(135deg, #1a1e2e 0%, #0d1b2a 100%)' }}>
-                  <div className="flex flex-col items-center gap-4 opacity-50">
-                    <svg className="w-16 h-16 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
-                    <span className="text-amber-300 text-lg font-medium">شوريل سطح المكتب</span>
-                  </div>
+            {showreelDesktop ? (
+              <video
+                ref={videoRef}
+                className="hidden md:block w-full h-full object-cover"
+                loop
+                playsInline
+                preload="metadata"
+                onError={(e) => {
+                  (e.target as HTMLVideoElement).style.display = 'none';
+                }}
+              >
+                <source src={showreelDesktop} type="video/mp4" />
+              </video>
+            ) : (
+              <div className="hidden md:flex w-full h-full items-center justify-center" style={{ background: 'linear-gradient(135deg, #1a1e2e 0%, #0d1b2a 100%)' }}>
+                <div className="flex flex-col items-center gap-4 opacity-50">
+                  <svg className="w-16 h-16 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
+                  <span className="text-amber-300 text-lg font-medium">شوريل سطح المكتب</span>
                 </div>
-              );
-            })()}
+              </div>
+            )}
 
             {/* Mobile Video or Placeholder */}
-            {(() => {
-              const mobileSrc = ''; // Upload from admin settings
-              return mobileSrc ? (
-                <video
-                  ref={mobileVideoRef}
-                  className="block md:hidden w-full h-full object-cover"
-                  loop
-                  playsInline
-                  preload="metadata"
-                  onError={(e) => {
-                    (e.target as HTMLVideoElement).style.display = 'none';
-                  }}
-                >
-                  <source src={mobileSrc} type="video/mp4" />
-                </video>
-              ) : (
-                <div className="flex md:hidden w-full h-full items-center justify-center" style={{ background: 'linear-gradient(135deg, #1a1e2e 0%, #0d1b2a 100%)' }}>
-                  <div className="flex flex-col items-center gap-4 opacity-50">
-                    <svg className="w-14 h-14 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
-                    <span className="text-amber-300 text-base font-medium">شوريل الموبايل</span>
-                  </div>
+            {showreelMobile ? (
+              <video
+                ref={mobileVideoRef}
+                className="block md:hidden w-full h-full object-cover"
+                loop
+                playsInline
+                preload="metadata"
+                onError={(e) => {
+                  (e.target as HTMLVideoElement).style.display = 'none';
+                }}
+              >
+                <source src={showreelMobile} type="video/mp4" />
+              </video>
+            ) : (
+              <div className="flex md:hidden w-full h-full items-center justify-center" style={{ background: 'linear-gradient(135deg, #1a1e2e 0%, #0d1b2a 100%)' }}>
+                <div className="flex flex-col items-center gap-4 opacity-50">
+                  <svg className="w-14 h-14 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
+                  <span className="text-amber-300 text-base font-medium">شوريل الموبايل</span>
                 </div>
-              );
-            })()}
+              </div>
+            )}
           </motion.div>
 
           {/* Play/Pause Button */}

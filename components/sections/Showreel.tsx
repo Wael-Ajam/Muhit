@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { Play, Pause } from 'lucide-react';
 
-export default function Showreel() {
+export default function Showreel({ showreelDesktop = '', showreelMobile = '' }: { showreelDesktop?: string; showreelMobile?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
   const showreelRef = useRef<HTMLDivElement>(null);
@@ -89,9 +89,7 @@ export default function Showreel() {
           }}
         >
           {/* Desktop Video or Placeholder */}
-          {(() => {
-            const desktopSrc = ''; // Upload from admin settings
-            return desktopSrc ? (
+          {showreelDesktop ? (
               <video
                 ref={videoRef}
                 className="hidden md:block w-full h-full object-cover"
@@ -102,7 +100,7 @@ export default function Showreel() {
                   (e.target as HTMLVideoElement).style.display = 'none';
                 }}
               >
-                <source src={desktopSrc} type="video/mp4" />
+                <source src={showreelDesktop} type="video/mp4" />
               </video>
             ) : (
               <div className="hidden md:flex w-full h-full items-center justify-center" style={{ background: 'linear-gradient(135deg, #1a1e2e 0%, #0d1b2a 100%)' }}>
@@ -111,13 +109,10 @@ export default function Showreel() {
                   <span className="text-amber-300 text-lg font-medium">شوريل سطح المكتب</span>
                 </div>
               </div>
-            );
-          })()}
+            )}
 
           {/* Mobile Video or Placeholder */}
-          {(() => {
-            const mobileSrc = ''; // Upload from admin settings
-            return mobileSrc ? (
+          {showreelMobile ? (
               <video
                 ref={mobileVideoRef}
                 className="block md:hidden w-full h-full object-cover"
@@ -128,7 +123,7 @@ export default function Showreel() {
                   (e.target as HTMLVideoElement).style.display = 'none';
                 }}
               >
-                <source src={mobileSrc} type="video/mp4" />
+                <source src={showreelMobile} type="video/mp4" />
               </video>
             ) : (
               <div className="flex md:hidden w-full h-full items-center justify-center" style={{ background: 'linear-gradient(135deg, #1a1e2e 0%, #0d1b2a 100%)' }}>
@@ -137,8 +132,7 @@ export default function Showreel() {
                   <span className="text-amber-300 text-base font-medium">شوريل الموبايل</span>
                 </div>
               </div>
-            );
-          })()}
+            )}
         </motion.div>
 
         {/* Play/Pause Button */}
