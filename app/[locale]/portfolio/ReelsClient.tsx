@@ -6,6 +6,7 @@ import { Heart, MessageCircle, Send, ChevronUp, Volume2, VolumeX, Home, Briefcas
 import { useTranslations } from 'next-intl';
 import { useDirection } from '@/hooks/useDirection';
 import { Link } from '@/i18n/navigation';
+import { trackButtonClick } from '@/app/hooks/useAnalytics';
 import './reels.css';
 
 interface ReelProject {
@@ -330,7 +331,7 @@ export default function ReelsClient() {
         <Link href="/pricing" className="reels-sidebar-link">
           <CreditCard size={20} /> {isRTL ? 'الباقات' : 'Pricing'}
         </Link>
-        <Link href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer" className="reels-sidebar-link">
+        <Link href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer" className="reels-sidebar-link" onClick={() => trackButtonClick('reels-sidebar-contact', '/portfolio/reels', 'تواصل - سايدبار الريلز')}>
           <Mail size={20} /> {isRTL ? 'تواصل' : 'Contact'}
         </Link>
       </div>
@@ -464,7 +465,7 @@ export default function ReelsClient() {
             <Link
               href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer"
               className="reel-action-btn"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => { e.stopPropagation(); trackButtonClick('reels-request-project', '/portfolio/reels', `اطلب مشروع - ${project.title}`); }}
             >
               <div className="reel-action-icon" style={{ background: 'rgba(249, 115, 22, 0.2)', borderColor: 'rgba(249, 115, 22, 0.4)' }}>
                 <Send size={20} style={{ color: '#f97316' }} />

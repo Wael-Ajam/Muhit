@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useDirection } from '@/hooks/useDirection';
+import { trackButtonClick } from '@/app/hooks/useAnalytics';
 
 export default function PricingSection() {
   const t = useTranslations('Pricing');
@@ -183,6 +184,7 @@ export default function PricingSection() {
                   {/* CTA Button */}
                   <motion.a
                     href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer"
+                    onClick={() => trackButtonClick('pricing-section-cta', '/', 'تواصل معنا - سكشن الباقات')}
                     className={`group relative inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 rounded-xl text-white font-bold text-base md:text-lg overflow-hidden transition-all duration-300 w-full justify-center`}
                     style={{
                       background: '#F97316',

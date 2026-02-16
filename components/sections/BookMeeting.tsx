@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Calendar, ArrowUpRight, Clock, Users, MessageCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useDirection } from '@/hooks/useDirection';
+import { trackButtonClick } from '@/app/hooks/useAnalytics';
 
 export default function BookMeeting() {
   const t = useTranslations('BookMeeting');
@@ -88,9 +89,10 @@ export default function BookMeeting() {
 
           {/* CTA Button */}
           <a
-            href="https://calendly.com"
+            href="https://calendly.com/muhitsolution-info/30min"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackButtonClick('book-meeting-cta', '/', 'احجز اجتماع - سكشن الحجز')}
           >
             <motion.div
               className="inline-flex items-center gap-3 px-8 sm:px-10 py-4 sm:py-5 rounded-2xl text-white font-semibold text-base sm:text-lg cursor-pointer"

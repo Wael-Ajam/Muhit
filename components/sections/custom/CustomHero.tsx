@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
+import { trackButtonClick } from '@/app/hooks/useAnalytics';
 
 export default function CustomHero() {
   const t = useTranslations('CustomProject.hero');
@@ -70,6 +71,7 @@ export default function CustomHero() {
         >
           <a
             href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer"
+            onClick={() => trackButtonClick('custom-hero-cta', '/', 'ابدأ مشروعك - هيرو المشاريع')}
             className="px-8 py-4 rounded-2xl text-white font-semibold text-lg transition-all duration-300 hover:scale-105"
             style={{
               background: 'linear-gradient(135deg, #F97316 0%, #f59e0b 100%)',

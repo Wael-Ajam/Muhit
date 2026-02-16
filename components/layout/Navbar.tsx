@@ -7,6 +7,7 @@ import Link from 'next/link';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useCallback } from 'react';
+import { trackButtonClick } from '@/app/hooks/useAnalytics';
 
 type NavTheme = 'dark' | 'light';
 
@@ -260,6 +261,7 @@ export default function Navbar() {
               href="https://calendly.com/muhitsolution-info/30min"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackButtonClick('navbar-cta', undefined, 'احجز موعد - النافبار')}
               className="hidden lg:inline-flex items-center gap-2 bg-[#F27921] text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-[#e06810] active:scale-95 transition-all"
               style={{ fontFamily: 'var(--font-ibm-plex-sans-arabic)', fontWeight: 500 }}
             >
@@ -368,7 +370,7 @@ export default function Navbar() {
                   href="https://calendly.com/muhitsolution-info/30min"
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={handleLinkClick}
+                  onClick={() => { trackButtonClick('navbar-mobile-cta', undefined, 'احجز موعد - القائمة'); handleLinkClick(); }}
                   className="flex items-center justify-center gap-2.5 w-full py-4 rounded-2xl text-[15px] font-semibold text-white transition-all duration-300 active:scale-[0.98]"
                   style={{
                     background: '#F97316',
