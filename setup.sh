@@ -63,6 +63,16 @@ echo -e "${GREEN}✅ تم تثبيت باكجات الباكند${NC}"
 # ============================================
 echo -e "\n${YELLOW}[5/7] إعداد قاعدة البيانات وبناء API...${NC}"
 cd "$API_DIR"
+
+# إنشاء ملف .env للباكند (إذا مش موجود)
+if [ ! -f .env ]; then
+    cat > .env << 'EOF'
+DATABASE_URL="file:./prisma/dev.db"
+JWT_SECRET="muhit-jwt-secret-2026-change-me"
+EOF
+    echo -e "${GREEN}  ✅ تم إنشاء ملف .env${NC}"
+fi
+
 npx prisma generate
 npx prisma migrate deploy
 npm run build
