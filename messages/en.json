@@ -12,6 +12,7 @@
   "Hero": {
     "badge": "Welcome to Muhit",
     "heading": "A Subscription for All Your Creative Needs",
+    "headingCustom": "Execute Your Project with Top Quality and Speed",
     "bio": "Creative director, project manager, and execution team — all in one subscription, with a clear workflow.",
     "cta": "Try Free",
     "contactMe": "Contact Us"
@@ -26,13 +27,15 @@
     "title": "Why",
     "titleHighlight": "Muhit?",
     "phrase1": "Fixed Monthly Cost",
-    "phrase2": "Quality is Our Bet",
-    "phrase3": "We Rush for You",
-    "phrase4": "Multiple Creative & Technical Specializations"
+    "phrase2": "Quality is Non-negotiable",
+    "phrase3": "We Rush for You & Deliver in Record Time",
+    "phrase4": "Aware of Every Project Detail"
   },
   "BigStatement": {
     "line1": "A complete team at your fingertips, over 30 creative & professional specializations",
-    "line2": "Ready to turn your ideas into a reality that speaks for you."
+    "line1Custom": "We turn ideas into tangible outputs through professional execution that covers all project phases",
+    "line2": "Ready to turn your ideas into a reality that speaks for you.",
+    "servicesLabel": "Our Services"
   },
   "BookMeeting": {
     "badge": "Book Your Meeting",
@@ -273,7 +276,8 @@
     "title": "Samples of",
     "titleHighlight": "Our Work",
     "titleEnd": "",
-    "subtitle": "Examples of our creations that contributed to our clients' success",
+    "subtitle": "Showcasing our creativity that contributed to our clients' success",
+    "sectionDescription": "Browse a selection of our curated works reflecting our expertise and creative diversity across various fields.",
     "explore": "Explore",
     "tagMarketing": "Marketing",
     "tagAdCampaigns": "Ad Campaigns",
@@ -384,7 +388,7 @@
       "email": "Email us",
       "phone": "Call us",
       "location": "Visit us",
-      "address": "Riyadh, Saudi Arabia"
+      "address": "Al Sulaimaniyah, Riyadh, Saudi Arabia"
     },
     "nav": {
       "work": "Our Work",
@@ -672,9 +676,9 @@
     "sending": "Sending...",
 
     "infoTitle": "Or Reach Us Directly",
-    "emailInfo": "info@muhit.sa",
-    "phoneInfo": "+966 50 000 0000",
-    "locationInfo": "Saudi Arabia",
+    "emailInfo": "info@muhitsolution.com",
+    "phoneInfo": "+966 55 909 1247",
+    "locationInfo": "Al Sulaimaniyah, Riyadh, Saudi Arabia",
     "emailInfoLabel": "Email Address",
     "phoneInfoLabel": "Phone Number",
     "locationInfoLabel": "Location",
@@ -685,14 +689,56 @@
   },
   "ModeSwitch": {
     "toggleMode": "Toggle mode",
-    "package": "Package",
-    "custom": "Custom Project"
+    "package": "Monthly Subscription",
+    "custom": "Project Contract"
+  },
+  "CustomServices": {
+    "sectionTitle": "Our Services",
+    "cat1Title": "Media Project Development & Management",
+    "cat1s1": "Developing media ideas and programs",
+    "cat1s2": "Building documentary series and projects",
+    "cat1s3": "Preparing artistic and directorial treatments",
+    "cat1s4": "Launching digital content platforms and projects",
+    "cat2Title": "Visual Production",
+    "cat2s1": "Motion graphics videos",
+    "cat2s2": "Brand introduction films",
+    "cat2s3": "Short and long documentaries",
+    "cat2s4": "Advertising campaign videos",
+    "cat2s5": "Social media videos",
+    "cat2s6": "Screen and event content",
+    "cat3Title": "Identity & Visual Design",
+    "cat3s1": "Visual identity design",
+    "cat3s2": "Annual report design",
+    "cat3s3": "Corporate presentation design",
+    "cat3s4": "UI/UX design",
+    "cat3s5": "Integrated visual campaign design",
+    "cat3s6": "Social media content design",
+    "cat4Title": "Marketing Campaigns & Social Media",
+    "cat4s1": "Integrated content strategy",
+    "cat4s2": "Creative and advertising copywriting",
+    "cat4s3": "Video content production in all formats",
+    "cat4s4": "Photo content production in all formats",
+    "cat4s5": "Creative campaign concept development",
+    "cat5Title": "Photography & Field Coverage",
+    "cat5s1": "Professional photography",
+    "cat5s2": "Field video shooting",
+    "cat5s3": "Event and conference coverage",
+    "cat5s4": "Exhibition and product launch coverage",
+    "cat5s5": "On-site photography team management",
+    "cat6Title": "3D Production",
+    "cat6s1": "3D product modeling and design",
+    "cat6s2": "3D motion",
+    "cat6s3": "Virtual world and experience design",
+    "cat6s4": "Digital exhibition design",
+    "cat7Title": "AI for Creativity",
+    "cat7s1": "AI-powered content production",
+    "cat7s2": "Content production process automation"
   },
   "CustomProject": {
     "hero": {
       "badge": "Custom Project",
-      "title": "We Turn Your Idea Into",
-      "titleHighlight": "Creative Reality",
+      "title": "Execute Your Project with Top Quality",
+      "titleHighlight": "and Record Speed",
       "subtitle": "A complete team that understands your vision and transforms it into a professional project from start to finish",
       "cta": "Start Your Project",
       "ctaSecondary": "How We Work?"

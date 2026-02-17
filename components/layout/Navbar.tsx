@@ -8,6 +8,7 @@ import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useCallback } from 'react';
 import { trackButtonClick } from '@/app/hooks/useAnalytics';
+import { useHomepageMode } from '@/contexts/HomepageModeContext';
 
 type NavTheme = 'dark' | 'light';
 
@@ -147,12 +148,15 @@ export default function Navbar() {
 
   const blurAmount = isScrolled ? 'blur(20px)' : 'none';
 
+  const { mode } = useHomepageMode();
+  const isCustom = mode === 'custom';
+
   // Navigation links — locale-aware paths
   const navLinks = [
     { href: `/${locale}/portfolio`, label: t('portfolio') },
-    { href: `/${locale}/pricing`, label: t('pricing') },
+    ...(!isCustom ? [{ href: `/${locale}/pricing`, label: t('pricing') }] : []),
     { href: `/${locale}/about`, label: t('about') },
-    { href: 'https://calendly.com/muhitsolution-info/30min', label: t('contact'), external: true },
+    { href: `/${locale}/contact`, label: t('contact') },
   ];
 
   // Close menu on link click

@@ -16,6 +16,7 @@ import HomepageContent from "@/components/HomepageContent";
 import Showreel from "@/components/sections/Showreel";
 import ValueStackSection from "@/components/sections/ValueStackSection";
 import BigStatement from "@/components/sections/BigStatement";
+import ServicesGridSection from "@/components/sections/custom/ServicesGridSection";
 import { fetchProjects, fetchSettings } from "@/lib/api";
 
 type Props = {
@@ -58,7 +59,7 @@ export default async function HomePage({ params }: Props) {
       <Showreel showreelDesktop={showreelDesktop} showreelMobile={showreelMobile} />
       <ValueStackSection />
       <BigStatement />
-      <LazySpecializationsSection minimal />
+      <ServicesGridSection />
       <LazyWorksGridSection projects={projects} locale={locale} />
       <LazyBookMeeting />
       <LazyCustomFAQSection />

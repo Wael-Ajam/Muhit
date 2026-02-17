@@ -44,9 +44,6 @@ export default function PricingSection() {
     { icon: Crown, text: t('ent3') },
     { icon: Shield, text: t('ent4') },
     { icon: Headphones, text: t('ent5') },
-    { icon: FileText, text: t('ent6') },
-    { icon: Lock, text: t('ent7') },
-    { icon: CalendarCheck, text: t('ent8') },
   ];
 
   return (
@@ -68,7 +65,7 @@ export default function PricingSection() {
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/20 to-transparent" />
       </div>
 
-      <div className="relative z-10 px-4 md:px-6 lg:px-24 max-w-7xl mx-auto">
+      <div className="relative z-10 px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
         
         {/* ═══════════ SECTION HEADER ═══════════ */}
         <div
@@ -216,6 +213,8 @@ export default function PricingSection() {
 
                 {/* ── RIGHT: Features ── */}
                 <div className={`lg:w-[55%] ${isRTL ? 'lg:pr-14' : 'lg:pl-14'}`}>
+                  {/* Includes label */}
+                  <h4 className="text-sm md:text-base font-bold text-white/60 mb-4">{t('includesLabel')}</h4>
                   {/* Features Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-8">
                     {mainFeatures.map((feature, index) => (

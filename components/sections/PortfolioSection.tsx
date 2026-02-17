@@ -61,7 +61,7 @@ export default function PortfolioSection({ projects: apiProjects = [], locale = 
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.6, delay: index * 0.1 }}
-        className="group relative rounded-2xl md:rounded-3xl overflow-hidden"
+        className="group relative rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer"
         style={{ height: 'clamp(650px, 85vh, 1150px)' }}
         data-cursor-text={t('explore')}
         onMouseEnter={handleMouseEnter}
@@ -161,16 +161,13 @@ export default function PortfolioSection({ projects: apiProjects = [], locale = 
             </div>
             
             {/* Project Title */}
-            <Link 
-              href={`/portfolio/${project.slug}`}
-              className="group/link block cursor-pointer"
-            >
+            <div className="group/link block">
               <h3 
                 className={`text-lg md:text-xl lg:text-2xl font-bold mb-2 transition-colors duration-300 ${isHovered ? 'text-orange-400' : 'text-white'}`}
               >
                 {project.title}
               </h3>
-            </Link>
+            </div>
             
             {/* Short Description */}
             <p className="text-white/60 text-xs md:text-sm leading-relaxed">
@@ -179,16 +176,22 @@ export default function PortfolioSection({ projects: apiProjects = [], locale = 
 
             {/* Arrow Button */}
             <div className="flex justify-end mt-3">
-              <Link 
-                href={`/portfolio/${project.slug}`}
+              <div 
                 className={`w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isHovered ? 'bg-orange-500 scale-110' : 'bg-white/10'}`}
               >
                 <ArrowUpLeft className="w-4 h-4 md:w-5 md:h-5 text-white transform rotate-90" />
-              </Link>
+              </div>
             </div>
             </div>
           </motion.div>
         </div>
+
+        {/* Overlay Link - Makes the whole card clickable */}
+        <Link 
+          href={`/portfolio/${project.slug}`} 
+          className="absolute inset-0 z-20"
+          aria-label={project.title}
+        />
 
 
       </motion.div>

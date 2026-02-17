@@ -195,8 +195,7 @@ function ProjectCard({
 
             {/* Bottom Row: View Project + Arrow */}
             <div className="flex items-center justify-between">
-              <Link 
-                href={`/portfolio/${project.slug}`}
+              <div 
                 className={`inline-flex items-center gap-2 text-sm font-medium transition-all duration-300 ${
                   isHovered ? 'text-orange-400' : 'text-white/60'
                 }`}
@@ -208,19 +207,25 @@ function ProjectCard({
                 >
                   →
                 </motion.span>
-              </Link>
-              <Link 
-                href={`/portfolio/${project.slug}`}
+              </div>
+              <div 
                 className={`w-10 h-10 md:w-11 md:h-11 rounded-full flex items-center justify-center transition-all duration-500 ${
                   isHovered ? 'bg-orange-500 shadow-lg shadow-orange-500/30 scale-110' : 'bg-white/10'
                 }`}
               >
                 <ArrowUpLeft className={`w-4 h-4 md:w-5 md:h-5 text-white transform ${isRTL ? '-rotate-90' : 'rotate-90'}`} />
-              </Link>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Overlay Link - Makes the whole card clickable */}
+      <Link 
+        href={`/portfolio/${project.slug}`} 
+        className="absolute inset-0 z-20"
+        aria-label={project.title}
+      />
     </motion.div>
   );
 }

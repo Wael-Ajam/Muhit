@@ -23,6 +23,7 @@ type Category = {
   gradient: string;
   accentColor: string;
   specs: string[];
+  extraCost?: boolean;
 };
 
 export default function SpecializationsSection({ minimal = false }: { minimal?: boolean }) {
@@ -92,6 +93,7 @@ export default function SpecializationsSection({ minimal = false }: { minimal?: 
       gradient: "from-amber-500 to-yellow-600",
       accentColor: "#F59E0B",
       specs: [t('add1Spec1'), t('add1Spec2'), t('add1Spec3')],
+      extraCost: true,
     },
     {
       icon: Mic,
@@ -99,6 +101,7 @@ export default function SpecializationsSection({ minimal = false }: { minimal?: 
       gradient: "from-red-500 to-pink-600",
       accentColor: "#EF4444",
       specs: [t('add2Spec1'), t('add2Spec2')],
+      extraCost: true,
     },
   ];
 
@@ -192,9 +195,25 @@ export default function SpecializationsSection({ minimal = false }: { minimal?: 
                   >
                     <category.icon className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 text-white" strokeWidth={1.5} />
                   </div>
-                  <h3 className={`text-base sm:text-lg md:text-xl lg:text-2xl ${minimal ? 'font-medium' : 'font-bold'} text-white leading-tight`}>
-                    {category.title}
-                  </h3>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <h3 className={`text-base sm:text-lg md:text-xl lg:text-2xl ${minimal ? 'font-medium' : 'font-bold'} text-white leading-tight`}>
+                      {category.title}
+                    </h3>
+                    {category.extraCost && (
+                      <span
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] md:text-xs font-semibold"
+                        style={{
+                          background: 'rgba(245, 158, 11, 0.12)',
+                          border: '1px solid rgba(245, 158, 11, 0.25)',
+                          color: '#FBBF24',
+                          boxShadow: '0 0 12px rgba(245, 158, 11, 0.1)',
+                        }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                        {t('additionalBadge')}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {/* Specs as pills */}

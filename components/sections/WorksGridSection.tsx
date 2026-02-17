@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { ArrowUpLeft } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
@@ -16,16 +16,8 @@ interface WorksGridSectionProps {
 export default function WorksGridSection({ projects: apiProjects = [], locale = 'ar' }: WorksGridSectionProps) {
   const t = useTranslations('Portfolio');
   const { isRTL } = useDirection();
-  const titleRef = useRef<HTMLDivElement>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: titleRef,
-    offset: ["start end", "end start"]
-  });
-
-  const titleScale = useTransform(scrollYProgress, [0, 0.4], [0.85, 1]);
-  const titleY = useTransform(scrollYProgress, [0, 0.5], [60, 0]);
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.3], [0.3, 1]);
+  // Map API projects to display format
 
   // Map API projects to display format
   const projects = apiProjects.map(p => ({
@@ -46,7 +38,7 @@ export default function WorksGridSection({ projects: apiProjects = [], locale = 
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.6, delay: index * 0.1 }}
-        className="group relative rounded-2xl md:rounded-3xl overflow-hidden"
+        className="group relative rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer"
         style={{ height: 'clamp(650px, 85vh, 1150px)' }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -118,32 +110,35 @@ export default function WorksGridSection({ projects: apiProjects = [], locale = 
               </div>
               
               {/* Project Title */}
-              <Link 
-                href={`/portfolio/${project.slug}`}
-                className="group/link block cursor-pointer"
-              >
+              <div className="group/link block">
                 <h3 
                   className={`text-lg md:text-xl lg:text-2xl font-bold mb-2 transition-colors duration-300 ${isHovered ? 'text-orange-400' : 'text-white'}`}
                 >
                   {project.title}
                 </h3>
-              </Link>
+              </div>
 
               {/* Short Description */}
               <p className="text-white/60 text-xs md:text-sm leading-relaxed">
                 {project.description}
               </p>
               <div className="flex justify-end mt-3">
-                <Link 
-                  href={`/portfolio/${project.slug}`}
+                <div 
                   className={`w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isHovered ? 'bg-orange-500 scale-110' : 'bg-white/10'}`}
                 >
                   <ArrowUpLeft className="w-4 h-4 md:w-5 md:h-5 text-white transform rotate-90" />
-                </Link>
+                </div>
               </div>
             </div>
           </motion.div>
         </div>
+
+        {/* Overlay Link - Makes the whole card clickable */}
+        <Link 
+          href={`/portfolio/${project.slug}`} 
+          className="absolute inset-0 z-20"
+          aria-label={project.title}
+        />
       </motion.div>
     );
   }
@@ -156,30 +151,24 @@ export default function WorksGridSection({ projects: apiProjects = [], locale = 
       <div className="relative z-10">
         {/* Stretched Title */}
         <motion.div
-          ref={titleRef}
-          style={{ scale: titleScale, y: titleY, opacity: titleOpacity }}
-          className="mb-10 md:mb-16 px-4 md:px-6 lg:px-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="mb-10 md:mb-16 px-4 md:px-6 lg:px-24 flex flex-col items-center"
+          dir={isRTL ? 'rtl' : 'ltr'}
         >
-          {/* Mobile */}
           <h2
-            className="md:hidden text-white font-bold text-center w-full"
+            className="text-white font-medium leading-tight text-center"
             style={{
-              fontSize: 'clamp(2.5rem, 11vw, 4rem)',
-              lineHeight: 1,
+              fontSize: 'clamp(2.5rem, 5vw, 5rem)',
             }}
           >
-            أعـــــــــــــمـــــــــــــالــــــــــــنـــــــــــــا
+            معرض أعمالنا
           </h2>
-          {/* Desktop */}
-          <h2
-            className="hidden md:block text-white font-bold text-center w-full"
-            style={{
-              fontSize: 'clamp(4rem, 12vw, 12rem)',
-              lineHeight: 1,
-            }}
-          >
-            أعـــــــــــــــمـــــــــــــــالــــــــــــــنـــــــــــــــا
-          </h2>
+          <p className="text-white/60 mt-4 text-center max-w-2xl text-base md:text-lg leading-relaxed">
+            {t('sectionDescription')}
+          </p>
         </motion.div>
 
         {/* Works Grid */}

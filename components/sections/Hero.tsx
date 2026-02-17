@@ -40,7 +40,7 @@ export default function Hero({ locale, profile }: HeroProps) {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   
   // Always use same heading — only colors and background change
-  const heading = profile?.heroHeading[locale as 'en' | 'ar'] || t('heading');
+  const heading = profile?.heroHeading[locale as 'en' | 'ar'] || (isCustom ? t('headingCustom') : t('heading'));
   const ctaText = t('cta');
 
   // Split heading for gradient effect
@@ -97,12 +97,12 @@ export default function Hero({ locale, profile }: HeroProps) {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5 }}
                 className="font-bold leading-[1.2] text-center"
-                style={{ fontSize: '9vw' }}
+                style={{ fontSize: 'clamp(2rem, 8vw, 3rem)' }}
               >
                 <span className="text-white block">
                   {firstPart}
                 </span>
-                <span className={`block mt-3 ${isCustom ? 'text-white' : 'text-orange-500'}`}>
+                <span className={`block mt-2 ${isCustom ? 'text-white' : 'text-orange-500'}`}>
                   {secondPart}
                 </span>
               </motion.h1>
@@ -118,27 +118,25 @@ export default function Hero({ locale, profile }: HeroProps) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="font-bold leading-tight"
+                className="font-bold leading-tight text-center"
                 style={{ fontSize: 'clamp(2.5rem, 5.5vw, 7rem)' }}
               >
-                {/* First line - right aligned */}
+                {/* First line */}
                 <motion.span
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.1 }}
-                  className="text-white block text-right pl-4 md:pl-12 lg:pl-32 xl:pl-48"
+                  className="text-white block"
                 >
                   {firstPart}
                 </motion.span>
 
-
-
-                {/* Second line - left aligned */}
+                {/* Second line */}
                 <motion.span
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.5 }}
-                  className={`block text-left pr-4 md:pr-12 lg:pr-32 xl:pr-48 ${isCustom ? 'text-white' : 'text-orange-500'}`}
+                  className={`block ${isCustom ? 'text-white' : 'text-orange-500'}`}
                 >
                   {secondPart}
                 </motion.span>
@@ -175,23 +173,7 @@ export default function Hero({ locale, profile }: HeroProps) {
         </motion.div>
       </div>
 
-      {/* Circle icon - bottom corner - only in custom mode */}
-      {isCustom && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="absolute z-10 bottom-8 right-6 md:bottom-12 md:right-auto md:left-12 lg:bottom-16 lg:left-20"
-        >
-          <motion.img
-            src="/logos/hero-circle-icon.svg"
-            alt=""
-            className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          />
-        </motion.div>
-      )}
+
     </section>
   );
 }

@@ -200,7 +200,7 @@ export default function Features({ showreelDesktop = '', showreelMobile = '' }: 
     >
 
       {/* ═══════════ SHOWREEL VIDEO ═══════════ */}
-      <div className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 mb-16 sm:mb-20 md:mb-28 lg:mb-32">
+      <div className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 mb-8 sm:mb-12 md:mb-16 lg:mb-20">
         <div
           ref={showreelRef}
           className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl"

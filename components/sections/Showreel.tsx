@@ -73,7 +73,7 @@ export default function Showreel({ showreelDesktop = '', showreelMobile = '' }: 
   }, []);
 
   return (
-    <div className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-8 relative z-10">
+    <div className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-16 md:py-24 relative z-10">
       <div
         ref={showreelRef}
         className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl"
@@ -168,22 +168,7 @@ export default function Showreel({ showreelDesktop = '', showreelMobile = '' }: 
         />
       </div>
 
-      {/* Rotating circle icon - opposite side from Hero */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.5 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="flex justify-end md:justify-start mt-6 md:mt-8 px-2"
-      >
-        <motion.img
-          src="/logos/hero-circle-icon.svg"
-          alt=""
-          className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        />
-      </motion.div>
+
     </div>
   );
 }
