@@ -315,6 +315,7 @@ export default function ProjectDetailClient({ project: apiProject, locale }: { p
               const item = group.items[0];
               const isHero = gi === 0;
               const isPortrait = effectiveLayout(item) === 'portrait';
+              const isPortraitVideo = isPortrait && item.type === 'video';
               elements.push(
                 <motion.div
                   key={`g-${gi}`}
@@ -326,8 +327,8 @@ export default function ProjectDetailClient({ project: apiProject, locale }: { p
                   <div
                     className="relative overflow-hidden rounded-2xl md:rounded-3xl"
                     style={{
-                      aspectRatio: isPortrait ? '3/4' : '16/9',
-                      maxHeight: isHero ? '85vh' : isPortrait ? '600px' : '75vh',
+                      aspectRatio: isPortraitVideo ? '9/16' : isPortrait ? '3/4' : '16/9',
+                      maxHeight: isHero ? '85vh' : isPortrait ? undefined : '75vh',
                       ...(isPortrait && !isHero ? { width: '100%', maxWidth: '500px' } : {}),
                     }}
                   >

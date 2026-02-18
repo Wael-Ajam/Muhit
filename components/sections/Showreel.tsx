@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { Play, Pause } from 'lucide-react';
 
-export default function Showreel({ showreelDesktop = '', showreelMobile = '' }: { showreelDesktop?: string; showreelMobile?: string }) {
+export default function Showreel({ showreelDesktop = '', showreelMobile = '', showreelDesktopPoster = '', showreelMobilePoster = '' }: { showreelDesktop?: string; showreelMobile?: string; showreelDesktopPoster?: string; showreelMobilePoster?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
   const showreelRef = useRef<HTMLDivElement>(null);
@@ -96,6 +96,7 @@ export default function Showreel({ showreelDesktop = '', showreelMobile = '' }: 
                 loop
                 playsInline
                 preload="auto"
+                poster={showreelDesktopPoster || undefined}
                 onError={(e) => {
                   (e.target as HTMLVideoElement).style.display = 'none';
                 }}
@@ -119,6 +120,7 @@ export default function Showreel({ showreelDesktop = '', showreelMobile = '' }: 
                 loop
                 playsInline
                 preload="auto"
+                poster={showreelMobilePoster || undefined}
                 onError={(e) => {
                   (e.target as HTMLVideoElement).style.display = 'none';
                 }}

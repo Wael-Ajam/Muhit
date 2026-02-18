@@ -91,7 +91,7 @@ function FeatureItem({
   );
 }
 
-export default function Features({ showreelDesktop = '', showreelMobile = '' }: { showreelDesktop?: string; showreelMobile?: string }) {
+export default function Features({ showreelDesktop = '', showreelMobile = '', showreelDesktopPoster = '', showreelMobilePoster = '' }: { showreelDesktop?: string; showreelMobile?: string; showreelDesktopPoster?: string; showreelMobilePoster?: string }) {
   const t = useTranslations('Features');
   const { direction, isRTL } = useDirection();
   const containerRef = useRef<HTMLElement>(null);
@@ -223,6 +223,7 @@ export default function Features({ showreelDesktop = '', showreelMobile = '' }: 
                 loop
                 playsInline
                 preload="metadata"
+                poster={showreelDesktopPoster || undefined}
                 onError={(e) => {
                   (e.target as HTMLVideoElement).style.display = 'none';
                 }}
@@ -246,6 +247,7 @@ export default function Features({ showreelDesktop = '', showreelMobile = '' }: 
                 loop
                 playsInline
                 preload="metadata"
+                poster={showreelMobilePoster || undefined}
                 onError={(e) => {
                   (e.target as HTMLVideoElement).style.display = 'none';
                 }}

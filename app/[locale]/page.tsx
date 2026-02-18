@@ -36,11 +36,13 @@ export default async function HomePage({ params }: Props) {
 
   const showreelDesktop = settings.showreelDesktop || '';
   const showreelMobile = settings.showreelMobile || '';
+  const showreelDesktopPoster = settings.showreelDesktopPoster || '';
+  const showreelMobilePoster = settings.showreelMobilePoster || '';
 
   const packageContent = (
     <>
       {/* المرحلة 2: الاهتمام — Interest */}
-      <Features showreelDesktop={showreelDesktop} showreelMobile={showreelMobile} />
+      <Features showreelDesktop={showreelDesktop} showreelMobile={showreelMobile} showreelDesktopPoster={showreelDesktopPoster} showreelMobilePoster={showreelMobilePoster} />
       <LazySpecializationsSection />
       
       {/* المرحلة 3: الرغبة — Desire (Social Proof) */}
@@ -57,7 +59,7 @@ export default async function HomePage({ params }: Props) {
 
   const customContent = (
     <>
-      <Showreel showreelDesktop={showreelDesktop} showreelMobile={showreelMobile} />
+      <Showreel showreelDesktop={showreelDesktop} showreelMobile={showreelMobile} showreelDesktopPoster={showreelDesktopPoster} showreelMobilePoster={showreelMobilePoster} />
       <ValueStackSection />
       <BigStatement />
       <ServicesGridSection />

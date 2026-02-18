@@ -1,12 +1,14 @@
 'use client';
 
 import DashboardLayout from '../components/DashboardLayout';
+import VideoThumbnailPicker from '../components/VideoThumbnailPicker';
 import { useAuth } from '../lib/auth';
 import { apiFetch, apiUpload } from '../lib/api';
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
-import { Globe, Save, Upload, X, Eye, Info, Image as ImageIcon, Film, Monitor, Smartphone } from 'lucide-react';
+import { Globe, Save, Upload, X, Eye, Info, Image as ImageIcon, Film, Monitor, Smartphone, Camera } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
 
 interface SeoSettings {
   siteTitle: string;
@@ -20,6 +22,8 @@ interface SeoSettings {
 interface ShowreelSettings {
   showreelDesktop: string;
   showreelMobile: string;
+  showreelDesktopPoster: string;
+  showreelMobilePoster: string;
 }
 
 export default function SettingsPage() {
@@ -36,7 +40,11 @@ export default function SettingsPage() {
   const [showreel, setShowreel] = useState<ShowreelSettings>({
     showreelDesktop: '',
     showreelMobile: '',
+    showreelDesktopPoster: '',
+    showreelMobilePoster: '',
   });
+  const [showDesktopPicker, setShowDesktopPicker] = useState(false);
+  const [showMobilePicker, setShowMobilePicker] = useState(false);
   const [savingSeo, setSavingSeo] = useState(false);
   const [loadingSeo, setLoadingSeo] = useState(true);
   const [ogImagePreview, setOgImagePreview] = useState<string>('');
@@ -66,6 +74,8 @@ export default function SettingsPage() {
       setShowreel({
         showreelDesktop: data.showreelDesktop || '',
         showreelMobile: data.showreelMobile || '',
+        showreelDesktopPoster: data.showreelDesktopPoster || '',
+        showreelMobilePoster: data.showreelMobilePoster || '',
       });
     } catch {
       toast.error('فشل تحميل الإعدادات');
@@ -630,6 +640,40 @@ export default function SettingsPage() {
                       style={{ width: '100%', maxHeight: 280, borderRadius: 8, background: '#000' }}
                       preload="metadata"
                     />
+                    {/* Poster preview */}
+                    {showreel.showreelDesktopPoster && (
+                      <div style={{ marginTop: 8, position: 'relative', borderRadius: 8, overflow: 'hidden' }}>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--admin-text-muted)', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <Camera size={12} /> الصورة المصغّرة الحالية:
+                        </div>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={showreel.showreelDesktopPoster} alt="Desktop poster" style={{ width: '100%', maxHeight: 160, objectFit: 'cover', borderRadius: 8, border: '1px solid var(--admin-border)' }} />
+                        <button
+                          onClick={() => setShowreel({ ...showreel, showreelDesktopPoster: '' })}
+                          style={{
+                            position: 'absolute', top: 24, right: 4,
+                            background: 'rgba(220,38,38,0.8)', color: '#fff', border: 'none',
+                            borderRadius: '50%', width: 22, height: 22, cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          }}
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    )}
+                    <button
+                      onClick={() => setShowDesktopPicker(true)}
+                      style={{
+                        marginTop: 8, width: '100%',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                        padding: '10px 16px', borderRadius: 8,
+                        background: 'linear-gradient(135deg, #f97316, #ea580c)',
+                        color: 'white', border: 'none', cursor: 'pointer',
+                        fontSize: '0.85rem', fontWeight: 600,
+                      }}
+                    >
+                      <Camera size={16} /> {showreel.showreelDesktopPoster ? 'تغيير الصورة المصغّرة' : 'اختيار صورة مصغّرة من الفيديو'}
+                    </button>
                     <div style={{ fontSize: '0.78rem', color: 'var(--admin-text-muted)', marginTop: 8, wordBreak: 'break-all' }}>
                       {showreel.showreelDesktop}
                     </div>
@@ -701,6 +745,40 @@ export default function SettingsPage() {
                       style={{ width: '100%', maxHeight: 280, borderRadius: 8, background: '#000' }}
                       preload="metadata"
                     />
+                    {/* Poster preview */}
+                    {showreel.showreelMobilePoster && (
+                      <div style={{ marginTop: 8, position: 'relative', borderRadius: 8, overflow: 'hidden' }}>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--admin-text-muted)', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <Camera size={12} /> الصورة المصغّرة الحالية:
+                        </div>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={showreel.showreelMobilePoster} alt="Mobile poster" style={{ width: '100%', maxHeight: 160, objectFit: 'cover', borderRadius: 8, border: '1px solid var(--admin-border)' }} />
+                        <button
+                          onClick={() => setShowreel({ ...showreel, showreelMobilePoster: '' })}
+                          style={{
+                            position: 'absolute', top: 24, right: 4,
+                            background: 'rgba(220,38,38,0.8)', color: '#fff', border: 'none',
+                            borderRadius: '50%', width: 22, height: 22, cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          }}
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    )}
+                    <button
+                      onClick={() => setShowMobilePicker(true)}
+                      style={{
+                        marginTop: 8, width: '100%',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                        padding: '10px 16px', borderRadius: 8,
+                        background: 'linear-gradient(135deg, #f97316, #ea580c)',
+                        color: 'white', border: 'none', cursor: 'pointer',
+                        fontSize: '0.85rem', fontWeight: 600,
+                      }}
+                    >
+                      <Camera size={16} /> {showreel.showreelMobilePoster ? 'تغيير الصورة المصغّرة' : 'اختيار صورة مصغّرة من الفيديو'}
+                    </button>
                     <div style={{ fontSize: '0.78rem', color: 'var(--admin-text-muted)', marginTop: 8, wordBreak: 'break-all' }}>
                       {showreel.showreelMobile}
                     </div>
@@ -767,6 +845,26 @@ export default function SettingsPage() {
             </button>
           </motion.div>
         )}
+
+        {/* Thumbnail Picker Modals */}
+        <AnimatePresence>
+          {showDesktopPicker && showreel.showreelDesktop && (
+            <VideoThumbnailPicker
+              videoSrc={showreel.showreelDesktop}
+              projectSlug="showreel"
+              onThumbnailCaptured={(url) => setShowreel({ ...showreel, showreelDesktopPoster: url })}
+              onClose={() => setShowDesktopPicker(false)}
+            />
+          )}
+          {showMobilePicker && showreel.showreelMobile && (
+            <VideoThumbnailPicker
+              videoSrc={showreel.showreelMobile}
+              projectSlug="showreel"
+              onThumbnailCaptured={(url) => setShowreel({ ...showreel, showreelMobilePoster: url })}
+              onClose={() => setShowMobilePicker(false)}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </DashboardLayout>
   );

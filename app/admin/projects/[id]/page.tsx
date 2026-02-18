@@ -98,6 +98,7 @@ export default function ProjectEditorPage({ params }: { params: Promise<{ id: st
   const [uploadingCover, setUploadingCover] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const [showThumbnailPicker, setShowThumbnailPicker] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const coverImageInputRef = useRef<HTMLInputElement>(null);
   const coverVideoInputRef = useRef<HTMLInputElement>(null);
@@ -114,10 +115,11 @@ export default function ProjectEditorPage({ params }: { params: Promise<{ id: st
   // Load project data
   useEffect(() => {
     if (isNew || !token) return;
-    apiFetch<ProjectData>(`/projects/${id}`, { token })
+    apiFetch<ProjectData & { categories?: { categorySlug: string }[] }>(`/projects/${id}`, { token })
       .then((data) => {
         setProject(data);
         setTagsInput(data.tags?.map((t) => t.tagKey).join(', ') || '');
+        setSelectedCategories(data.categories?.map((c) => c.categorySlug) || (data.category ? [data.category] : []));
       })
       .catch(() => toast.error('فشل تحميل المشروع'))
       .finally(() => setLoading(false));
@@ -174,7 +176,7 @@ export default function ProjectEditorPage({ params }: { params: Promise<{ id: st
 
     const body = {
       slug: project.slug,
-      category: project.category,
+      category: selectedCategories[0] || project.category,
       coverImage: project.coverImage,
       coverVideo: project.coverVideo || null,
       isVideo: project.isVideo,
@@ -193,6 +195,7 @@ export default function ProjectEditorPage({ params }: { params: Promise<{ id: st
       storyP3Ar: project.storyP3Ar,
       storyP3En: project.storyP3En,
       tags,
+      categories: selectedCategories,
     };
 
     try {
@@ -631,13 +634,50 @@ export default function ProjectEditorPage({ params }: { params: Promise<{ id: st
               <input className="admin-input" value={project.slug} onChange={(e) => handleChange('slug', e.target.value)} dir="ltr" placeholder="my-project-slug" />
             </div>
             <div className="admin-field">
-              <label className="admin-label">التصنيف</label>
-              <select className="admin-input admin-select" value={project.category} onChange={(e) => handleChange('category', e.target.value)}>
-                <option value="">اختر تصنيف...</option>
-                {categoryOptions.map((cat) => (
-                  <option key={cat.slug} value={cat.slug}>{cat.nameAr}</option>
-                ))}
-              </select>
+              <label className="admin-label">التصنيفات</label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {categoryOptions.map((cat) => {
+                  const isSelected = selectedCategories.includes(cat.slug);
+                  return (
+                    <label
+                      key={cat.slug}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        padding: '6px 14px',
+                        borderRadius: 8,
+                        border: `1.5px solid ${isSelected ? 'var(--admin-accent)' : 'var(--admin-border)'}`,
+                        background: isSelected ? 'var(--admin-accent-light)' : 'transparent',
+                        cursor: 'pointer',
+                        fontSize: '0.85rem',
+                        fontWeight: isSelected ? 600 : 400,
+                        color: isSelected ? 'var(--admin-accent)' : 'var(--admin-text-secondary)',
+                        transition: 'all 0.15s ease',
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => {
+                          setSelectedCategories(prev =>
+                            isSelected
+                              ? prev.filter(s => s !== cat.slug)
+                              : [...prev, cat.slug]
+                          );
+                        }}
+                        style={{ accentColor: 'var(--admin-accent)', width: 14, height: 14 }}
+                      />
+                      {cat.nameAr}
+                    </label>
+                  );
+                })}
+              </div>
+              {selectedCategories.length === 0 && (
+                <div style={{ fontSize: '0.78rem', color: 'var(--admin-danger)', marginTop: 4 }}>
+                  يرجى اختيار تصنيف واحد على الأقل
+                </div>
+              )}
             </div>
             <div className="admin-field">
               <label className="admin-label">رابط الموقع</label>
