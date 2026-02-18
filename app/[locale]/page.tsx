@@ -1,4 +1,5 @@
 import Hero from "@/components/sections/Hero";
+import LogoSlider from "@/components/sections/LogoSlider";
 import Features from "@/components/sections/Features";
 import PortfolioSection from "@/components/sections/PortfolioSection";
 import Footer from "@/components/layout/Footer";
@@ -71,6 +72,7 @@ export default async function HomePage({ params }: Props) {
       {/* المرحلة 1: الجذب — Hero always visible with mode switch */}
       <div className="relative z-10">
         <Hero locale={locale} />
+        <LogoSlider />
       </div>
 
       {/* Conditional content based on mode */}

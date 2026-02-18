@@ -157,6 +157,23 @@ async function main() {
     },
   ];
 
+  // Seed default categories (MUST be before projects for FK constraint)
+  const defaultCategories = [
+    { slug: 'design', nameAr: 'تصميم', nameEn: 'Design', sortOrder: 0 },
+    { slug: 'motion', nameAr: 'موشن', nameEn: 'Motion', sortOrder: 1 },
+    { slug: 'development', nameAr: 'تطوير', nameEn: 'Development', sortOrder: 2 },
+    { slug: 'marketing', nameAr: 'تسويق', nameEn: 'Marketing', sortOrder: 3 },
+  ];
+
+  for (const cat of defaultCategories) {
+    await prisma.category.upsert({
+      where: { slug: cat.slug },
+      update: {},
+      create: cat,
+    });
+  }
+  console.log('✅ Default categories seeded');
+
   for (const data of projectsData) {
     const { tags, gallery, ...projectData } = data;
     
@@ -176,26 +193,13 @@ async function main() {
             sortOrder: index,
           })),
         },
+        categories: {
+          create: [{ categorySlug: projectData.category }],
+        },
       },
     });
     console.log(`✅ Project seeded: ${project.titleEn}`);
   }
-  // Seed default categories
-  const defaultCategories = [
-    { slug: 'design', nameAr: 'تصميم', nameEn: 'Design', sortOrder: 0 },
-    { slug: 'motion', nameAr: 'موشن', nameEn: 'Motion', sortOrder: 1 },
-    { slug: 'development', nameAr: 'تطوير', nameEn: 'Development', sortOrder: 2 },
-    { slug: 'marketing', nameAr: 'تسويق', nameEn: 'Marketing', sortOrder: 3 },
-  ];
-
-  for (const cat of defaultCategories) {
-    await prisma.category.upsert({
-      where: { slug: cat.slug },
-      update: {},
-      create: cat,
-    });
-  }
-  console.log('✅ Default categories seeded');
 
   // Seed default SEO settings
   const seoDefaults = [

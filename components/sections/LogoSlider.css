@@ -1,0 +1,102 @@
+.logo-slider {
+  overflow: hidden;
+  padding: 40px 0;
+  position: relative;
+  direction: ltr;
+}
+
+
+
+.logo-slider-track {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  width: max-content;
+  animation: logoScroll 50s linear infinite;
+}
+
+.logo-slider-track:hover {
+  animation-play-state: paused;
+}
+
+/* Fallback percentage-based animation */
+@keyframes logoScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.3333%);
+  }
+}
+
+/* Pixel-perfect JS-measured animation */
+@keyframes logoSlide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(var(--slide-distance));
+  }
+}
+
+.logo-slider-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+  min-width: 140px;
+  position: relative;
+  cursor: pointer;
+}
+
+.logo-slider-item .logo-silver {
+  height: 100%;
+  width: auto;
+  max-width: 240px;
+  object-fit: contain;
+  opacity: 0.5;
+  transition: opacity 0.4s ease;
+}
+
+.logo-slider-item .logo-colored {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: auto;
+  max-width: 240px;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  margin: auto;
+}
+
+.logo-slider-item:hover .logo-silver {
+  opacity: 0;
+}
+
+.logo-slider-item:hover .logo-colored {
+  opacity: 1;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .logo-slider-track {
+    gap: 32px;
+  }
+
+  .logo-slider-item {
+    height: 60px;
+    min-width: 100px;
+  }
+
+  .logo-slider-item .logo-silver,
+  .logo-slider-item .logo-colored {
+    max-width: 160px;
+  }
+
+  .logo-slider::before,
+  .logo-slider::after {
+    width: 60px;
+  }
+}

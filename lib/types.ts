@@ -27,6 +27,7 @@ export interface ApiProject {
   // Relations
   tags: ApiProjectTag[];
   gallery: ApiGalleryItem[];
+  categories: ApiProjectCategory[];
 
   createdAt: string;
   updatedAt: string;
@@ -35,6 +36,11 @@ export interface ApiProject {
 export interface ApiProjectTag {
   id: number;
   tagKey: string;
+}
+
+export interface ApiProjectCategory {
+  id: number;
+  categorySlug: string;
 }
 
 export interface ApiGalleryItem {

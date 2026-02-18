@@ -70,8 +70,12 @@ export default function CustomHero() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <a
-            href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer"
-            onClick={() => trackButtonClick('custom-hero-cta', '/', 'ابدأ مشروعك - هيرو المشاريع')}
+            href="#showreel"
+            onClick={(e) => {
+              e.preventDefault();
+              window.__lenis?.scrollTo('#showreel', { duration: 1.2 });
+              trackButtonClick('custom-hero-cta', '/', 'شاهد أعمالنا - هيرو المشاريع');
+            }}
             className="px-8 py-4 rounded-2xl text-white font-semibold text-lg transition-all duration-300 hover:scale-105"
             style={{
               background: 'linear-gradient(135deg, #F97316 0%, #f59e0b 100%)',

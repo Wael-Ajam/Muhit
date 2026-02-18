@@ -73,7 +73,7 @@ export default function Showreel({ showreelDesktop = '', showreelMobile = '' }: 
   }, []);
 
   return (
-    <div className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-16 md:py-24 relative z-10">
+    <div id="showreel" className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 py-16 md:py-24 relative z-10">
       <div
         ref={showreelRef}
         className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl"

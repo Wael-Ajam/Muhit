@@ -200,7 +200,7 @@ export default function Features({ showreelDesktop = '', showreelMobile = '' }: 
     >
 
       {/* ═══════════ SHOWREEL VIDEO ═══════════ */}
-      <div className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 mb-8 sm:mb-12 md:mb-16 lg:mb-20">
+      <div id="showreel" className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 mb-8 sm:mb-12 md:mb-16 lg:mb-20">
         <div
           ref={showreelRef}
           className="relative w-full overflow-hidden rounded-2xl md:rounded-3xl"
@@ -313,7 +313,7 @@ export default function Features({ showreelDesktop = '', showreelMobile = '' }: 
                 <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-orange-400 animate-pulse" />
                 {t('badge')}
               </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1]">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.3]">
                 <span className="text-slate-800">{t('title')} </span>
                 <br />
                 <span className="text-orange-500">

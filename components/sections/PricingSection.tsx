@@ -1,6 +1,8 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { useEffect } from 'react';
+import { Link } from '@/i18n/navigation';
+
 import { 
   Sparkles, 
   Infinity as InfinityIcon, 
@@ -8,26 +10,63 @@ import {
   UserCheck, 
   Lightbulb,
   Building2,
-  MessageSquare,
   Check,
-  ArrowLeft,
-  ArrowRight,
   Zap,
   Crown,
   Shield,
   Users,
   Headphones,
-  FileText,
   Lock,
-  CalendarCheck,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useDirection } from '@/hooks/useDirection';
-import { trackButtonClick } from '@/app/hooks/useAnalytics';
 
 export default function PricingSection() {
   const t = useTranslations('Pricing');
   const { direction, isRTL, textAlign } = useDirection();
+
+  // Load Calendly widget script and initialize
+  useEffect(() => {
+    const CALENDLY_URL = 'https://calendly.com/muhitsolution-info/30min?hide_gdpr_banner=1&primary_color=ed5d0e';
+
+    // Add preconnect hints for faster loading
+    const domains = ['https://calendly.com', 'https://assets.calendly.com'];
+    domains.forEach(domain => {
+      if (!document.querySelector(`link[href="${domain}"]`)) {
+        const link = document.createElement('link');
+        link.rel = 'preconnect';
+        link.href = domain;
+        link.crossOrigin = 'anonymous';
+        document.head.appendChild(link);
+      }
+    });
+
+    const initWidget = () => {
+      // @ts-expect-error Calendly is loaded globally
+      if (window.Calendly) {
+        const container = document.querySelector('.calendly-inline-widget');
+        if (container) {
+          // @ts-expect-error Calendly is loaded globally
+          window.Calendly.initInlineWidget({
+            url: CALENDLY_URL,
+            parentElement: container,
+          });
+        }
+      }
+    };
+
+    const existing = document.querySelector('script[src*="calendly.com"]');
+    if (existing) {
+      initWidget();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://assets.calendly.com/assets/external/widget.js';
+    script.async = true;
+    script.onload = () => initWidget();
+    document.head.appendChild(script);
+  }, []);
 
   const mainFeatures = [
     { icon: InfinityIcon, text: t('feature1') },
@@ -119,14 +158,39 @@ export default function PricingSection() {
             <div className="relative z-10 p-8 md:p-14 lg:p-16" style={{ direction }}>
               {/* Two Column Layout */}
               <div className="flex flex-col lg:flex-row gap-12 lg:gap-0">
-                
-                {/* ── LEFT: Price & CTA ── */}
+                {/* ── LEFT: Calendly Widget ── */}
                 <div className={`lg:w-[45%] flex flex-col ${isRTL ? 'lg:pl-14 lg:border-l' : 'lg:pr-14 lg:border-r'} lg:border-white/[0.06]`}>
+                  {/* Calendly Inline Widget */}
+                  <div
+                    className="calendly-inline-widget"
+                    data-url="https://calendly.com/muhitsolution-info/30min?hide_gdpr_banner=1&primary_color=ed5d0e"
+                    style={{ minWidth: '100%', height: 700, borderRadius: 12, overflow: 'hidden' }}
+                  />
+
+                  {/* Contact Alternative Card */}
+                  <div
+                    className="mt-6 rounded-2xl p-5 text-center"
+                    style={{
+                      background: 'linear-gradient(135deg, #F97316 0%, #ea580c 100%)',
+                    }}
+                  >
+                    <p className="text-white/90 text-sm md:text-base font-medium mb-3">
+                      {isRTL ? 'يسعدنا التواصل معك عبر البريد الإلكتروني أيضاً' : 'We\'d be happy to connect via email as well'}
+                    </p>
+                    <Link
+                      href="/contact"
+                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-white text-orange-600 font-bold text-sm hover:bg-white/90 transition-all duration-300 hover:scale-105"
+                    >
+                      {isRTL ? 'تواصل معنا' : 'Contact Us'}
+                    </Link>
+                  </div>
+                </div>
+
+                {/* ── RIGHT: Plan Info + Features ── */}
+                <div className={`lg:w-[55%] ${isRTL ? 'lg:pr-14' : 'lg:pl-14'}`}>
                   
                   {/* Badge */}
-                  <div
-                    className="mb-8"
-                  >
+                  <div className="mb-6">
                     <span 
                       className="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-xs md:text-sm font-semibold overflow-hidden"
                       style={{ background: '#F97316' }}
@@ -156,17 +220,15 @@ export default function PricingSection() {
                   </h3>
 
                   {/* Capacity line */}
-                  <p className={`text-white/40 text-sm md:text-base mb-8 md:mb-10 ${textAlign}`}>
+                  <p className={`text-white/40 text-sm md:text-base mb-6 ${textAlign}`}>
                     {t('capacity')} <span className="text-orange-400 font-bold">{t('capacityHighlight')}</span> {t('capacityEnd')}
                   </p>
 
-                  {/* Price — dramatic reveal */}
-                  <div 
-                    className={`mb-8 md:mb-10 ${isRTL ? 'text-right' : 'text-left'}`}
-                  >
+                  {/* Price */}
+                  <div className={`mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>
                     <span className={`text-sm md:text-base text-white/40 font-medium mb-2 block ${textAlign}`}>{t('startsFrom')}</span>
                     <div className="flex items-baseline gap-2 flex-wrap">
-                      <span className="text-6xl md:text-7xl lg:text-8xl font-black bg-gradient-to-b from-white via-white to-white/50 bg-clip-text text-transparent tracking-tight">
+                      <span className="text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-b from-white via-white to-white/50 bg-clip-text text-transparent tracking-tight">
                         {t('price')}
                       </span>
                       <div className="flex flex-col">
@@ -174,45 +236,12 @@ export default function PricingSection() {
                         <span className="text-sm text-white/30">{t('perMonth')}</span>
                       </div>
                     </div>
-                    {/* Underline accent */}
                     <div className="mt-3 h-[2px] w-24 bg-gradient-to-r from-orange-500 to-transparent rounded-full" />
                   </div>
 
-                  {/* CTA Button */}
-                  <motion.a
-                    href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer"
-                    onClick={() => trackButtonClick('pricing-section-cta', '/', 'تواصل معنا - سكشن الباقات')}
-                    className={`group relative inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 rounded-xl text-white font-bold text-base md:text-lg overflow-hidden transition-all duration-300 w-full justify-center`}
-                    style={{
-                      background: '#F97316',
-                      boxShadow: '0 15px 50px rgba(249, 115, 22, 0.3)',
-                    }}
-                    whileHover={{ 
-                      scale: 1.02, 
-                      boxShadow: '0 20px 60px rgba(249, 115, 22, 0.45)',
-                    }}
-                    whileTap={{ scale: 0.98 }}
-                    data-cursor-text="GO"
-                  >
-                    {/* Hover shine effect */}
-                    <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                    <MessageSquare className="w-5 h-5 relative z-10" />
-                    <span className="relative z-10">{t('cta')}</span>
-                    {isRTL ? (
-                      <ArrowLeft className="w-5 h-5 relative z-10 group-hover:-translate-x-1 transition-transform" />
-                    ) : (
-                      <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
-                    )}
-                  </motion.a>
+                  {/* Divider */}
+                  <div className="h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent mb-6" />
 
-                  {/* Trial text */}
-                  <p className={`text-white/25 text-xs md:text-sm mt-5 ${textAlign}`}>
-                    {t('trial')}
-                  </p>
-                </div>
-
-                {/* ── RIGHT: Features ── */}
-                <div className={`lg:w-[55%] ${isRTL ? 'lg:pr-14' : 'lg:pl-14'}`}>
                   {/* Includes label */}
                   <h4 className="text-sm md:text-base font-bold text-white/60 mb-4">{t('includesLabel')}</h4>
                   {/* Features Grid */}

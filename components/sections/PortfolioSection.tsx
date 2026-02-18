@@ -62,7 +62,7 @@ export default function PortfolioSection({ projects: apiProjects = [], locale = 
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.6, delay: index * 0.1 }}
         className="group relative rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer"
-        style={{ height: 'clamp(650px, 85vh, 1150px)' }}
+        style={{ height: 'clamp(400px, 70vh, 1150px)' }}
         data-cursor-text={t('explore')}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

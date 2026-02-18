@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { ArrowUpRight } from 'lucide-react';
-import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import ModeSwitch from '@/components/ui/ModeSwitch';
 import { useHomepageMode } from '@/contexts/HomepageModeContext';
@@ -152,7 +151,10 @@ export default function Hero({ locale, profile }: HeroProps) {
             transition={{ duration: 0.6, delay: 1.3 }}
             className="flex items-center justify-center"
           >
-            <Link href="#pricing">
+            <div
+              onClick={() => window.__lenis?.scrollTo('#showreel', { duration: 1.2 })}
+              style={{ cursor: 'pointer' }}
+            >
               <motion.div
                 className="inline-flex items-center gap-4 group cursor-pointer"
                 whileHover={{ x: -10 }}
@@ -168,7 +170,7 @@ export default function Hero({ locale, profile }: HeroProps) {
                   <ArrowUpRight className="w-6 h-6 md:w-7 md:h-7 text-white" />
                 </motion.div>
               </motion.div>
-            </Link>
+            </div>
           </motion.div>
         </motion.div>
       </div>

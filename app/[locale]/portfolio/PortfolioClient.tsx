@@ -34,7 +34,7 @@ function ProjectCard({
     id: number;
     title: string;
     slug: string;
-    category: string;
+    categories: string[];
     tags: string[];
     image: string;
     video: string | null;
@@ -70,7 +70,7 @@ function ProjectCard({
       exit={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.5, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="group relative rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer"
-      style={{ height: 'clamp(650px, 85vh, 1150px)' }}
+      style={{ height: 'clamp(400px, 70vh, 1150px)' }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -129,7 +129,7 @@ function ProjectCard({
           transition={{ delay: index * 0.1 + 0.3 }}
           className="px-4 py-1.5 text-[11px] font-semibold tracking-wider uppercase rounded-full bg-white/10 backdrop-blur-xl text-white/80 border border-white/15"
         >
-          {t(`filter${project.category.charAt(0).toUpperCase() + project.category.slice(1)}`)}
+          {t(`filter${(project.categories[0] || 'design').charAt(0).toUpperCase() + (project.categories[0] || 'design').slice(1)}`)}
         </motion.span>
       </div>
 
@@ -263,7 +263,7 @@ export default function PortfolioClient({ projects: apiProjects, locale }: { pro
     id: p.id,
     title: localize(p, 'title', locale),
     slug: p.slug,
-    category: p.category,
+    categories: p.categories.map(c => c.categorySlug),
     tags: p.tags.map(tag => t(tag.tagKey)),
     image: p.coverImage,
     video: p.coverVideo,
@@ -274,7 +274,7 @@ export default function PortfolioClient({ projects: apiProjects, locale }: { pro
   // Filter projects
   const filteredProjects = activeFilter === 'all' 
     ? projects 
-    : projects.filter(p => p.category === activeFilter);
+    : projects.filter(p => p.categories.includes(activeFilter));
 
   return (
     <>

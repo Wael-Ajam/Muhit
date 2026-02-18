@@ -24,12 +24,13 @@ export class ProjectsService {
       select: { id: true, type: true, src: true, layout: true, sortOrder: true },
       orderBy: { sortOrder: 'asc' as const },
     },
+    categories: { select: { id: true, categorySlug: true } },
   };
 
   // ───── Find All ─────
   async findAll(category?: string, published?: boolean) {
     const where: Prisma.ProjectWhereInput = {};
-    if (category) where.category = category;
+    if (category) where.categories = { some: { categorySlug: category } };
     if (published !== undefined) where.isPublished = published;
 
     return this.prisma.project.findMany({
@@ -77,7 +78,7 @@ export class ProjectsService {
       throw new ConflictException(`الـ slug "${dto.slug}" مستخدم مسبقاً`);
     }
 
-    const { tags, ...projectData } = dto;
+    const { tags, categories, ...projectData } = dto;
 
     return this.prisma.project.create({
       data: {
@@ -95,6 +96,9 @@ export class ProjectsService {
         tags: tags?.length
           ? { create: tags.map((tagKey) => ({ tagKey })) }
           : undefined,
+        categories: categories?.length
+          ? { create: categories.map((slug) => ({ categorySlug: slug })) }
+          : undefined,
       },
       include: this.includeRelations,
     });
@@ -104,11 +108,16 @@ export class ProjectsService {
   async update(id: number, dto: UpdateProjectDto) {
     await this.findOne(id); // throws if not found
 
-    const { tags, ...projectData } = dto as CreateProjectDto;
+    const { tags, categories, ...projectData } = dto as CreateProjectDto;
 
     // If tags are provided, replace them all
     if (tags !== undefined) {
       await this.prisma.projectTag.deleteMany({ where: { projectId: id } });
+    }
+
+    // If categories are provided, replace them all
+    if (categories !== undefined) {
+      await this.prisma.projectCategory.deleteMany({ where: { projectId: id } });
     }
 
     return this.prisma.project.update({
@@ -118,6 +127,10 @@ export class ProjectsService {
         tags:
           tags !== undefined
             ? { create: tags.map((tagKey: string) => ({ tagKey })) }
+            : undefined,
+        categories:
+          categories !== undefined
+            ? { create: categories.map((slug: string) => ({ categorySlug: slug })) }
             : undefined,
       },
       include: this.includeRelations,
@@ -210,6 +223,7 @@ export class ProjectsService {
           select: { type: true, src: true, layout: true, sortOrder: true, width: true, height: true, aspectRatio: true },
           orderBy: { sortOrder: 'asc' },
         },
+        categories: { select: { categorySlug: true } },
       },
       orderBy: { sortOrder: 'asc' },
     });
@@ -221,6 +235,7 @@ export class ProjectsService {
         id: p.id,
         slug: p.slug,
         category: p.category,
+        categories: p.categories.map((c) => c.categorySlug),
         image: p.coverImage,
         video: p.coverVideo,
         isVideo: p.isVideo,

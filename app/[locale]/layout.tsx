@@ -94,6 +94,12 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+      <head>
+        <link rel="preconnect" href="https://calendly.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://assets.calendly.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://calendly.com" />
+        <link rel="dns-prefetch" href="https://assets.calendly.com" />
+      </head>
       <body
         className={`${ibmPlexArabic.className} ${ibmPlexArabic.variable} ${geistSans.variable} ${geistMono.variable} antialiased bg-bg-base text-text-primary min-h-screen relative overflow-x-hidden`}
       >

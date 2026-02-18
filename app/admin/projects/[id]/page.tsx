@@ -2,6 +2,7 @@
 
 import DashboardLayout from '../../components/DashboardLayout';
 import MediaUploader from '../../components/MediaUploader';
+import VideoThumbnailPicker from '../../components/VideoThumbnailPicker';
 import { useAuth } from '../../lib/auth';
 import { useNotifications } from '../../lib/notifications';
 import { apiFetch, apiUpload } from '../../lib/api';
@@ -96,6 +97,7 @@ export default function ProjectEditorPage({ params }: { params: Promise<{ id: st
   const [dragOverItemId, setDragOverItemId] = useState<number | null>(null);
   const [uploadingCover, setUploadingCover] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [showThumbnailPicker, setShowThumbnailPicker] = useState(false);
 
   const coverImageInputRef = useRef<HTMLInputElement>(null);
   const coverVideoInputRef = useRef<HTMLInputElement>(null);
@@ -505,6 +507,31 @@ export default function ProjectEditorPage({ params }: { params: Promise<{ id: st
                       <X size={14} />
                     </button>
                   </div>
+                  {/* Thumbnail Capture Button */}
+                  <button
+                    className="admin-btn admin-btn-sm"
+                    onClick={() => setShowThumbnailPicker(true)}
+                    style={{
+                      position: 'absolute',
+                      bottom: 8,
+                      left: 8,
+                      background: 'linear-gradient(135deg, rgba(249,115,22,0.9), rgba(234,88,12,0.9))',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: 8,
+                      padding: '6px 12px',
+                      fontSize: '0.78rem',
+                      fontWeight: 600,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 5,
+                      backdropFilter: 'blur(4px)',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    📸 صورة مصغّرة
+                  </button>
                 </div>
               ) : (
                 <motion.div
@@ -787,6 +814,20 @@ export default function ProjectEditorPage({ params }: { params: Promise<{ id: st
           </div>
         )}
       </motion.div>
+
+      {/* Video Thumbnail Picker Modal */}
+      <AnimatePresence>
+        {showThumbnailPicker && project.coverVideo && (
+          <VideoThumbnailPicker
+            videoSrc={project.coverVideo}
+            projectSlug={project.slug || 'temp'}
+            onThumbnailCaptured={(url) => {
+              setProject((prev) => ({ ...prev, coverImage: url }));
+            }}
+            onClose={() => setShowThumbnailPicker(false)}
+          />
+        )}
+      </AnimatePresence>
     </DashboardLayout>
   );
 }

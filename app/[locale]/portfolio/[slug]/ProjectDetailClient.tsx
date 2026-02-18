@@ -32,7 +32,10 @@ export default function ProjectDetailClient({ project: apiProject, locale }: { p
 
   const title = localize(apiProject, 'title', locale);
   const description = localize(apiProject, 'desc', locale);
-  const categoryLabel = t(`filter${apiProject.category.charAt(0).toUpperCase() + apiProject.category.slice(1)}`);
+  const categoryLabels = apiProject.categories.map(c => {
+    const slug = c.categorySlug;
+    return t(`filter${slug.charAt(0).toUpperCase() + slug.slice(1)}`);
+  });
   const tags = apiProject.tags.map(tag => t(tag.tagKey));
   const project = {
     ...apiProject,
@@ -169,23 +172,26 @@ export default function ProjectDetailClient({ project: apiProject, locale }: { p
             {description}
           </motion.p>
 
-          {/* Category + Tags */}
+          {/* Categories + Tags */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
             className="flex flex-wrap items-center gap-3 mb-12 md:mb-16"
           >
-            <span
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-orange-300"
-              style={{
-                background: 'rgba(249, 115, 22, 0.12)',
-                border: '1px solid rgba(249, 115, 22, 0.2)',
-              }}
-            >
-              <span className="w-2 h-2 rounded-full bg-orange-400" />
-              {categoryLabel}
-            </span>
+            {categoryLabels.map((label, i) => (
+              <span
+                key={i}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-orange-300"
+                style={{
+                  background: 'rgba(249, 115, 22, 0.12)',
+                  border: '1px solid rgba(249, 115, 22, 0.2)',
+                }}
+              >
+                <span className="w-2 h-2 rounded-full bg-orange-400" />
+                {label}
+              </span>
+            ))}
             {tags.map((tag, i) => (
               <span
                 key={i}
@@ -308,17 +314,22 @@ export default function ProjectDetailClient({ project: apiProject, locale }: { p
             if (group.type === 'full') {
               const item = group.items[0];
               const isHero = gi === 0;
+              const isPortrait = effectiveLayout(item) === 'portrait';
               elements.push(
                 <motion.div
                   key={`g-${gi}`}
                   initial={{ opacity: 0, y: isHero ? 60 : 50 }}
                   {...(isHero ? { animate: { opacity: 1, y: 0 } } : { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-100px' } })}
                   transition={{ delay: isHero ? 0.5 : 0, duration: isHero ? 0.8 : 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-                  className="relative w-full px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24"
+                  className={`relative w-full px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 ${isPortrait && !isHero ? 'flex justify-center' : ''}`}
                 >
                   <div
                     className="relative overflow-hidden rounded-2xl md:rounded-3xl"
-                    style={{ aspectRatio: effectiveLayout(item) === 'portrait' ? '3/4' : '16/9' }}
+                    style={{
+                      aspectRatio: isPortrait ? '3/4' : '16/9',
+                      maxHeight: isHero ? '85vh' : isPortrait ? '600px' : '75vh',
+                      ...(isPortrait && !isHero ? { width: '100%', maxWidth: '500px' } : {}),
+                    }}
                   >
                     {renderMedia(item.src, item.type, `${title} - ${gi + 1}`, isHero)}
                   </div>
@@ -327,7 +338,7 @@ export default function ProjectDetailClient({ project: apiProject, locale }: { p
             } else if (group.type === 'pair') {
               elements.push(
                 <div key={`g-${gi}`} className="w-full px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                  <div className="grid grid-cols-2 gap-3 md:gap-6">
                     {group.items.map((item, ii) => (
                       <motion.div
                         key={ii}
@@ -336,7 +347,13 @@ export default function ProjectDetailClient({ project: apiProject, locale }: { p
                         viewport={{ once: true, margin: '-100px' }}
                         transition={{ duration: 0.7, delay: ii * 0.15 }}
                       >
-                        <div className="relative overflow-hidden rounded-2xl md:rounded-3xl" style={{ aspectRatio: effectiveLayout(item) === 'portrait' ? '3/4' : '4/5' }}>
+                        <div
+                          className="relative overflow-hidden rounded-xl md:rounded-3xl"
+                          style={{
+                            aspectRatio: effectiveLayout(item) === 'portrait' ? '3/4' : '4/5',
+                            maxHeight: '60vh',
+                          }}
+                        >
                           {renderMedia(item.src, item.type, `${title} - ${gi + 1}-${ii + 1}`)}
                         </div>
                       </motion.div>
@@ -347,7 +364,7 @@ export default function ProjectDetailClient({ project: apiProject, locale }: { p
             } else if (group.type === 'triple') {
               elements.push(
                 <div key={`g-${gi}`} className="w-full px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-6">
                     {group.items.map((item, ii) => (
                       <motion.div
                         key={ii}
@@ -355,8 +372,15 @@ export default function ProjectDetailClient({ project: apiProject, locale }: { p
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: '-80px' }}
                         transition={{ duration: 0.7, delay: ii * 0.12 }}
+                        className={group.items.length === 3 && ii === 2 ? 'col-span-2 sm:col-span-1' : ''}
                       >
-                        <div className="relative overflow-hidden rounded-2xl md:rounded-3xl" style={{ aspectRatio: '4/5' }}>
+                        <div
+                          className="relative overflow-hidden rounded-xl md:rounded-3xl"
+                          style={{
+                            aspectRatio: '4/5',
+                            maxHeight: '50vh',
+                          }}
+                        >
                           {renderMedia(item.src, item.type, `${title} - ${gi + 1}-${ii + 1}`)}
                         </div>
                       </motion.div>

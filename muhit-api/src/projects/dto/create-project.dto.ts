@@ -84,4 +84,10 @@ export class CreateProjectDto {
   @IsArray()
   @IsString({ each: true })
   tags?: string[];
+
+  // Categories (slugs)
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  categories?: string[];
 }
