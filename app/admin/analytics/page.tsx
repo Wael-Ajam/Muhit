@@ -18,6 +18,8 @@ import {
   BarChart3,
   FileText,
   MapPin,
+  Trash2,
+  AlertTriangle,
 } from 'lucide-react';
 
 type Period = '7d' | '30d' | '90d';
@@ -131,6 +133,8 @@ export default function AnalyticsPage() {
   const [topButtons, setTopButtons] = useState<TopButton[]>([]);
   const [devices, setDevices] = useState<DeviceData[]>([]);
   const [countries, setCountries] = useState<CountryData[]>([]);
+  const [resetting, setResetting] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const fetchData = useCallback(async () => {
     if (!token) return;
@@ -162,6 +166,20 @@ export default function AnalyticsPage() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const handleReset = async () => {
+    if (!token) return;
+    setResetting(true);
+    try {
+      await apiFetch('/analytics/reset', { token, method: 'DELETE' });
+      setShowResetConfirm(false);
+      fetchData();
+    } catch {
+      alert('حدث خطأ أثناء تصفير الإحصائيات');
+    } finally {
+      setResetting(false);
+    }
+  };
 
   const maxViewCount = Math.max(...pageviews.map((d) => d.count), 1);
   const maxClickCount = Math.max(...clicks.map((d) => d.count), 1);
@@ -532,6 +550,85 @@ export default function AnalyticsPage() {
                   </div>
                 ))
               )}
+            </div>
+          </motion.div>
+
+          {/* ═══════ Reset Statistics ═══════ */}
+          <motion.div
+            variants={item}
+            initial="hidden"
+            animate="show"
+            transition={{ delay: 0.8 }}
+            className="admin-card"
+            style={{ marginTop: 32, border: '1px solid rgba(239, 68, 68, 0.15)' }}
+          >
+            <div style={{ padding: '24px 28px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+                <div>
+                  <h3 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--admin-text)', marginBottom: 6 }}>
+                    تصفير الإحصائيات
+                  </h3>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--admin-text-muted)', lineHeight: 1.6, maxWidth: 500 }}>
+                    استخدم هذا الزر بعد انتهاء كل حملة لتصفير جميع البيانات والبدء من جديد.
+                    <br />
+                    سيتم حذف جميع بيانات الزيارات والنقرات نهائياً ولا يمكن استرجاعها.
+                  </p>
+                </div>
+                {!showResetConfirm ? (
+                  <button
+                    onClick={() => setShowResetConfirm(true)}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 8,
+                      padding: '10px 20px', borderRadius: 10,
+                      background: 'rgba(239, 68, 68, 0.08)',
+                      border: '1px solid rgba(239, 68, 68, 0.2)',
+                      color: '#ef4444', fontSize: '0.88rem', fontWeight: 600,
+                      cursor: 'pointer', transition: 'all 0.2s',
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(239, 68, 68, 0.15)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)'; }}
+                  >
+                    <Trash2 size={16} />
+                    تصفير جميع البيانات
+                  </button>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 10 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#f59e0b', fontSize: '0.82rem', fontWeight: 500 }}>
+                      <AlertTriangle size={16} />
+                      هل أنت متأكد؟ لا يمكن التراجع!
+                    </div>
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <button
+                        onClick={() => setShowResetConfirm(false)}
+                        disabled={resetting}
+                        style={{
+                          padding: '8px 18px', borderRadius: 8,
+                          background: 'var(--admin-card-bg)',
+                          border: '1px solid var(--admin-border)',
+                          color: 'var(--admin-text-muted)', fontSize: '0.82rem',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        إلغاء
+                      </button>
+                      <button
+                        onClick={handleReset}
+                        disabled={resetting}
+                        style={{
+                          padding: '8px 18px', borderRadius: 8,
+                          background: '#ef4444',
+                          border: 'none',
+                          color: '#fff', fontSize: '0.82rem', fontWeight: 600,
+                          cursor: resetting ? 'not-allowed' : 'pointer',
+                          opacity: resetting ? 0.6 : 1,
+                        }}
+                      >
+                        {resetting ? 'جاري التصفير...' : 'نعم، صفّر الكل'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </motion.div>
         </>

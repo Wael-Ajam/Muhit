@@ -2,6 +2,7 @@ import {
   Controller,
   Post,
   Get,
+  Delete,
   Body,
   Query,
   Req,
@@ -99,6 +100,12 @@ export class AnalyticsController {
   @Get('countries')
   getCountries(@Query('period') period = '7d') {
     return this.analytics.getCountries(period);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('reset')
+  resetAll() {
+    return this.analytics.resetAll();
   }
 
   // ── Helpers ──

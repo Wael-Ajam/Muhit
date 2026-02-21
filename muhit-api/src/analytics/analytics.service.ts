@@ -229,4 +229,16 @@ export class AnalyticsService {
       percentage: total > 0 ? Math.round((c._count.country / total) * 100) : 0,
     }));
   }
+  // ── Reset all analytics ──
+
+  async resetAll() {
+    const [deletedViews, deletedClicks] = await this.prisma.$transaction([
+      this.prisma.pageView.deleteMany(),
+      this.prisma.buttonClick.deleteMany(),
+    ]);
+    return {
+      deletedViews: deletedViews.count,
+      deletedClicks: deletedClicks.count,
+    };
+  }
 }
