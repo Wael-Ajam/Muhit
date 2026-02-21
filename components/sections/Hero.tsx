@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import ModeSwitch from '@/components/ui/ModeSwitch';
 import { useHomepageMode } from '@/contexts/HomepageModeContext';
@@ -167,7 +167,7 @@ export default function Hero({ locale, profile }: HeroProps) {
                   whileHover={{ scale: 1.1, rotate: -45 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <ArrowUpRight className="w-6 h-6 md:w-7 md:h-7 text-white" />
+                  <ArrowDown className="w-6 h-6 md:w-7 md:h-7 text-white" />
                 </motion.div>
               </motion.div>
             </div>

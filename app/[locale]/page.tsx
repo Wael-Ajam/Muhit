@@ -10,7 +10,7 @@ import {
   LazyGetStartedSection,
   LazyWorksGridSection,
   LazyBookMeeting,
-  LazyCustomFAQSection
+  LazyClientLogosGrid
 } from "@/components/LazyComponents";
 import { setRequestLocale } from 'next-intl/server';
 import HomepageContent from "@/components/HomepageContent";
@@ -47,6 +47,7 @@ export default async function HomePage({ params }: Props) {
       
       {/* المرحلة 3: الرغبة — Desire (Social Proof) */}
       <PortfolioSection projects={projects} locale={locale} />
+      <LazyClientLogosGrid />
       
       {/* المرحلة 4: الجسر — Bridge to Action */}
       <LazyGetStartedSection />
@@ -64,8 +65,8 @@ export default async function HomePage({ params }: Props) {
       <BigStatement />
       <ServicesGridSection />
       <LazyWorksGridSection projects={projects} locale={locale} />
+      <LazyClientLogosGrid />
       <LazyBookMeeting />
-      <LazyCustomFAQSection />
     </>
   );
 

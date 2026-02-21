@@ -82,3 +82,11 @@ export const LazyCustomFAQSection = dynamic(
     ssr: true 
   }
 );
+
+export const LazyClientLogosGrid = dynamic(
+  () => import('@/components/sections/ClientLogosGrid'),
+  { 
+    loading: () => <div className="min-h-[300px] bg-[#0a0a1f]" />,
+    ssr: true 
+  }
+);

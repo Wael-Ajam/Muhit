@@ -10,7 +10,7 @@
 .logo-slider-track {
   display: flex;
   align-items: center;
-  gap: 48px;
+  gap: 28px;
   width: max-content;
   animation: logoScroll 50s linear infinite;
 }
@@ -45,7 +45,7 @@
   align-items: center;
   justify-content: center;
   height: 90px;
-  min-width: 140px;
+  min-width: 110px;
   position: relative;
   cursor: pointer;
 }
@@ -82,12 +82,12 @@
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .logo-slider-track {
-    gap: 32px;
+    gap: 20px;
   }
 
   .logo-slider-item {
     height: 60px;
-    min-width: 100px;
+    min-width: 80px;
   }
 
   .logo-slider-item .logo-silver,

@@ -16,7 +16,6 @@ import {
   Eye,
   EyeOff,
   Image,
-  GripVertical,
 } from 'lucide-react';
 
 interface Project {
@@ -73,15 +72,17 @@ export default function ProjectsPage() {
     }
   };
 
-  const filtered = projects.filter((p) => {
-    const matchesSearch =
-      !search ||
-      p.titleAr.includes(search) ||
-      p.titleEn.toLowerCase().includes(search.toLowerCase()) ||
-      p.slug.includes(search);
-    const matchesCat = !catFilter || p.category === catFilter;
-    return matchesSearch && matchesCat;
-  });
+  const filtered = projects
+    .filter((p) => {
+      const matchesSearch =
+        !search ||
+        p.titleAr.includes(search) ||
+        p.titleEn.toLowerCase().includes(search.toLowerCase()) ||
+        p.slug.includes(search);
+      const matchesCat = !catFilter || p.category === catFilter;
+      return matchesSearch && matchesCat;
+    })
+    .sort((a, b) => a.sortOrder - b.sortOrder);
 
   const categories = [...new Set(projects.map((p) => p.category))];
 
@@ -141,7 +142,7 @@ export default function ProjectsPage() {
           <table className="admin-table">
             <thead>
               <tr>
-                <th style={{ width: 40 }}><GripVertical size={14} /></th>
+                <th style={{ width: 60 }}>الترتيب</th>
                 <th>المشروع</th>
                 <th>التصنيف</th>
                 <th>الحالة</th>
@@ -157,7 +158,22 @@ export default function ProjectsPage() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: i * 0.04 }}
                 >
-                  <td style={{ color: 'var(--admin-text-muted)' }}>{project.sortOrder}</td>
+                  <td>
+                    <span style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 32,
+                      height: 32,
+                      borderRadius: 8,
+                      background: 'var(--admin-accent-light)',
+                      color: 'var(--admin-accent)',
+                      fontWeight: 700,
+                      fontSize: '0.85rem',
+                    }}>
+                      {project.sortOrder}
+                    </span>
+                  </td>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                       <img src={project.coverImage} alt="" className="admin-project-thumb" />

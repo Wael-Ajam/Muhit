@@ -110,7 +110,7 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <a href="https://calendly.com/muhitsolution-info/30min" target="_blank" rel="noopener noreferrer" onClick={() => trackButtonClick('footer-cta', undefined, 'تواصل معنا - الفوتر')}>
+                <a href="https://wa.me/966559091247" target="_blank" rel="noopener noreferrer" onClick={() => trackButtonClick('footer-cta', undefined, 'تواصل معنا - الفوتر')}>
                   <motion.div
                     className="inline-flex items-center gap-4 group cursor-pointer"
                     whileHover={{ x: isRTL ? -10 : 10 }}

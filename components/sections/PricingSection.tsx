@@ -159,7 +159,7 @@ export default function PricingSection() {
               {/* Two Column Layout */}
               <div className="flex flex-col lg:flex-row gap-12 lg:gap-0">
                 {/* ── LEFT: Calendly Widget ── */}
-                <div className={`lg:w-[45%] flex flex-col ${isRTL ? 'lg:pl-14 lg:border-l' : 'lg:pr-14 lg:border-r'} lg:border-white/[0.06]`}>
+                <div className={`lg:w-[45%] flex flex-col order-2 lg:order-1 ${isRTL ? 'lg:pl-14 lg:border-l' : 'lg:pr-14 lg:border-r'} lg:border-white/[0.06]`}>
                   {/* Calendly Inline Widget */}
                   <div
                     className="calendly-inline-widget"
@@ -187,7 +187,7 @@ export default function PricingSection() {
                 </div>
 
                 {/* ── RIGHT: Plan Info + Features ── */}
-                <div className={`lg:w-[55%] ${isRTL ? 'lg:pr-14' : 'lg:pl-14'}`}>
+                <div className={`lg:w-[55%] order-1 lg:order-2 ${isRTL ? 'lg:pr-14' : 'lg:pl-14'}`}>
                   
                   {/* Badge */}
                   <div className="mb-6">

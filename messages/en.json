@@ -802,5 +802,11 @@
       "whatsapp": "Chat on WhatsApp",
       "email": "Send an Email"
     }
+  },
+  "ClientLogos": {
+    "badge": "Our Clients",
+    "title": "Trusted by",
+    "titleHighlight": "Industry Leaders",
+    "subtitle": "Creative partnerships with government entities, international organizations, and leading brands"
   }
 }
