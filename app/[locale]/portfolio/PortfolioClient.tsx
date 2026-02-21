@@ -40,6 +40,7 @@ function ProjectCard({
     video: string | null;
     isVideo: boolean;
     description: string;
+    logo: string | null;
   }; 
   index: number;
   isRTL: boolean;
@@ -107,30 +108,12 @@ function ProjectCard({
 
 
 
-      {/* Video Play Icon */}
-      {project.isVideo && (
-        <div className={`absolute top-5 ${isRTL ? 'left-5 md:left-7' : 'right-5 md:right-7'} md:top-7 z-10`}>
-          <motion.div 
-            className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center backdrop-blur-xl transition-all duration-500 ${
-              isHovered ? 'bg-orange-500 shadow-lg shadow-orange-500/30' : 'bg-white/10 border border-white/20'
-            }`}
-            animate={{ scale: isHovered ? 1.1 : 1 }}
-          >
-            <Play className="w-5 h-5 md:w-6 md:h-6 text-white fill-white" />
-          </motion.div>
+      {/* Project Logo - Top Corner */}
+      <div className={`absolute top-5 ${isRTL ? 'left-5 md:left-7' : 'right-5 md:right-7'} md:top-7 z-10`}>
+        <div className="w-14 h-14 md:w-20 md:h-20 rounded-2xl overflow-hidden flex items-center justify-center bg-white/10 backdrop-blur-xl p-2.5 border border-white/15">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={project.logo || '/logos/muhit-logo-white.png'} alt="" className="w-full h-full object-contain" />
         </div>
-      )}
-
-      {/* Category Badge - Top Left */}
-      <div className={`absolute top-5 ${isRTL ? 'right-5 md:right-7' : 'left-5 md:left-7'} md:top-7 z-10`}>
-        <motion.span
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1 + 0.3 }}
-          className="px-4 py-1.5 text-[11px] font-semibold tracking-wider uppercase rounded-full bg-white/10 backdrop-blur-xl text-white/80 border border-white/15"
-        >
-          {t(`filter${(project.categories[0] || 'design').charAt(0).toUpperCase() + (project.categories[0] || 'design').slice(1)}`)}
-        </motion.span>
       </div>
 
       {/* Content - Glassmorphism Card */}
@@ -269,6 +252,7 @@ export default function PortfolioClient({ projects: apiProjects, locale }: { pro
     video: p.coverVideo,
     isVideo: p.isVideo,
     description: localize(p, 'desc', locale),
+    logo: p.logo,
   })), [apiProjects, locale, t]);
 
   // Filter projects

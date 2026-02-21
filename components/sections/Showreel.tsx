@@ -18,18 +18,20 @@ export default function Showreel({ showreelDesktop = '', showreelMobile = '', sh
   const showreelY = useTransform(showreelScrollProgress, [0, 1], ['-5%', '5%']);
   const showreelScale = useTransform(showreelScrollProgress, [0, 0.5, 1], [1.1, 1.05, 1.1]);
 
-  // Toggle play/pause for both videos
+  // Toggle play/pause — only play the visible video
   const togglePlay = useCallback(() => {
-    const desktop = videoRef.current;
-    const mobile = mobileVideoRef.current;
+    const isMdScreen = window.matchMedia('(min-width: 768px)').matches;
+    const activeVideo = isMdScreen ? videoRef.current : mobileVideoRef.current;
+    const inactiveVideo = isMdScreen ? mobileVideoRef.current : videoRef.current;
+    
+    // Always pause the inactive one
+    inactiveVideo?.pause();
     
     if (isPlaying) {
-      desktop?.pause();
-      mobile?.pause();
+      activeVideo?.pause();
       setIsPlaying(false);
     } else {
-      desktop?.play().catch(() => {});
-      mobile?.play().catch(() => {});
+      activeVideo?.play().catch(() => {});
       setIsPlaying(true);
     }
   }, [isPlaying]);
@@ -145,11 +147,12 @@ export default function Showreel({ showreelDesktop = '', showreelMobile = '', sh
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className={`flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full backdrop-blur-md transition-all duration-300 ${
+            animate={{ scale: 1, opacity: isPlaying ? 0 : 1 }}
+            whileHover={{ opacity: 1, scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+            className={`flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full backdrop-blur-md transition-colors duration-300 ${
               isPlaying 
-                ? 'bg-black/20 opacity-0 group-hover:opacity-100' 
+                ? 'bg-black/30' 
                 : 'bg-black/30 border border-white/20 shadow-2xl'
             }`}
           >

@@ -29,6 +29,7 @@ interface ProjectData {
   category: string;
   coverImage: string;
   coverVideo: string;
+  logo: string;
   isVideo: boolean;
   websiteUrl: string;
   sortOrder: number;
@@ -53,6 +54,7 @@ const emptyProject: ProjectData = {
   category: 'design',
   coverImage: '',
   coverVideo: '',
+  logo: '',
   isVideo: false,
   websiteUrl: '',
   sortOrder: 0,
@@ -97,11 +99,13 @@ export default function ProjectEditorPage({ params }: { params: Promise<{ id: st
   const [dragOverItemId, setDragOverItemId] = useState<number | null>(null);
   const [uploadingCover, setUploadingCover] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
   const [showThumbnailPicker, setShowThumbnailPicker] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const coverImageInputRef = useRef<HTMLInputElement>(null);
   const coverVideoInputRef = useRef<HTMLInputElement>(null);
+  const logoInputRef = useRef<HTMLInputElement>(null);
 
   const [categoryOptions, setCategoryOptions] = useState<{ slug: string; nameAr: string }[]>([]);
 
@@ -165,6 +169,24 @@ export default function ProjectEditorPage({ params }: { params: Promise<{ id: st
     }
   }, [token, project.slug]);
 
+  // ── Logo Upload ──
+  const handleLogoUpload = useCallback(async (file: File) => {
+    if (!token) return;
+    setUploadingLogo(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('projectSlug', project.slug || 'temp');
+      const result = await apiUpload<{ url: string; originalName: string }>('/media/upload', formData, token);
+      setProject((prev) => ({ ...prev, logo: result.url }));
+      toast.success('تم رفع لوغو المشروع');
+    } catch {
+      toast.error('فشل رفع اللوغو');
+    } finally {
+      setUploadingLogo(false);
+    }
+  }, [token, project.slug]);
+
   const handleSave = async () => {
     if (!token) return;
     setSaving(true);
@@ -179,6 +201,7 @@ export default function ProjectEditorPage({ params }: { params: Promise<{ id: st
       category: selectedCategories[0] || project.category,
       coverImage: project.coverImage,
       coverVideo: project.coverVideo || null,
+      logo: project.logo || null,
       isVideo: project.isVideo,
       websiteUrl: project.websiteUrl || null,
       sortOrder: project.sortOrder,
@@ -409,7 +432,7 @@ export default function ProjectEditorPage({ params }: { params: Promise<{ id: st
           <h3 style={{ fontWeight: 600, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
             <ImagePlus size={18} /> أغلفة المشروع
           </h3>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
             {/* Cover Image Upload */}
             <div>
               <label className="admin-label" style={{ marginBottom: 8, display: 'block' }}>صورة الغلاف</label>
@@ -564,6 +587,114 @@ export default function ProjectEditorPage({ params }: { params: Promise<{ id: st
                     <>
                       <Video size={28} style={{ opacity: 0.5 }} />
                       <span style={{ fontSize: '0.82rem' }}>اسحب فيديو هنا أو اضغط للاختيار</span>
+                    </>
+                  )}
+                </motion.div>
+              )}
+            </div>
+
+            {/* Logo Upload */}
+            <div>
+              <label className="admin-label" style={{ marginBottom: 8, display: 'block' }}>لوغو المشروع</label>
+              {/* Guidelines */}
+              <div style={{
+                background: 'rgba(249, 115, 22, 0.08)',
+                border: '1px solid rgba(249, 115, 22, 0.2)',
+                borderRadius: 8,
+                padding: '8px 12px',
+                marginBottom: 10,
+                fontSize: '0.75rem',
+                color: 'var(--admin-text-muted)',
+                lineHeight: 1.6,
+              }}>
+                <div style={{ fontWeight: 600, color: 'rgba(249, 115, 22, 0.9)', marginBottom: 4 }}>📐 إرشادات اللوغو</div>
+                <div>• الصيغة: <strong>PNG</strong> بخلفية شفافة</div>
+                <div>• الحجم المُوصى: <strong>200×200</strong> بكسل</div>
+                <div>• اللون: أبيض أو فاتح (يظهر على خلفية داكنة)</div>
+              </div>
+              <input
+                ref={logoInputRef}
+                type="file"
+                accept="image/png"
+                style={{ display: 'none' }}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    if (!file.type.includes('png')) {
+                      toast.error('يُرجى رفع ملف PNG فقط');
+                      e.target.value = '';
+                      return;
+                    }
+                    handleLogoUpload(file);
+                  }
+                  e.target.value = '';
+                }}
+              />
+              {project.logo ? (
+                <div style={{ position: 'relative', borderRadius: 'var(--admin-radius)', overflow: 'hidden', aspectRatio: '1', background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  {/* Checkerboard pattern to show transparency */}
+                  <div style={{
+                    position: 'absolute', inset: 0, opacity: 0.15,
+                    backgroundImage: 'linear-gradient(45deg, #333 25%, transparent 25%), linear-gradient(-45deg, #333 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #333 75%), linear-gradient(-45deg, transparent 75%, #333 75%)',
+                    backgroundSize: '16px 16px',
+                    backgroundPosition: '0 0, 0 8px, 8px -8px, -8px 0px',
+                  }} />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={project.logo} alt="logo" style={{ maxWidth: '70%', maxHeight: '70%', objectFit: 'contain', position: 'relative', zIndex: 1 }} />
+                  <div style={{ position: 'absolute', top: 8, left: 8, display: 'flex', gap: 4, zIndex: 2 }}>
+                    <button
+                      className="admin-btn admin-btn-sm"
+                      style={{ background: 'rgba(0,0,0,0.7)', color: 'white', border: 'none', borderRadius: 6, padding: '4px 10px', fontSize: '0.75rem' }}
+                      onClick={() => logoInputRef.current?.click()}
+                    >
+                      تغيير
+                    </button>
+                    <button
+                      className="admin-btn admin-btn-sm"
+                      style={{ background: 'rgba(220,38,38,0.8)', color: 'white', border: 'none', borderRadius: 6, padding: '4px 8px' }}
+                      onClick={() => setProject((p) => ({ ...p, logo: '' }))}
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <motion.div
+                  whileHover={{ borderColor: 'var(--admin-accent)' }}
+                  onClick={() => logoInputRef.current?.click()}
+                  onDragOver={(e) => { e.preventDefault(); }}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    const file = e.dataTransfer.files?.[0];
+                    if (file) {
+                      if (!file.type.includes('png')) {
+                        toast.error('يُرجى رفع ملف PNG فقط');
+                        return;
+                      }
+                      handleLogoUpload(file);
+                    }
+                  }}
+                  style={{
+                    border: '2px dashed var(--admin-border)',
+                    borderRadius: 'var(--admin-radius)',
+                    aspectRatio: '1',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    color: 'var(--admin-text-muted)',
+                    gap: 8,
+                    background: 'rgba(255,255,255,0.02)',
+                  }}
+                >
+                  {uploadingLogo ? (
+                    <span style={{ fontSize: '0.85rem' }}>جاري الرفع...</span>
+                  ) : (
+                    <>
+                      <Upload size={28} style={{ opacity: 0.5 }} />
+                      <span style={{ fontSize: '0.82rem', textAlign: 'center', padding: '0 12px' }}>اسحب اللوغو هنا أو اضغط للاختيار</span>
+                      <span style={{ fontSize: '0.7rem', opacity: 0.5 }}>PNG فقط</span>
                     </>
                   )}
                 </motion.div>

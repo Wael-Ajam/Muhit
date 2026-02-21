@@ -689,6 +689,7 @@
   },
   "ModeSwitch": {
     "toggleMode": "Toggle mode",
+    "chooseContract": "Choose Contract Type",
     "package": "Monthly Subscription",
     "custom": "Project Contract"
   },
@@ -807,6 +808,6 @@
     "badge": "Our Clients",
     "title": "Trusted by",
     "titleHighlight": "Industry Leaders",
-    "subtitle": "Creative partnerships with government entities, international organizations, and leading brands"
+    "subtitle": "Creative partnerships with government entities, organizations, and leading brands"
   }
 }

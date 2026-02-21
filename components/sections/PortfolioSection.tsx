@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { Play, ArrowUpLeft } from 'lucide-react';
+import { ArrowUpLeft } from 'lucide-react';
 import { useState, useRef } from 'react';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
@@ -22,11 +22,13 @@ export default function PortfolioSection({ projects: apiProjects = [], locale = 
     id: p.id,
     title: localize(p, 'title', locale),
     slug: p.slug,
+    categories: p.categories.map(c => c.categorySlug),
     tags: p.tags.map(tag => t(tag.tagKey)),
     image: p.coverImage,
     video: p.coverVideo,
     isVideo: p.isVideo,
     description: localize(p, 'desc', locale),
+    logo: p.logo,
   }));
 
   // Project Card Component with Video Support
@@ -109,16 +111,13 @@ export default function PortfolioSection({ projects: apiProjects = [], locale = 
           className={`absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent transition-opacity duration-500 ${isHovered ? 'opacity-80' : 'opacity-60'}`}
         />
 
-        {/* Video Play Icon */}
-        {project.isVideo && (
-          <div className="absolute top-4 right-4 md:top-6 md:right-6 z-10">
-            <div 
-              className={`w-10 h-10 md:w-16 md:h-16 rounded-full flex items-center justify-center backdrop-blur-md transition-all duration-300 ${isHovered ? 'bg-orange-500 scale-110' : 'bg-white/20'}`}
-            >
-              <Play className="w-4 h-4 md:w-7 md:h-7 text-white fill-white" />
-            </div>
+        {/* Project Logo - Top Corner */}
+        <div className={`absolute top-5 ${isRTL ? 'left-5 md:left-7' : 'right-5 md:right-7'} md:top-7 z-10`}>
+          <div className="w-14 h-14 md:w-20 md:h-20 rounded-2xl overflow-hidden flex items-center justify-center bg-white/10 backdrop-blur-xl p-2.5 border border-white/15">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={project.logo || '/logos/muhit-logo-white.png'} alt="" className="w-full h-full object-contain" />
           </div>
-        )}
+        </div>
 
         {/* Glassmorphism Content Card */}
         <div className={`absolute bottom-5 ${isRTL ? 'right-5 md:right-8' : 'left-5 md:left-8'} md:bottom-8 z-10 w-[75%] md:w-[65%] lg:w-[55%]`}>

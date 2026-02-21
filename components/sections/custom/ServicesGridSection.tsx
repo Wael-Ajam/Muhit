@@ -90,21 +90,10 @@ export default function ServicesGridSection() {
             transition={{ duration: 0.5, delay: index * 0.1 }}
             className="group relative border-b border-white/10 transition-colors duration-300 hover:bg-white/2 cursor-pointer"
           >
-            {/* Image/Video Placeholder on Hover - Far Left of Screen */}
-            <div 
-              className="hidden lg:flex absolute left-8 top-1/2 -translate-y-1/2 w-[240px] h-[140px] rounded-xl bg-zinc-300 items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-x-4 group-hover:translate-x-0 z-20 pointer-events-none shadow-2xl"
-            >
-              <div className="text-zinc-500 font-medium flex flex-col items-center gap-2">
-                <div className="w-10 h-10 rounded-full bg-white/50 flex items-center justify-center">
-                  <span className="w-3 h-3 bg-zinc-400 rounded-sm" />
-                </div>
-                <span className="text-sm">VIdeo / Image</span>
-              </div>
-            </div>
 
             <div className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 max-w-[1400px] mx-auto relative">
 
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 py-10 md:py-16 items-center lg:pl-[280px]">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 py-10 md:py-16 items-center">
                 {/* Left: Icon & Title */}
                 <div className="lg:col-span-12 xl:col-span-5 flex gap-5 md:gap-6 items-center">
                   <div

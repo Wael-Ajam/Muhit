@@ -41,6 +41,7 @@ model Project {
   category    String
   coverImage  String
   coverVideo  String?
+  logo        String?
   isVideo     Boolean  @default(false)
   websiteUrl  String?
   sortOrder   Int      @default(0)

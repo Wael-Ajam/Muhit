@@ -32,7 +32,17 @@ export default function ModeSwitch({ theme = "dark" }: ModeSwitchProps) {
   const knobRightOffset = isMd ? "calc(100% - 35px)" : "calc(100% - 29px)";
 
   return (
-    <div className="flex items-center gap-3 md:gap-5">
+    <div className="flex flex-col items-center gap-3">
+      {/* Label */}
+      <motion.span
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className={`text-xs md:text-sm font-semibold tracking-widest uppercase self-center text-center ${isDark ? 'text-white/45' : 'text-black/40'}`}
+      >
+        {t('chooseContract')}
+      </motion.span>
+      <div className="flex items-center gap-3 md:gap-5">
       {/* Left Label */}
       <motion.span
         className="text-xs md:text-base font-semibold cursor-pointer select-none whitespace-nowrap"
@@ -90,6 +100,12 @@ export default function ModeSwitch({ theme = "dark" }: ModeSwitchProps) {
             boxShadow: "0 2px 10px rgba(249, 115, 22, 0.5), 0 0 20px rgba(249, 115, 22, 0.2)",
           }}
         >
+          {/* Pulse ring */}
+          <motion.div
+            className="absolute inset-[-4px] rounded-full border-2 border-orange-400/60"
+            animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0, 0.6] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          />
           <div
             className="absolute inset-0 rounded-full"
             style={{
@@ -113,6 +129,7 @@ export default function ModeSwitch({ theme = "dark" }: ModeSwitchProps) {
       >
         {t("custom")}
       </motion.span>
+      </div>
     </div>
   );
 }

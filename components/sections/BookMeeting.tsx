@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Send, User, Building2, Mail, Briefcase, FileText, Wallet, CalendarDays, Phone } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -20,14 +20,6 @@ const serviceOptions = [
   'أخرى',
 ];
 
-const budgetOptions = [
-  'أقل من 10,000 ريال',
-  '10,000 - 30,000 ريال',
-  '30,000 - 50,000 ريال',
-  '50,000 - 100,000 ريال',
-  'أكثر من 100,000 ريال',
-];
-
 export default function BookMeeting() {
   const t = useTranslations('BookMeeting');
   const { direction, isRTL } = useDirection();
@@ -44,23 +36,38 @@ export default function BookMeeting() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const [detectedCountry] = useState(() => {
-    if (typeof window === 'undefined') return 'sa';
-    try {
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-      const lang = navigator.language || '';
-      const region = lang.split('-')[1]?.toLowerCase();
-      const tzMap: Record<string, string> = {
-        'Asia/Riyadh': 'sa', 'Asia/Dubai': 'ae', 'Asia/Kuwait': 'kw',
-        'Asia/Qatar': 'qa', 'Asia/Bahrain': 'bh', 'Asia/Muscat': 'om',
-        'Asia/Baghdad': 'iq', 'Asia/Amman': 'jo', 'Asia/Beirut': 'lb',
-        'Africa/Cairo': 'eg', 'Asia/Damascus': 'sy', 'Asia/Gaza': 'ps',
-        'Asia/Aden': 'ye', 'Africa/Tripoli': 'ly', 'Africa/Khartoum': 'sd',
-        'Africa/Tunis': 'tn', 'Africa/Algiers': 'dz', 'Africa/Casablanca': 'ma',
-      };
-      return tzMap[tz] || region || 'sa';
-    } catch { return 'sa'; }
-  });
+  const [detectedCountry, setDetectedCountry] = useState('sa');
+
+  // Detect country: IP geolocation first, then timezone fallback
+  useEffect(() => {
+    const tzMap: Record<string, string> = {
+      'Asia/Riyadh': 'sa', 'Asia/Dubai': 'ae', 'Asia/Kuwait': 'kw',
+      'Asia/Qatar': 'qa', 'Asia/Bahrain': 'bh', 'Asia/Muscat': 'om',
+      'Asia/Baghdad': 'iq', 'Asia/Amman': 'jo', 'Asia/Beirut': 'lb',
+      'Africa/Cairo': 'eg', 'Asia/Damascus': 'sy', 'Asia/Gaza': 'ps',
+      'Asia/Hebron': 'ps', 'Asia/Aden': 'ye', 'Africa/Tripoli': 'ly',
+      'Africa/Khartoum': 'sd', 'Africa/Tunis': 'tn', 'Africa/Algiers': 'dz',
+      'Africa/Casablanca': 'ma',
+    };
+    // Try IP geolocation first
+    fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) })
+      .then(r => r.json())
+      .then(data => {
+        if (data?.country_code) {
+          setDetectedCountry(data.country_code.toLowerCase());
+        }
+      })
+      .catch(() => {
+        // Fallback to timezone detection
+        try {
+          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+          const lang = navigator.language || '';
+          const region = lang.split('-')[1]?.toLowerCase();
+          const detected = tzMap[tz] || region;
+          if (detected) setDetectedCountry(detected);
+        } catch { /* stay on 'sa' */ }
+      });
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -301,6 +308,7 @@ export default function BookMeeting() {
                   {isRTL ? 'رقم التواصل' : 'Phone'}
                 </label>
                 <PhoneInput
+                  key={detectedCountry}
                   defaultCountry={detectedCountry}
                   value={phone}
                   onChange={setPhone}
@@ -371,18 +379,14 @@ export default function BookMeeting() {
                   <Wallet className="w-3.5 h-3.5" />
                   {isRTL ? 'الميزانية المرصودة' : 'Budget'}
                 </label>
-                <select
+                <input
+                  type="text"
                   name="budget"
                   value={formData.budget}
                   onChange={handleChange}
-                  className={`${inputClasses} appearance-none cursor-pointer`}
-                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: isRTL ? '16px center' : 'calc(100% - 16px) center' }}
-                >
-                  <option value="" disabled className="bg-[#111] text-white/50">{isRTL ? 'اختر الميزانية' : 'Select budget'}</option>
-                  {budgetOptions.map(b => (
-                    <option key={b} value={b} className="bg-[#111] text-white">{b}</option>
-                  ))}
-                </select>
+                  placeholder={isRTL ? 'مثال: 25,000 ريال' : 'e.g. 25,000 SAR'}
+                  className={inputClasses}
+                />
               </div>
               <div>
                 <label className={labelClasses}>

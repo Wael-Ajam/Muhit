@@ -23,6 +23,10 @@ export class CreateProjectDto {
   coverVideo?: string;
 
   @IsOptional()
+  @IsString()
+  logo?: string;
+
+  @IsOptional()
   @IsBoolean()
   isVideo?: boolean;
 

@@ -239,6 +239,7 @@ export class ProjectsService {
         image: p.coverImage,
         video: p.coverVideo,
         isVideo: p.isVideo,
+        logo: p.logo || null,
         titleKey: `project${num}Title`,
         descKey: `project${num}Desc`,
         longDescKey: `project${num}LongDesc`,

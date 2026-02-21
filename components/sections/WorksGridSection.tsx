@@ -26,7 +26,10 @@ export default function WorksGridSection({ projects: apiProjects = [], locale = 
     image: p.coverImage,
     title: localize(p, 'title', locale),
     description: localize(p, 'desc', locale),
+    categories: p.categories.map(c => c.categorySlug),
     tags: p.tags.map(tag => t(tag.tagKey)),
+    isVideo: p.isVideo,
+    logo: p.logo,
   }));
 
   function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
@@ -68,6 +71,14 @@ export default function WorksGridSection({ projects: apiProjects = [], locale = 
         <div 
           className={`absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent transition-opacity duration-500 ${isHovered ? 'opacity-80' : 'opacity-60'}`}
         />
+
+        {/* Project Logo - Top Corner */}
+        <div className={`absolute top-5 ${isRTL ? 'left-5 md:left-7' : 'right-5 md:right-7'} md:top-7 z-10`}>
+          <div className="w-14 h-14 md:w-20 md:h-20 rounded-2xl overflow-hidden flex items-center justify-center bg-white/10 backdrop-blur-xl p-2.5 border border-white/15">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={project.logo || '/logos/muhit-logo-white.png'} alt="" className="w-full h-full object-contain" />
+          </div>
+        </div>
 
         {/* Glassmorphism Content Card */}
         <div className={`absolute bottom-5 ${isRTL ? 'right-5 md:right-8' : 'left-5 md:left-8'} md:bottom-8 z-10 w-[75%] md:w-[65%] lg:w-[55%]`}>

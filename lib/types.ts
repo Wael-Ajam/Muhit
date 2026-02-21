@@ -6,6 +6,7 @@ export interface ApiProject {
   category: string;
   coverImage: string;
   coverVideo: string | null;
+  logo: string | null;
   isVideo: boolean;
   websiteUrl: string | null;
   sortOrder: number;
