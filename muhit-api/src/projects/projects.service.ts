@@ -24,7 +24,13 @@ export class ProjectsService {
       select: { id: true, type: true, src: true, layout: true, sortOrder: true },
       orderBy: { sortOrder: 'asc' as const },
     },
-    categories: { select: { id: true, categorySlug: true } },
+    categories: {
+      select: {
+        id: true,
+        categorySlug: true,
+        category: { select: { nameAr: true, nameEn: true } },
+      },
+    },
   };
 
   // ───── Find All ─────
@@ -223,7 +229,12 @@ export class ProjectsService {
           select: { type: true, src: true, layout: true, sortOrder: true, width: true, height: true, aspectRatio: true },
           orderBy: { sortOrder: 'asc' },
         },
-        categories: { select: { categorySlug: true } },
+        categories: {
+          select: {
+            categorySlug: true,
+            category: { select: { nameAr: true, nameEn: true } },
+          },
+        },
       },
       orderBy: { sortOrder: 'asc' },
     });

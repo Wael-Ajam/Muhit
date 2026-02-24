@@ -42,6 +42,7 @@ export interface ApiProjectTag {
 export interface ApiProjectCategory {
   id: number;
   categorySlug: string;
+  category?: { nameAr: string; nameEn: string };
 }
 
 export interface ApiGalleryItem {

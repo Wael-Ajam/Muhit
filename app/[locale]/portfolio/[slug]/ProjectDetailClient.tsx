@@ -33,8 +33,10 @@ export default function ProjectDetailClient({ project: apiProject, locale }: { p
   const title = localize(apiProject, 'title', locale);
   const description = localize(apiProject, 'desc', locale);
   const categoryLabels = apiProject.categories.map(c => {
-    const slug = c.categorySlug;
-    return t(`filter${slug.charAt(0).toUpperCase() + slug.slice(1)}`);
+    if (c.category) {
+      return locale === 'ar' ? c.category.nameAr : c.category.nameEn;
+    }
+    return c.categorySlug;
   });
   const tags = apiProject.tags.map(tag => t(tag.tagKey));
   const project = {
