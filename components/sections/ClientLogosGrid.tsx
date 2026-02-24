@@ -5,23 +5,27 @@ import { useTranslations } from 'next-intl';
 import { useHomepageMode } from '@/contexts/HomepageModeContext';
 
 const coloredLogos = [
+  // ── مؤسسات حكومية سعودية ──
   { name: 'وزارة الصحة', src: '/logos/colored/وزارة الصحة.png' },
+  { name: 'وزارة الحج', src: '/logos/colored/وزارو الحج.png' },
   { name: 'هيئة التراث', src: '/logos/colored/هيئة التراث.png' },
-  { name: 'King Faisal', src: '/logos/colored/King Faisal.png' },
   { name: 'إمارة المنطقة', src: '/logos/colored/امارة المنطقة.png' },
   { name: 'المواصفات', src: '/logos/colored/المواصفات.png' },
-  { name: 'وزارة الحج', src: '/logos/colored/وزارو الحج.png' },
-  { name: 'UNICEF', src: '/logos/colored/unicef.png' },
-  { name: 'Hadia', src: '/logos/colored/Hadia.png' },
+  { name: 'King Faisal', src: '/logos/colored/King Faisal.png' },
+  // ── مؤسسات سعودية كبرى ──
   { name: 'البنوك السعودية', src: '/logos/colored/البنوك السعودية.png' },
+  { name: 'مجلس المؤسسة', src: '/logos/colored/مجلس المؤسسة.png' },
+  { name: 'جسارة', src: '/logos/colored/جسارة.png' },
+  // ── منظمات دولية وإعلام ──
+  { name: 'UNICEF', src: '/logos/colored/unicef.png' },
   { name: 'الجزيرة', src: '/logos/colored/الجزيرة.png' },
   { name: 'Total', src: '/logos/colored/Total.png' },
-  { name: 'السبيعي', src: '/logos/colored/السبيعي.png' },
-  { name: 'المجدوعي', src: '/logos/colored/المجدوعي.png' },
-  { name: 'جسارة', src: '/logos/colored/جسارة.png' },
-  { name: 'نقي', src: '/logos/colored/نقي.png' },
-  { name: 'مجلس المؤسسة', src: '/logos/colored/مجلس المؤسسة.png' },
   { name: 'المخبر الاقتصادي', src: '/logos/colored/المخبر الاقتصادي.png' },
+  // ── شركات ومؤسسات أخرى ──
+  { name: 'Hadia', src: '/logos/colored/Hadia.png' },
+  { name: 'المجدوعي', src: '/logos/colored/المجدوعي.png' },
+  { name: 'السبيعي', src: '/logos/colored/السبيعي.png' },
+  { name: 'نقي', src: '/logos/colored/نقي.png' },
   { name: 'ركن الحوار', src: '/logos/colored/ركن الحوار.png' },
 ];
 
