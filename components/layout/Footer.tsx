@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { useDirection } from '@/hooks/useDirection';
 import { useHomepageMode } from '@/contexts/HomepageModeContext';
 import { trackButtonClick } from '@/app/hooks/useAnalytics';
@@ -46,19 +46,17 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
 
   const currentYear = new Date().getFullYear();
 
-  const locale = useLocale();
+
 
   const navLinks = [
-    { label: t('nav.work'), href: `/${locale}/portfolio` },
-    { label: t('nav.pricing'), href: `/${locale}/pricing` },
-    { label: t('nav.about'), href: `/${locale}/about` },
-    { label: t('nav.contact'), href: `/${locale}/contact` },
+    { label: t('nav.work'), href: '#portfolio' },
+    { label: t('nav.pricing'), href: '#pricing' },
   ];
 
   const socialLinks = [
     { icon: Instagram, href: 'https://www.instagram.com/muhit.pro/?hl=ar', label: 'Instagram' },
     { icon: Linkedin, href: 'https://www.linkedin.com/company/muhitcreativesolutions', label: 'LinkedIn' },
-    { icon: XIcon, href: 'https://x.com', label: 'X' },
+    { icon: XIcon, href: 'https://x.com/MuhitPro', label: 'X' },
   ];
 
   const scrollToTop = () => {
@@ -230,9 +228,14 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
                   onMouseEnter={() => setHoveredLink(link.label)}
                   onMouseLeave={() => setHoveredLink(null)}
                 >
-                  <Link 
+                  <a 
                     href={link.href}
-                    className="relative text-white/60 hover:text-white transition-colors text-sm md:text-base"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const target = document.querySelector(link.href);
+                      target?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="relative text-white/60 hover:text-white transition-colors text-sm md:text-base cursor-pointer"
                   >
                     {link.label}
                     <motion.div
@@ -241,7 +244,7 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
                       animate={{ width: hoveredLink === link.label ? '100%' : 0 }}
                       transition={{ duration: 0.3 }}
                     />
-                  </Link>
+                  </a>
                 </motion.div>
               ))}
             </nav>

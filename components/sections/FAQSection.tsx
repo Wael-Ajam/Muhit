@@ -60,6 +60,7 @@ export default function FAQSection() {
 
   return (
     <section 
+      id="faq"
       data-nav-theme="light"
       className="relative py-20 md:py-28 lg:py-36 overflow-hidden"
       style={{

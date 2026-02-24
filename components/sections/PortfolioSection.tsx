@@ -199,6 +199,7 @@ export default function PortfolioSection({ projects: apiProjects = [], locale = 
 
   return (
     <section 
+      id="portfolio"
       data-nav-theme="light"
       className="py-16 md:py-24 px-4 md:px-6 lg:px-24 relative overflow-hidden"
       style={{

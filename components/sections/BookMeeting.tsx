@@ -384,7 +384,7 @@ export default function BookMeeting() {
                   name="budget"
                   value={formData.budget}
                   onChange={handleChange}
-                  placeholder={isRTL ? 'مثال: 25,000 ريال' : 'e.g. 25,000 SAR'}
+                  placeholder={isRTL ? 'الميزانية التقديرية' : 'Estimated budget'}
                   className={inputClasses}
                 />
               </div>

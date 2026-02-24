@@ -71,7 +71,7 @@ export default function SpecializationsSection({ minimal = false }: { minimal?: 
       title: t('cat6Title'),
       gradient: "from-emerald-500 to-green-600",
       accentColor: "#10B981",
-      specs: [t('cat6Spec1'), t('cat6Spec2'), t('cat6Spec3'), t('cat6Spec4'), t('cat6Spec5'), t('cat6Spec6'), t('cat6Spec7')],
+      specs: [t('cat6Spec1'), t('cat6Spec2'), t('cat6Spec3'), t('cat6Spec4'), t('cat6Spec5'), t('cat6Spec6'), t('cat6Spec7'), t('cat6Spec8')],
     },
     {
       icon: Settings,
