@@ -7,7 +7,6 @@ import {
   Palette,
   Film,
   Box,
-  Code,
   Settings,
   Bot,
   Camera,
@@ -66,13 +65,6 @@ export default function SpecializationsSection({ minimal = false }: { minimal?: 
       gradient: "from-cyan-500 to-teal-600",
       accentColor: "#06B6D4",
       specs: [t('cat5Spec1'), t('cat5Spec2')],
-    },
-    {
-      icon: Code,
-      title: t('cat6Title'),
-      gradient: "from-emerald-500 to-green-600",
-      accentColor: "#10B981",
-      specs: [t('cat6Spec1'), t('cat6Spec2'), t('cat6Spec3'), t('cat6Spec4'), t('cat6Spec5'), t('cat6Spec6'), t('cat6Spec7'), t('cat6Spec8')],
     },
     {
       icon: Settings,

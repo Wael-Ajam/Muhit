@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect } from 'react';
-import { Link } from '@/i18n/navigation';
+
+
 
 import { 
   Sparkles, 
@@ -177,12 +177,12 @@ export default function PricingSection() {
                     <p className="text-white/90 text-sm md:text-base font-medium mb-3">
                       {isRTL ? 'يسعدنا التواصل معك عبر البريد الإلكتروني أيضاً' : 'We\'d be happy to connect via email as well'}
                     </p>
-                    <Link
-                      href="/contact"
+                    <a
+                      href="mailto:info@muhitsolution.com"
                       className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-white text-orange-600 font-bold text-sm hover:bg-white/90 transition-all duration-300 hover:scale-105"
                     >
                       {isRTL ? 'تواصل معنا' : 'Contact Us'}
-                    </Link>
+                    </a>
                   </div>
                 </div>
 

@@ -69,27 +69,41 @@ export default function BookMeeting() {
     setIsSubmitting(true);
     trackButtonClick('book-meeting-form', '/', 'إرسال فورم حجز اجتماع');
     
-    // 1. Send email via API
+    const payload = {
+      name: formData.name,
+      organization: formData.organization,
+      phone,
+      email: formData.email,
+      service: formData.service,
+      brief: formData.brief,
+      budget: formData.budget,
+      deadline: formData.deadline,
+    };
+
+    // 1. Save to inbox via backend API
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+      await fetch(`${apiBase}/inbox`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'project', ...payload }),
+      });
+    } catch (err) {
+      console.error('Inbox save failed:', err);
+    }
+
+    // 2. Send email via API
     try {
       await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          organization: formData.organization,
-          phone,
-          email: formData.email,
-          service: formData.service,
-          brief: formData.brief,
-          budget: formData.budget,
-          deadline: formData.deadline,
-        }),
+        body: JSON.stringify(payload),
       });
     } catch (err) {
       console.error('Email send failed:', err);
     }
 
-    // 2. Also open WhatsApp
+    // 3. Also open WhatsApp
     const message = `*طلب مشروع جديد*%0A%0A` +
       `*الاسم:* ${formData.name}%0A` +
       `*الجهة:* ${formData.organization}%0A` +

@@ -18,16 +18,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {children}
           </NotificationProvider>
           <Toaster
-            position="top-left"
+            position="bottom-left"
             toastOptions={{
+              duration: 4000,
               style: {
-                background: '#1a1a24',
-                color: '#f0f0f5',
-                border: '1px solid #2a2a3a',
-                borderRadius: '12px',
-                fontSize: '0.9rem',
+                background: '#0f0f1a',
+                color: '#ffffff',
+                border: '1px solid rgba(249, 115, 22, 0.4)',
+                borderRadius: '14px',
+                fontSize: '1rem',
+                fontWeight: 600,
+                padding: '14px 20px',
                 fontFamily: 'IBM Plex Sans Arabic, sans-serif',
                 direction: 'rtl',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
               },
               success: {
                 iconTheme: { primary: '#22c55e', secondary: '#1a1a24' },

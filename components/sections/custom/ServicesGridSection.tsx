@@ -7,7 +7,6 @@ import {
   Palette,
   Megaphone,
   Camera,
-  Box,
   Bot,
   PenTool,
 } from 'lucide-react';
@@ -56,13 +55,6 @@ const categories: ServiceCategory[] = [
     specKeys: ['cat5s1', 'cat5s2', 'cat5s3', 'cat5s4', 'cat5s5'],
     accentColor: '#F59E0B',
     gradient: 'from-amber-500 to-yellow-600',
-  },
-  {
-    icon: Box,
-    titleKey: 'cat6Title',
-    specKeys: ['cat6s1', 'cat6s2', 'cat6s3', 'cat6s4'],
-    accentColor: '#06B6D4',
-    gradient: 'from-cyan-500 to-teal-600',
   },
   {
     icon: Bot,

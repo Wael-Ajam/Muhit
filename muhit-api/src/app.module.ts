@@ -6,8 +6,10 @@ import { MediaModule } from './media/media.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { SettingsModule } from './settings/settings.module';
 import { CategoriesModule } from './categories/categories.module';
+import { InboxModule } from './inbox/inbox.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, ProjectsModule, MediaModule, AnalyticsModule, SettingsModule, CategoriesModule],
+  imports: [PrismaModule, AuthModule, ProjectsModule, MediaModule, AnalyticsModule, SettingsModule, CategoriesModule, InboxModule],
 })
 export class AppModule {}
+

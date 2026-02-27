@@ -22,6 +22,12 @@ export default function ContactClient() {
   const { direction, isRTL } = useDirection();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [phone, setPhone] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
   const [detectedCountry] = useState(() => {
     if (typeof window === 'undefined') return 'sa';
     try {
@@ -50,11 +56,35 @@ export default function ContactClient() {
     { icon: Clock, label: t('workingHoursTitle'), value: t('workingHours'), href: '#' },
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate submission
-    setTimeout(() => setIsSubmitting(false), 2000);
+
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+      await fetch(`${apiBase}/inbox`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'contact',
+          name: formData.name,
+          email: formData.email,
+          phone,
+          subject: formData.subject,
+          message: formData.message,
+        }),
+      });
+    } catch (err) {
+      console.error('Inbox save failed:', err);
+    }
+
+    setIsSubmitting(false);
+    setFormData({ name: '', email: '', subject: '', message: '' });
+    setPhone('');
   };
 
   return (
@@ -240,7 +270,10 @@ export default function ContactClient() {
                     </label>
                     <input
                       type="text"
+                      name="name"
                       required
+                      value={formData.name}
+                      onChange={handleChange}
                       placeholder={t('namePlaceholder')}
                       className="w-full px-5 py-4 rounded-xl bg-white border border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-300"
                     />
@@ -251,7 +284,10 @@ export default function ContactClient() {
                     </label>
                     <input
                       type="email"
+                      name="email"
                       required
+                      value={formData.email}
+                      onChange={handleChange}
                       placeholder={t('emailPlaceholder')}
                       className="w-full px-5 py-4 rounded-xl bg-white border border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-300"
                     />
@@ -279,7 +315,10 @@ export default function ContactClient() {
                     </label>
                     <input
                       type="text"
+                      name="subject"
                       required
+                      value={formData.subject}
+                      onChange={handleChange}
                       placeholder={t('subjectPlaceholder')}
                       className="w-full px-5 py-4 rounded-xl bg-white border border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-300"
                     />
@@ -292,8 +331,11 @@ export default function ContactClient() {
                     {t('messageLabel')}
                   </label>
                   <textarea
+                    name="message"
                     required
                     rows={6}
+                    value={formData.message}
+                    onChange={handleChange}
                     placeholder={t('messagePlaceholder')}
                     className="w-full px-5 py-4 rounded-xl bg-white border border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-300 resize-none"
                   />

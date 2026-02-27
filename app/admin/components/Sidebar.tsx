@@ -3,8 +3,11 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '../lib/auth';
+import { apiFetch } from '../lib/api';
+import { useState, useEffect } from 'react';
 import {
   LayoutDashboard,
+  Inbox,
   FolderKanban,
   Tags,
   BarChart3,
@@ -16,6 +19,7 @@ import {
 
 const navItems = [
   { href: '/admin/dashboard', label: 'لوحة التحكم', icon: LayoutDashboard },
+  { href: '/admin/inbox', label: 'البريد الوارد', icon: Inbox, showBadge: true },
   { href: '/admin/projects', label: 'المشاريع', icon: FolderKanban },
   { href: '/admin/categories', label: 'التصنيفات', icon: Tags },
   { href: '/admin/analytics', label: 'التحليلات', icon: BarChart3 },
@@ -25,7 +29,21 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { user, logout } = useAuth();
+  const { user, token, logout } = useAuth();
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  // Poll unread count every 30s
+  useEffect(() => {
+    if (!token) return;
+    const fetchUnread = () => {
+      apiFetch<number>('/inbox/unread-count', { token })
+        .then(setUnreadCount)
+        .catch(() => {});
+    };
+    fetchUnread();
+    const interval = setInterval(fetchUnread, 30000);
+    return () => clearInterval(interval);
+  }, [token]);
 
   return (
     <aside className="admin-sidebar">
@@ -49,6 +67,7 @@ export default function Sidebar() {
         {navItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
           const Icon = item.icon;
+          const showBadge = 'showBadge' in item && item.showBadge;
           return (
             <Link
               key={item.href}
@@ -57,6 +76,9 @@ export default function Sidebar() {
             >
               <Icon />
               <span>{item.label}</span>
+              {showBadge && unreadCount > 0 && (
+                <span className="admin-inbox-badge">{unreadCount}</span>
+              )}
               {isActive && (
                 <ChevronLeft
                   style={{ marginRight: 'auto', width: 16, height: 16, opacity: 0.5 }}

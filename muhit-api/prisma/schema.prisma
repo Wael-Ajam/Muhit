@@ -141,3 +141,23 @@ model SiteSetting {
   key   String @unique
   value String
 }
+
+// ============ INBOX ============
+
+model InboxMessage {
+  id           Int      @id @default(autoincrement())
+  type         String   // "contact" | "project"
+  name         String
+  email        String
+  phone        String?
+  organization String?
+  subject      String?
+  message      String?
+  service      String?
+  brief        String?
+  budget       String?
+  deadline     String?
+  isRead       Boolean  @default(false)
+  isStarred    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}

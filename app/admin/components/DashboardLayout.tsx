@@ -6,6 +6,22 @@ import { useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 
+// Global audio unlock — ensures notification sounds can play
+if (typeof window !== 'undefined') {
+  const unlockAudio = () => {
+    const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+    ctx.resume().then(() => ctx.close()).catch(() => {});
+    // Also pre-load the notification sound
+    const a = new Audio('/Muhit-Notification.wav');
+    a.volume = 0;
+    a.play().then(() => { a.pause(); a.currentTime = 0; }).catch(() => {});
+    document.removeEventListener('mousedown', unlockAudio);
+    document.removeEventListener('touchstart', unlockAudio);
+  };
+  document.addEventListener('mousedown', unlockAudio, { once: false });
+  document.addEventListener('touchstart', unlockAudio, { once: false });
+}
+
 export default function DashboardLayout({ children, title = 'لوحة التحكم' }: {
   children: React.ReactNode;
   title?: string;
@@ -42,3 +58,4 @@ export default function DashboardLayout({ children, title = 'لوحة التحك
     </>
   );
 }
+
