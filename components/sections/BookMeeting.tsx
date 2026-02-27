@@ -116,8 +116,8 @@ export default function BookMeeting() {
     setTimeout(() => setIsSubmitted(false), 4000);
   };
 
-  const inputClasses = "w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3.5 text-white text-sm placeholder:text-white/25 focus:outline-none focus:border-orange-500/40 focus:bg-white/[0.06] transition-all duration-300";
-  const labelClasses = "flex items-center gap-2 text-white/80 text-xs font-medium mb-2";
+  const inputClasses = "w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3.5 text-white text-sm placeholder:text-white/70 focus:outline-none focus:border-orange-500/40 focus:bg-white/[0.06] transition-all duration-300";
+  const labelClasses = "flex items-center gap-2 text-white text-xs font-medium mb-2";
 
   return (
     <section
@@ -158,7 +158,7 @@ export default function BookMeeting() {
           border: none !important;
         }
         .book-phone .react-international-phone-input::placeholder {
-          color: rgba(255,255,255,0.25) !important;
+          color: rgba(255,255,255,0.7) !important;
         }
         .book-phone .react-international-phone-country-selector {
           position: static !important;
@@ -242,7 +242,7 @@ export default function BookMeeting() {
           transition={{ duration: 0.7 }}
           className="flex flex-col justify-center p-8 sm:p-10 md:p-14 lg:p-16 xl:p-20 border-b lg:border-b-0 lg:border-e border-white/[0.07]"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/60 text-xs sm:text-sm w-fit mb-6 md:mb-8">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/90 text-xs sm:text-sm font-medium w-fit mb-6 md:mb-8">
             <Calendar className="w-3.5 h-3.5" />
             {t('badge')}
           </span>
@@ -253,7 +253,7 @@ export default function BookMeeting() {
             <span className="text-orange-500">{t('titleHighlight')}</span>
           </h2>
 
-          <p className="text-white/50 text-base sm:text-lg md:text-xl leading-relaxed max-w-lg">
+          <p className="text-white/90 text-base sm:text-lg md:text-xl leading-relaxed max-w-lg font-medium">
             {t('subtitle')}
           </p>
         </motion.div>

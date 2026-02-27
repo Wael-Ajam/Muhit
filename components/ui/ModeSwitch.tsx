@@ -38,7 +38,7 @@ export default function ModeSwitch({ theme = "dark" }: ModeSwitchProps) {
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`text-xs md:text-sm font-semibold tracking-widest uppercase self-center text-center ${isDark ? 'text-white/45' : 'text-black/40'}`}
+        className={`text-sm md:text-base font-semibold tracking-widest uppercase self-center text-center ${isDark ? 'text-white/80' : 'text-black/70'}`}
       >
         {t('chooseContract')}
       </motion.span>
@@ -88,7 +88,7 @@ export default function ModeSwitch({ theme = "dark" }: ModeSwitchProps) {
         <motion.div
           className="absolute rounded-full w-[26px] h-[26px] md:w-[32px] md:h-[32px] top-[2px] md:top-[3px]"
           animate={{
-            left: isPackage ? "3px" : knobRightOffset,
+            left: isPackage ? knobRightOffset : "3px",
           }}
           transition={{
             type: "spring",

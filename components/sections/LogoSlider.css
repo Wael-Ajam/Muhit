@@ -5,8 +5,6 @@
   direction: ltr;
 }
 
-
-
 .logo-slider-track {
   display: flex;
   align-items: center;
@@ -99,4 +97,29 @@
   .logo-slider::after {
     width: 60px;
   }
+
+  .logo-slider-large .logo-slider-item {
+    height: 85px;
+    min-width: 100px;
+  }
+
+  .logo-slider-large .logo-slider-item .logo-silver,
+  .logo-slider-large .logo-slider-item .logo-colored {
+    max-width: 200px;
+  }
+}
+
+/* Larger logos variant */
+.logo-slider-large .logo-slider-track {
+  gap: 36px;
+}
+
+.logo-slider-large .logo-slider-item {
+  height: 120px;
+  min-width: 140px;
+}
+
+.logo-slider-large .logo-slider-item .logo-silver,
+.logo-slider-large .logo-slider-item .logo-colored {
+  max-width: 280px;
 }

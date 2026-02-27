@@ -35,8 +35,8 @@ export default function GlobalBackground() {
             blendAngle={0}
             blendSoftness={0.08}
             rotationAmount={400}
-            noiseScale={2}
-            grainAmount={0.08}
+            noiseScale={1.2}
+            grainAmount={0.03}
             grainScale={2}
             grainAnimated={false}
             contrast={1.4}

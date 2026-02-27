@@ -65,7 +65,7 @@ export default function ClientLogosGrid() {
             <span className="text-white">{t('title')} </span>
             <span className="text-orange-500">{t('titleHighlight')}</span>
           </h2>
-          <p className="text-white/40 text-base md:text-lg max-w-2xl mx-auto">
+          <p className="text-white/80 text-base md:text-lg max-w-2xl mx-auto font-medium">
             {t('subtitle')}
           </p>
         </motion.div>
@@ -96,7 +96,7 @@ export default function ClientLogosGrid() {
               <img
                 src={logo.src}
                 alt={logo.name}
-                className="relative z-10 w-full h-20 md:h-24 object-contain transition-transform duration-300 group-hover:scale-110"
+                className={`relative z-10 w-full object-contain transition-transform duration-300 group-hover:scale-110 ${isCustom ? 'h-28 md:h-32' : 'h-20 md:h-24'}`}
                 loading="lazy"
                 draggable={false}
               />

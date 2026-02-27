@@ -19,7 +19,7 @@ export default function DynamicBottomBlur() {
           setHidden(entries[0].isIntersecting);
         });
       },
-      { threshold: 0 }
+      { threshold: 0, rootMargin: '0px 0px 160px 0px' }
     );
 
     observer.observe(footer);

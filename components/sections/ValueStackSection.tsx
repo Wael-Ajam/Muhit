@@ -30,7 +30,7 @@ function PhraseBox({
 
       {/* Icon */}
       <div className="mb-5 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shrink-0 bg-white/[0.06] border border-white/10">
-        <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-white/60" strokeWidth={1.5} />
+        <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-white/90" strokeWidth={1.5} />
       </div>
 
       {/* Text */}

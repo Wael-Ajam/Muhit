@@ -114,7 +114,7 @@ export default function ServicesGridSection() {
                   {cat.specKeys.map((key, i) => (
                     <span
                       key={i}
-                      className="px-3 py-1.5 md:px-4 md:py-2 rounded-full text-sm text-white/70 bg-white/5 border border-white/10 group-hover:border-white/20 group-hover:bg-white/10 transition-colors duration-300"
+                      className="px-3 py-1.5 md:px-4 md:py-2 rounded-full text-sm text-white font-medium bg-white/5 border border-white/10 group-hover:border-white/20 group-hover:bg-white/10 transition-colors duration-300"
                     >
                       {t(key)}
                     </span>

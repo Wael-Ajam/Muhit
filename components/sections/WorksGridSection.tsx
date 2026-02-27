@@ -113,7 +113,7 @@ export default function WorksGridSection({ projects: apiProjects = [], locale = 
                 {project.tags.map((tag, idx) => (
                   <span 
                     key={idx}
-                    className={`px-3 py-1 text-[10px] md:text-xs font-medium rounded-full transition-colors duration-300 ${isHovered ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30' : 'bg-white/10 text-white/70 border border-white/15'}`}
+                    className={`px-3 py-1 text-[10px] md:text-xs font-medium rounded-full transition-colors duration-300 ${isHovered ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30' : 'bg-white/10 text-white border border-white/15'}`}
                   >
                     {tag}
                   </span>
@@ -130,7 +130,7 @@ export default function WorksGridSection({ projects: apiProjects = [], locale = 
               </div>
 
               {/* Short Description */}
-              <p className="text-white/60 text-xs md:text-sm leading-relaxed">
+              <p className="text-white/90 text-xs md:text-sm leading-relaxed font-medium">
                 {project.description}
               </p>
               <div className="flex justify-end mt-3">
@@ -177,7 +177,7 @@ export default function WorksGridSection({ projects: apiProjects = [], locale = 
           >
             معرض أعمالنا
           </h2>
-          <p className="text-white/60 mt-4 text-center max-w-2xl text-base md:text-lg leading-relaxed">
+          <p className="text-white/90 mt-4 text-center max-w-2xl text-base md:text-lg leading-relaxed font-medium">
             {t('sectionDescription')}
           </p>
         </motion.div>

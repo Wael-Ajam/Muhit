@@ -31,11 +31,10 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
   const t = useTranslations('Footer');
   const { direction, isRTL } = useDirection();
   const containerRef = useRef<HTMLElement>(null);
-  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const [email, setEmail] = useState('');
   const { mode } = useHomepageMode();
   const isCustom = mode === 'custom';
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end end"]
@@ -45,13 +44,6 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
 
   const currentYear = new Date().getFullYear();
-
-
-
-  const navLinks = [
-    { label: t('nav.work'), href: '#portfolio' },
-    { label: t('nav.pricing'), href: '#pricing' },
-  ];
 
   const socialLinks = [
     { icon: Instagram, href: 'https://www.instagram.com/muhit.pro/?hl=ar', label: 'Instagram' },
@@ -96,7 +88,7 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
                     {t('cta.titleHighlight')}
                   </span>
                 </h2>
-                <p className="text-white/40 text-lg md:text-xl max-w-xl">
+                <p className={`text-lg md:text-xl max-w-xl ${isCustom ? 'text-white/90 font-medium' : 'text-white/40'}`}>
                   {t('cta.subtitle')}
                 </p>
               </motion.div>
@@ -145,7 +137,7 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                 {t('newsletter.title')}
               </h3>
-              <p className="text-white/40 mb-8 max-w-md">
+              <p className={`mb-8 max-w-md ${isCustom ? 'text-white/90 font-medium' : 'text-white/40'}`}>
                 {t('newsletter.subtitle')}
               </p>
               
@@ -156,7 +148,7 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t('newsletter.placeholder')}
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white placeholder:text-white/30 focus:outline-none focus:border-orange-500/50 transition-colors"
+                  className={`w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:outline-none focus:border-orange-500/50 transition-colors ${isCustom ? 'placeholder:text-white/60' : 'placeholder:text-white/30'}`}
                 />
                 <button 
                   className={`absolute ${isRTL ? 'left-2' : 'right-2'} top-1/2 -translate-y-1/2 bg-[#F97316] text-white px-6 py-3 rounded-xl font-medium hover:opacity-90 transition-opacity`}
@@ -180,7 +172,7 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
                   <Mail className="w-5 h-5 text-orange-400" />
                 </div>
                 <div>
-                  <span className="text-white/40 text-sm block">{t('contact.email')}</span>
+                  <span className={`text-sm block ${isCustom ? 'text-white/90 font-medium' : 'text-white/40'}`}>{t('contact.email')}</span>
                   <a href="mailto:info@muhitsolution.com" className="text-white hover:text-orange-400 transition-colors">
                     info@muhitsolution.com
                   </a>
@@ -192,7 +184,7 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
                   <Phone className="w-5 h-5 text-orange-400" />
                 </div>
                 <div>
-                  <span className="text-white/40 text-sm block">{t('contact.phone')}</span>
+                  <span className={`text-sm block ${isCustom ? 'text-white/90 font-medium' : 'text-white/40'}`}>{t('contact.phone')}</span>
                   <a href="tel:+966559091247" className="text-white hover:text-orange-400 transition-colors" dir="ltr">
                     +966 55 909 1247
                   </a>
@@ -204,7 +196,7 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
                   <MapPin className="w-5 h-5 text-orange-400" />
                 </div>
                 <div>
-                  <span className="text-white/40 text-sm block">{t('contact.location')}</span>
+                  <span className={`text-sm block ${isCustom ? 'text-white/90 font-medium' : 'text-white/40'}`}>{t('contact.location')}</span>
                   <span className="text-white">{t('contact.address')}</span>
                 </div>
               </div>
@@ -214,41 +206,8 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
 
         {/* Navigation & Social Links */}
         <div className="px-6 md:px-12 lg:px-24 py-12 border-b border-white/5">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="max-w-7xl mx-auto flex justify-center items-center gap-8">
             
-            {/* Navigation Links */}
-            <nav className="flex flex-wrap justify-center gap-8">
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  onMouseEnter={() => setHoveredLink(link.label)}
-                  onMouseLeave={() => setHoveredLink(null)}
-                >
-                  <a 
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      const target = document.querySelector(link.href);
-                      target?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    className="relative text-white/60 hover:text-white transition-colors text-sm md:text-base cursor-pointer"
-                  >
-                    {link.label}
-                    <motion.div
-                      className="absolute -bottom-1 left-0 h-px bg-orange-500"
-                      initial={{ width: 0 }}
-                      animate={{ width: hoveredLink === link.label ? '100%' : 0 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </a>
-                </motion.div>
-              ))}
-            </nav>
-
             {/* Social Links */}
             <div className="flex items-center gap-4">
               {socialLinks.map((social, index) => (
@@ -264,7 +223,7 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
                   transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
                   whileHover={{ scale: 1.1 }}
                 >
-                  <social.icon className="w-5 h-5 text-white/60 group-hover:text-orange-400 transition-colors" />
+                  <social.icon className={`w-5 h-5 group-hover:text-orange-400 transition-colors ${isCustom ? 'text-white/90' : 'text-white/60'}`} />
                 </motion.a>
               ))}
             </div>
@@ -286,7 +245,7 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
                   className="h-10 w-auto"
                 />
               </Link>
-              <span className="text-white/30 text-sm">
+              <span className={`text-sm ${isCustom ? 'text-white/80' : 'text-white/30'}`}>
                 © {currentYear} {t('copyright')}
               </span>
             </div>
@@ -294,7 +253,7 @@ export default function Footer({ hideCTA = false }: { hideCTA?: boolean }) {
             {/* Scroll to top */}
             <motion.button
               onClick={scrollToTop}
-              className="flex items-center gap-2 text-white/40 hover:text-white transition-colors group"
+              className={`flex items-center gap-2 hover:text-white transition-colors group ${isCustom ? 'text-white/90' : 'text-white/40'}`}
               whileHover={{ y: -3 }}
             >
               <span className="text-sm">{t('backToTop')}</span>

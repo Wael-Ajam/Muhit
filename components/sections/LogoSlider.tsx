@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from 'react';
+import { useHomepageMode } from '@/contexts/HomepageModeContext';
 import './LogoSlider.css';
 
 // Logo data — matching silver and colored PNG versions
@@ -26,6 +27,8 @@ const logos = [
 ];
 
 export default function LogoSlider() {
+  const { mode } = useHomepageMode();
+  const isCustom = mode === 'custom';
   const trackRef = useRef<HTMLDivElement>(null);
   const [slideDistance, setSlideDistance] = useState(0);
 
@@ -55,7 +58,7 @@ export default function LogoSlider() {
   return (
     <div className="pb-8 md:pb-12">
 
-      <div className="logo-slider">
+      <div className={`logo-slider${isCustom ? ' logo-slider-large' : ''}`}>
         <div
           ref={trackRef}
           className="logo-slider-track"
