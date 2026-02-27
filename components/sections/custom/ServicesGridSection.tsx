@@ -9,6 +9,7 @@ import {
   Camera,
   Box,
   Bot,
+  PenTool,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
@@ -69,6 +70,13 @@ const categories: ServiceCategory[] = [
     specKeys: ['cat7s1', 'cat7s2'],
     accentColor: '#D946EF',
     gradient: 'from-fuchsia-500 to-purple-600',
+  },
+  {
+    icon: PenTool,
+    titleKey: 'cat8Title',
+    specKeys: ['cat8s1', 'cat8s2', 'cat8s3', 'cat8s4'],
+    accentColor: '#F43F5E',
+    gradient: 'from-rose-500 to-red-600',
   },
 ];
 

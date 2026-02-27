@@ -326,27 +326,6 @@ export default function Features({ showreelDesktop = '', showreelMobile = '', sh
                 </span>
               </h2>
             </div>
-            
-            {/* Description Side */}
-            <div className="lg:max-w-md">
-              <p className="text-slate-500 text-base sm:text-lg md:text-xl leading-relaxed mb-4 sm:mb-6">
-                {t('subtitle')}
-              </p>
-              <Link href="#pricing">
-                <motion.div 
-                  className="inline-flex items-center gap-2 sm:gap-3 group cursor-pointer"
-                  whileHover={{ x: isRTL ? -10 : 10 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <span className="text-slate-800 font-medium text-sm sm:text-base group-hover:text-orange-500 transition-colors">
-                    {t('discoverMore')}
-                  </span>
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110" style={{ background: '#F97316', boxShadow: '0 6px 20px rgba(249, 115, 22, 0.3)' }}>
-                    <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                  </div>
-                </motion.div>
-              </Link>
-            </div>
           </div>
         </motion.div>
 

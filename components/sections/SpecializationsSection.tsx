@@ -12,6 +12,7 @@ import {
   Bot,
   Camera,
   Mic,
+  PenTool,
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useDirection } from '@/hooks/useDirection';
@@ -86,6 +87,13 @@ export default function SpecializationsSection({ minimal = false }: { minimal?: 
       gradient: "from-fuchsia-500 to-purple-600",
       accentColor: "#D946EF",
       specs: [t('cat8Spec1')],
+    },
+    {
+      icon: PenTool,
+      title: t('cat9Title'),
+      gradient: "from-rose-500 to-red-600",
+      accentColor: "#F43F5E",
+      specs: [t('cat9Spec1'), t('cat9Spec2'), t('cat9Spec3'), t('cat9Spec4')],
     },
     {
       icon: Camera,

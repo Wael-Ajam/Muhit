@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Send, User, Building2, Mail, Briefcase, FileText, Wallet, CalendarDays, Phone } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useDirection } from '@/hooks/useDirection';
@@ -9,16 +9,7 @@ import { trackButtonClick } from '@/app/hooks/useAnalytics';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 
-const serviceOptions = [
-  'هوية بصرية',
-  'إنتاج مرئي',
-  'موقع إلكتروني',
-  'تطبيق جوال',
-  'حملة تسويقية',
-  'تصميم UI/UX',
-  'موشن جرافيك',
-  'أخرى',
-];
+
 
 export default function BookMeeting() {
   const t = useTranslations('BookMeeting');
@@ -113,6 +104,9 @@ export default function BookMeeting() {
     
     setIsSubmitting(false);
     setIsSubmitted(true);
+    // Reset form
+    setFormData({ name: '', organization: '', email: '', service: '', brief: '', budget: '', deadline: '' });
+    setPhone('');
     setTimeout(() => setIsSubmitted(false), 4000);
   };
 
@@ -341,19 +335,15 @@ export default function BookMeeting() {
                 <Briefcase className="w-3.5 h-3.5" />
                 {isRTL ? 'الخدمة المطلوبة' : 'Required Service'}
               </label>
-              <select
+              <input
+                type="text"
                 name="service"
                 required
                 value={formData.service}
                 onChange={handleChange}
-                className={`${inputClasses} appearance-none cursor-pointer`}
-                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: isRTL ? '16px center' : 'calc(100% - 16px) center' }}
-              >
-                <option value="" disabled className="bg-[#111] text-white/50">{isRTL ? 'اختر الخدمة' : 'Select service'}</option>
-                {serviceOptions.map(s => (
-                  <option key={s} value={s} className="bg-[#111] text-white">{s}</option>
-                ))}
-              </select>
+                placeholder={isRTL ? 'مثال: هوية بصرية، إنتاج مرئي، موقع إلكتروني...' : 'e.g. Branding, Video Production, Website...'}
+                className={inputClasses}
+              />
             </div>
 
             {/* Row 4: Brief */}
@@ -433,6 +423,74 @@ export default function BookMeeting() {
           </form>
         </motion.div>
       </div>
+
+      {/* Success Notification Overlay */}
+      <AnimatePresence>
+        {isSubmitted && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center px-4"
+            style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }}
+            onClick={() => setIsSubmitted(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.7, opacity: 0, y: 30 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: -20 }}
+              transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+              className="relative max-w-md w-full rounded-3xl p-10 text-center"
+              style={{
+                background: 'linear-gradient(145deg, rgba(34,197,94,0.15), rgba(16,185,129,0.08))',
+                border: '1px solid rgba(34,197,94,0.25)',
+                backdropFilter: 'blur(20px)',
+                boxShadow: '0 25px 60px rgba(0,0,0,0.4)',
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Success Icon */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', damping: 12, stiffness: 200, delay: 0.15 }}
+                className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center"
+                style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', boxShadow: '0 12px 40px rgba(34,197,94,0.4)' }}
+              >
+                <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <motion.path
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 0.4, delay: 0.3 }}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </motion.div>
+
+              <motion.h3
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                className="text-2xl font-bold text-white mb-3"
+              >
+                {isRTL ? 'تم تقديم طلبك بنجاح!' : 'Request Submitted Successfully!'}
+              </motion.h3>
+
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35 }}
+                className="text-white/70 text-base leading-relaxed"
+              >
+                {isRTL ? 'سنتواصل معك في أقرب وقت ممكن' : 'We will get back to you as soon as possible'}
+              </motion.p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
