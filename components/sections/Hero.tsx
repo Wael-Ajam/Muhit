@@ -22,9 +22,10 @@ type ProfileData = {
 type HeroProps = {
   locale: string;
   profile?: ProfileData | null;
+  hideSwitch?: boolean;
 };
 
-export default function Hero({ locale, profile }: HeroProps) {
+export default function Hero({ locale, profile, hideSwitch }: HeroProps) {
   const t = useTranslations('Hero');
   const containerRef = useRef<HTMLElement>(null);
   const { mode } = useHomepageMode();
@@ -77,14 +78,16 @@ export default function Hero({ locale, profile }: HeroProps) {
           className="w-full px-0 md:px-4 lg:px-16 mx-auto relative z-10"
         >
           {/* Mode Switch */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8 text-center flex justify-center"
-          >
-            <ModeSwitch theme="dark" />
-          </motion.div>
+          {!hideSwitch && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-8 text-center flex justify-center"
+            >
+              <ModeSwitch theme="dark" />
+            </motion.div>
+          )}
 
           {/* Mobile heading */}
           <div className="mb-8 w-full md:hidden">
