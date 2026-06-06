@@ -10,11 +10,9 @@ const coloredLogos = [
   { name: 'وزارة الحج', src: '/logos/colored/وزارو الحج.png' },
   { name: 'هيئة التراث', src: '/logos/colored/هيئة التراث.png' },
   { name: 'إمارة المنطقة', src: '/logos/colored/امارة المنطقة.png' },
-  { name: 'المواصفات', src: '/logos/colored/المواصفات.png' },
   { name: 'King Faisal', src: '/logos/colored/King Faisal.png' },
   // ── مؤسسات سعودية كبرى ──
   { name: 'البنوك السعودية', src: '/logos/colored/البنوك السعودية.png' },
-  { name: 'مجلس المؤسسة', src: '/logos/colored/مجلس المؤسسة.png' },
   { name: 'جسارة', src: '/logos/colored/جسارة.png' },
   // ── منظمات دولية وإعلام ──
   { name: 'UNICEF', src: '/logos/colored/unicef.png' },
@@ -24,9 +22,7 @@ const coloredLogos = [
   // ── شركات ومؤسسات أخرى ──
   { name: 'Hadia', src: '/logos/colored/Hadia.png' },
   { name: 'المجدوعي', src: '/logos/colored/المجدوعي.png' },
-  { name: 'السبيعي', src: '/logos/colored/السبيعي.png' },
   { name: 'نقي', src: '/logos/colored/نقي.png' },
-  { name: 'ركن الحوار', src: '/logos/colored/ركن الحوار.png' },
 ];
 
 export default function ClientLogosGrid() {
